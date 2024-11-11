@@ -1,20 +1,41 @@
 //Arquivo que contem a classe dos players
 public class player
 {
-    private long money;
+    private wallet money;
     private int position;
-    private int[] propriedades = new int[40];
+    private portfolio resources;
 
-    public static final long FIRST_MONEY = 10000;
+    public static final long FIRST_MONEY = 2000;    //passar isso pra initializer!
     
+    public void receive (long value)
+    {
+        this.money.receive(value);
+    }
+
+    public boolean pay (long value)
+    {
+        return this.money.pay(value);
+    }
+
+    public long check()
+    {
+        return this.money.check();
+    }
+
+    public void addProp (squares item)
+    {
+        this.resources.addProp(item);
+    }
+
+    public squares remProp (squares item)
+    {
+        this.resources.remProp(item);
+        return item;
+    }
+
     public void begin()
     {
-        money = FIRST_MONEY;
-        position = 0;
-        for (int i = 0; i < propriedades.length; i++)
-        {
-            propriedades[i] = 0;
-        }
+        // passar para initialize
     }
 
     public void rodaDado()
@@ -24,10 +45,18 @@ public class player
         //tem que ver para adicionar a cada tanto de tempo!
     }
 
-    public void compra(/*Propriedade p */)
+    public void compra(bank comp)
     {
-        //if (money < p.price)
-        //  return;
+        comp.sellProperties(this);
     }
-    public void vende(){}
+    
+    public void vende()
+    {
+
+    }
+
+    public int getPosition ()
+    {
+        return position;
+    }
 }

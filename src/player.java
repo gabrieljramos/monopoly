@@ -1,6 +1,6 @@
 //Arquivo que contem a classe dos players
-public class player
-{
+public class player {
+    private int id;
     private wallet money;
     private int position;
     private portfolio resources;
@@ -47,16 +47,28 @@ public class player
 
     public void compra(bank comp)
     {
-        comp.sellProperties(this);
+        comp.sellProperties(this, false);
     }
     
-    public void vende()
+    public void compra(player p2, bank comp) //compra forcada
     {
-
+        if (p2 == this)
+            return;
+        comp.sellProperties(p2, this);
     }
 
     public int getPosition ()
     {
         return position;
+    }
+
+    public squares currentSquare()
+    {
+        return this.resources.search(position);
+    }
+
+    public int getId()
+    {
+        return id;
     }
 }

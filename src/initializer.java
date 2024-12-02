@@ -1,4 +1,5 @@
 public class initializer {
+
     public void startBank (bank comp)
     {
     }

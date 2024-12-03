@@ -4,6 +4,7 @@ public class player {
     private wallet money;
     private int position;
     private portfolio resources;
+    private boolean bankrupcy;
 
     public static final long FIRST_MONEY = 2000;    //passar isso pra initializer!
     
@@ -52,6 +53,11 @@ public class player {
             land.improve(this);
     }
 
+    public boolean verifyOwnership (bank comp)
+    {
+        return (id == comp.getOwner(position));
+    }
+
     public void update (squares place, bank comp)
     {
         int owner = comp.getOwner(position);
@@ -59,6 +65,8 @@ public class player {
         {
             if (owner != id)
                 ((property) place).payRent(money, comp.checkMonopoly(((property)place).getSet(), owner));
+            else
+                ((property)place).updateMortgage(this, ((property)place), comp);
         }
         else if (place instanceof stocks)
         {
@@ -77,7 +85,7 @@ public class player {
     {
         if (p2 == this)
             return;
-        comp.sellProperties(p2, this);
+        comp.sellProperties(p2, this, true);
     }
 
     public void vende (bank comp)

@@ -32,10 +32,19 @@ public class log {
         return false;
     }
     
-    public void update ()
+    public boolean update ()
     {
         if (parcelas > 0)
             parcelas -= 1;
-        return;
+        if (parcelas == 0 && mortgaged)
+            return true;
+        return false;
+    }
+
+    public boolean updateMorgage(player gamer, property land, bank comp)
+    {
+        if (update())
+            return payMortgage(gamer, land, comp);
+        return true;
     }
 }

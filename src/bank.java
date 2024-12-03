@@ -40,7 +40,7 @@ public class bank {
         return true;
     }
 
-    private boolean thirdPartyTransfer (player owner, player buyer)
+    private boolean thirdPartyTransfer (player owner, player buyer, boolean mode)
     {
         property land;
         stocks local;
@@ -63,7 +63,7 @@ public class bank {
         else
             return false;
 
-        if (exchange(buyer, owner, value))
+        if (mode && exchange(buyer, owner, value))
         {
             buyer.addProp(square);
             owner.remProp(square);
@@ -77,9 +77,14 @@ public class bank {
         return transfer(gamer, gamer.currentSquare(), sell);
     }
 
-    public boolean sellProperties(player owner, player buyer)   //negocio entre players
+    public boolean sellProperties(player owner, player buyer, boolean mode)   //negocio entre players
     {
-        return thirdPartyTransfer(owner, buyer);
+        return thirdPartyTransfer(owner, buyer, mode);  //1 para vender, 0 para trocar
+    }
+
+    public boolean tradeProperties(player trader1, player trader2)
+    {
+        return (thirdPartyTransfer(trader1, trader2, false) && thirdPartyTransfer(trader2, trader1, false));
     }
 
     public void seize (player gamer, property land)
@@ -106,14 +111,14 @@ public class bank {
         return false;
     }
     
-    public boolean exchange (player giver, bank receiver, long value)
+    public boolean exchange (player giver, bank receiver, long value)   //pagar pro banco!
     {
         if (giver.pay(value))
             return true;
         return false;
     }
 
-    public boolean exchange (bank giver, player receiver, long value)
+    public boolean exchange (bank giver, player receiver, long value)   //receber do banco!
     {
         receiver.receive(value);
         return true;
@@ -122,6 +127,11 @@ public class bank {
     public int getOwner(int position)
     {
         return dataBank.getOwner(position);
+    }
+
+    public void setOwner(int position, int owner_id)
+    {
+        dataBank.setOwner(position, owner_id);
     }
 
     public boolean checkMonopoly(int set, int owner_id)

@@ -37,4 +37,10 @@ public class board {
     {
         return map.search(position);
     }
+
+    public player getOwner(int position)
+    {
+        int id = comp.getOwner(position);
+        return getPlayer(id);
+    }
 }

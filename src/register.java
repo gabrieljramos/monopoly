@@ -1,5 +1,6 @@
 public class register {
     private static final int CAMPS = 30;
+    private static final int SETS = 8;
 
     private int owners[] = new int[CAMPS];  //arquivo do banco que guarda quem e dono do que
     private int sets[] = new int[CAMPS];    //arquivo do banco que guarda quais propriedades pertencem a qual set
@@ -42,5 +43,28 @@ public class register {
         if (counter == 3)
             return true;
         return false;
+    }
+
+    public boolean checkFullMonopoly(int owner_id)
+    {
+        int monopoly[] = new int[SETS];
+        for (int i = 0; i < SETS; i++)
+        {
+            monopoly[i] = 0;
+        }
+
+        for (int i = 0; i < CAMPS; i++)
+        {
+            if (owner_id == getOwner(i))
+                monopoly[getSet(i)]++;
+        }
+        int count = 0;
+        for (int i = 0; i < SETS; i++)
+        {
+            if (monopoly[i] == 3)
+                count++;
+        }
+        
+        return (count >= 3);
     }
 }

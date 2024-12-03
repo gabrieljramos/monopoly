@@ -1,6 +1,6 @@
 public class log {
     private boolean mortgaged;
-    private int parcelas;
+    private int parcelas;   //contador ou prazo ate pagamento
     private int debt;
     private int mortgage[] = new int[6]; //vetor com os valores de hipoteca dependendo das melhorias
 

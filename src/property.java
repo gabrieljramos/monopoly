@@ -7,12 +7,15 @@ public class property extends squares{
     private boolean recent;
     private log register;
     
-    public void pay_rent(wallet player) {
-        player.pay(rent[state]);
+    public void payRent(wallet player, boolean monopoly) {
+        int value = rent[state];
+        if (monopoly)
+            value *= 3;
+        player.pay(value);
     }
 
     public void improve(player character) {
-        if (character.check() >= this.houses[state + 1]) {
+        if (character.check() >= this.houses[state]) {
             if (state < 4 || recent)
             {
                 state++;
@@ -32,9 +35,19 @@ public class property extends squares{
         return state;
     }
 
-    public void update()
+    public void update()    //atualiza a hipoteca e a possibilidade de comprar hotel
     {
         register.update();
-        recent = true;        
+        recent = true;
+    }
+    
+    public void setSet(int value)
+    {
+        set = value;
+    }
+
+    public int getSet()
+    {
+        return set;
     }
 }

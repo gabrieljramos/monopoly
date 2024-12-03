@@ -5,4 +5,9 @@ public class stocks extends squares{
     {
         return value;
     }
+
+    public void payDebt (wallet money)
+    {
+        money.pay(value);
+    }
 }

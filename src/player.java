@@ -33,18 +33,41 @@ public class player {
         return item;
     }
 
-    public void begin()
+    public void move(squares place, dice dado, int totalSquares)
     {
-        // passar para initialize
+        dado.throwDie();
+        if (place instanceof special) {
+            if (((special) place).getTimeOut() > 0) {
+                ((special) place).updateHolyday();
+                return;
+            }
+        }
+        int distance = dado.checkTotalValue();
+        position = (position + distance) % totalSquares; 
+    }
+    
+    public void improveProperty(property land, bank comp)
+    {
+        if (comp.getOwner(position) == id)
+            land.improve(this);
     }
 
-    public void rodaDado()
+    public void update (squares place, bank comp)
     {
-        //tem que chamar um metodo de sortear numero do objeto dado 
-        //position = (position + quantoAndou) mod
-        //tem que ver para adicionar a cada tanto de tempo!
+        int owner = comp.getOwner(position);
+        if (place instanceof property)
+        {
+            if (owner != id)
+                ((property) place).payRent(money, comp.checkMonopoly(((property)place).getSet(), owner));
+        }
+        else if (place instanceof stocks)
+        {
+            if (owner != id)
+                ((stocks) place).payDebt(money);
+        }
+        else    //considerando que so tem 3 tipos de squares
+            ((special)place).fallSpecial(money, comp.getSalary());
     }
-
     public void compra(bank comp)
     {
         comp.sellProperties(this, false);
@@ -55,6 +78,17 @@ public class player {
         if (p2 == this)
             return;
         comp.sellProperties(p2, this);
+    }
+
+    public void vende (bank comp)
+    {
+        long value = 0;
+        if (resources.search(position) instanceof property)
+            value = ((property)resources.search(position)).getValue();
+        else if (resources.search(position) instanceof stocks)
+            value = ((stocks)resources.search(position)).getValue();
+
+        comp.exchange(this, comp, value);
     }
 
     public int getPosition ()

@@ -119,4 +119,18 @@ public class bank {
         return true;
     }
     
+    public int getOwner(int position)
+    {
+        return dataBank.getOwner(position);
+    }
+
+    public boolean checkMonopoly(int set, int owner_id)
+    {
+        return dataBank.checkMonopoly(set, owner_id);
+    }
+
+    public long getSalary()
+    {
+        return SALARY;
+    }
 }

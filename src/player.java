@@ -4,10 +4,19 @@ public class player {
     private wallet money;
     private int position;
     private portfolio resources;
-    private boolean bankrupcy;
+    private boolean bankruptcy;
 
     public static final long FIRST_MONEY = 2000;    //passar isso pra initializer!
     
+    public player(int id)
+    {
+        this.id = id;
+        this.money = new wallet(FIRST_MONEY);
+        this.position = 0;
+        this.resources = new portfolio();
+        this.bankruptcy = false;
+    }
+
     public void receive (long value)
     {
         this.money.receive(value);

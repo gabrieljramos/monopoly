@@ -4,7 +4,7 @@ import java.util.ArrayList;
 public class portfolio{
     private List<squares> properties;
 
-    public void initialize() {
+    public portfolio(){
         properties = new ArrayList<>();
     }
 

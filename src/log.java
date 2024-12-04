@@ -6,6 +6,19 @@ public class log {
 
     private static final int DURATION = 5;
 
+    public log()
+    {
+        this.mortgaged = false;
+        this.parcelas = 0;
+        this.debt = 0;
+    }
+
+    public log(int cost, int upfront){
+        this.mortgaged = true;
+        this.parcelas = DURATION;
+        this.debt = cost - upfront;
+    }
+
     public boolean mortgage(player gamer)
     {
         if (mortgaged)

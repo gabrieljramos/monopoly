@@ -4,6 +4,12 @@ public class register {
 
     private int owners[] = new int[CAMPS];  //arquivo do banco que guarda quem e dono do que
     private int sets[] = new int[CAMPS];    //arquivo do banco que guarda quais propriedades pertencem a qual set
+    
+    public register()
+    {
+        
+    }
+
     public int getCamps()
     {
         return CAMPS;

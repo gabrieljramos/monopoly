@@ -7,6 +7,12 @@ public class board {
     private int numPlayers;
     private static final int MAX_PLAYERS = 4;
 
+    public board(int playerQnt){
+        this.dado = new dice(playerQnt);
+        this.comp = new bank();     
+        setPlayers(playerQnt);
+    }
+
     public void setPlayers(int value)
     {
         if (value < MAX_PLAYERS)

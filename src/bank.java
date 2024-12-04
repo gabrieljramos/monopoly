@@ -4,6 +4,11 @@ public class bank {
     private portfolio holdings;
     private register dataBank;
 
+    public bank()
+    {
+
+    }
+
     private boolean transfer (player gamer, squares place, boolean sell)
     {
         property land;

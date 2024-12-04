@@ -9,6 +9,12 @@ public class dice {
 
     private Random random;
 
+    public dice(int totalPlayers)
+    {
+        this.playerId = 1;
+        this.totalPlayers = totalPlayers;
+    }
+
     public int checkValue1()
     {
         return value1;

@@ -1,0 +1,40 @@
+Jackpot!
+Receive R$200 as a lottery prize.
+Smart Investment
+Receive R$50 from each player as your investment yields profits.
+Medical Expenses
+Pay R$100 for hospital expenses.
+Home Renovation
+Pay R$50 for each house and R$100 for each hotel you own.
+Move Back 3 Spaces
+Go back 3 spaces on the board.
+Advance to Start
+Go to the starting space ("GO") and collect R$200.
+Bank Error
+Receive R$300 due to a bank error in your favor.
+Mandatory Donation
+Choose a player and give them R$50.
+Property Swap
+Exchange one of your properties with another player's property of your choice.
+Lucky Day
+Roll the dice again and move without paying rent if you land on an occupied property.
+Fast Travel
+Move to any property on the board without passing "GO."
+Income Tax
+Pay 10% of all your assets to the bank.
+Insurance Refund
+Receive R$100 due to a miscalculation by your insurance company.
+Family Reunion
+Choose a player and swap places with them on the board.
+Get Rich Quick
+Roll the dice, multiply the result by 20, and earn that amount in R$.
+Hotel Invitation
+Stay for free at the next hotel you land on.
+Gift Card
+Choose another player’s property and use it for free for one turn.
+Debt Explosion
+All players must pay R$50 to the bank.
+Mandatory Stop
+Skip your next turn.
+Financial Aid
+All players give you R$50.

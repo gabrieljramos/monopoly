@@ -6,7 +6,8 @@ public class bank {
 
     public bank()
     {
-
+        this.dataBank = new register();
+        this.holdings = new portfolio();
     }
 
     private boolean transfer (player gamer, squares place, boolean sell)

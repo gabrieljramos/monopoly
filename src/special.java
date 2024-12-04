@@ -3,6 +3,11 @@ public class special extends squares{
 
     private int timeOut;
 
+    public special(int category, int timeOut){
+        this.timeOut = timeOut;
+        this.category = category;
+    }
+
     public int getCategory ()
     {
         return category;

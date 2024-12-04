@@ -3,6 +3,7 @@ import java.util.*;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.lang.Math;
 
 class Cartas {
 
@@ -22,6 +23,13 @@ class Cartas {
     public String getCard(int n) {
 
         return this.allCards.get(n);
+
+    }
+    public void drawACard() {
+
+        randomCard = (int)(Math.random()*this.numCards);
+        String card = getCard(randomCard);
+        manageCard(card);
 
     }
     public void movementCard(String[] parts) {

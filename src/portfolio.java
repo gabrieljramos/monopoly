@@ -27,4 +27,13 @@ public class portfolio{
 
         return null;
     }
+
+    public int checkStocks ()
+    {
+        int count = 0;
+        for (squares place : properties)
+            if (place instanceof stocks)
+                count++;
+        return count;
+    }
 }

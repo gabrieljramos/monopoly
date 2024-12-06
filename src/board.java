@@ -20,10 +20,15 @@ public class board {
         setPlayers(playerQnt);
     }
 
-    public void setPlayers(int value)
+    public void setPlayers(int value)   //numero maximo de players
     {
         if (value < MAX_PLAYERS)
             numPlayers = value;
+    }
+
+    public int getPlayers()
+    {
+        return numPlayers;
     }
 
     public void setPlayers(player gamer, int id)
@@ -31,7 +36,7 @@ public class board {
         gamers[id] = gamer;
     }
 
-    public player getPlayer (int id)
+    public player getPlayer (int id)    //pegar qualquer player especifico
     {
         return gamers[id];
     }

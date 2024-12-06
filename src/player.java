@@ -72,7 +72,7 @@ public class player {
         return (id == comp.getOwner(position));
     }
 
-    public void update (squares place, bank comp, int totalSquares, int ownerStocks)    //esse owner stock vem do board e e a quantidade de stocks do dono do quadrado
+    public void update (squares place, bank comp, int totalSquares, int ownerStocks, player[] gamers)    //esse owner stock vem do board e e a quantidade de stocks do dono do quadrado
     {
         int owner = comp.getOwner(position);
         if (place instanceof property)
@@ -89,7 +89,7 @@ public class player {
         }
         else //considerando que so tem 3 tipos de squares
         {
-            int distance = ((special) place).fallSpecial(money, comp.getSalary());
+            int distance = ((special) place).fallSpecial(money, comp.getSalary(), gamers);
             if (distance > 0)
                 specialMove(place, distance, distance);
         }

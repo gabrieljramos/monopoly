@@ -46,7 +46,7 @@ public class special extends squares{
             money.receive(value);
     }
 
-    public int fallSpecial (wallet money, long salary)
+    public int fallSpecial (wallet money, long salary, player[] gamers)
     {
         activateHolyday();
         activatePrison();

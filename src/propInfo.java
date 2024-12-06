@@ -5,7 +5,7 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.lang.Math;
 
-class property {
+class propInfo {
 
     int numLines;
     List<String> allLines = new ArrayList<String>();
@@ -25,25 +25,31 @@ class property {
         return this.allLines.get(pos);
 
     }
-    public int getValue(int pos) {
+    public int getStartingValue(int pos) {
 
         String propInfo = getPropertyInfo(pos);
         String[] parts = propInfo.split("[,]");
         return (int) parts[0];
 
     }    
-    public int getHouses(int pos) {
+    public int getStartingHouses(int pos) {
 
         String propInfo = getPropertyInfo(pos);
         String[] parts = propInfo.split("[,]");
         return (int) parts[1];
 
     }    
-    public int getRent(int pos) {
+    public int getStartingRent(int pos) {
 
         String propInfo = getPropertyInfo(pos);
         String[] parts = propInfo.split("[,]");
         return (int) parts[2];
 
     }
+    public int getStartingMortgage(int pos) {
 
+        String propInfo = getPropertyInfo(pos);
+        String[] parts = propInfo.split("[,]");
+        return (int) parts[3];
+
+    }

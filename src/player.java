@@ -4,7 +4,7 @@ public class player {
     private wallet money;
     private int position;
     private portfolio resources;
-    private boolean bankrupcy;
+    private boolean bankruptcy;
 
     public static final long FIRST_MONEY = 2000;    //passar isso pra initializer!
     
@@ -44,7 +44,12 @@ public class player {
             }
         }
         int distance = dado.checkTotalValue();
-        position = (position + distance) % totalSquares; 
+        position = (position + distance) % totalSquares;
+    }
+    
+    private void specialMove (squares place, int distance, int totalSquares)
+    {
+        position = (position + distance) % totalSquares;
     }
     
     public void improveProperty(property land, bank comp)
@@ -58,7 +63,7 @@ public class player {
         return (id == comp.getOwner(position));
     }
 
-    public void update (squares place, bank comp)
+    public void update (squares place, bank comp, int totalSquares, int ownerStocks)    //esse owner stock vem do board e e a quantidade de stocks do dono do quadrado
     {
         int owner = comp.getOwner(position);
         if (place instanceof property)
@@ -66,37 +71,33 @@ public class player {
             if (owner != id)
                 ((property) place).payRent(money, comp.checkMonopoly(((property)place).getSet(), owner));
             else
-                ((property)place).updateMortgage(this, ((property)place), comp);
+                ((property)place).updateMortgage(resources, money, ((property)place), comp);
         }
         else if (place instanceof stocks)
         {
             if (owner != id)
-                ((stocks) place).payDebt(money);
+                ((stocks) place).payDebt(money, ownerStocks);
         }
-        else    //considerando que so tem 3 tipos de squares
-            ((special)place).fallSpecial(money, comp.getSalary());
+        else //considerando que so tem 3 tipos de squares
+        {
+            int distance = ((special) place).fallSpecial(money, comp.getSalary());
+            if (distance > 0)
+                specialMove(place, distance, distance);
+        }
     }
-    public void compra(bank comp)
+    public void bankNegotiation(bank comp, squares place, boolean sell)
     {
-        comp.sellProperties(this, false);
+        comp.sellProperties (resources, money, id, place, sell);
     }
     
-    public void compra(player p2, bank comp) //compra forcada
+    public void playerNegotiation(bank comp, portfolio giver, wallet owner, squares place, boolean mode) //compra forcada
     {
-        if (p2 == this)
-            return;
-        comp.sellProperties(p2, this, true);
+        comp.sellProperties(resources, giver, owner, money, id, place, mode);
     }
 
-    public void vende (bank comp)
+    public void playerTrade (bank comp, portfolio gamer2, wallet player2, int player2Id, squares place1, squares place2)
     {
-        long value = 0;
-        if (resources.search(position) instanceof property)
-            value = ((property)resources.search(position)).getValue();
-        else if (resources.search(position) instanceof stocks)
-            value = ((stocks)resources.search(position)).getValue();
-
-        comp.exchange(this, comp, value);
+        comp.tradeProperties(resources, gamer2, money, player2, id, player2Id, place1, place2);
     }
 
     public int getPosition ()
@@ -112,5 +113,15 @@ public class player {
     public int getId()
     {
         return id;
+    }
+
+    public boolean mortgage(property land)
+    {
+        return land.getMortgage(money);
+    }
+
+    public int checkStocks ()
+    {
+        return resources.checkStocks();
     }
 }

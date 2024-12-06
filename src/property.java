@@ -51,8 +51,13 @@ public class property extends squares{
         return set;
     }
 
-    public boolean updateMortgage(player gamer, property land, bank comp)
+    public boolean updateMortgage(portfolio gamer, wallet money, property land, bank comp)
     {
-        return register.updateMorgage(gamer, land, comp);
+        return register.updateMortgage(gamer, money, land, comp);
+    }
+
+    public boolean getMortgage (wallet money)
+    {
+        return register.mortgage(this, money);
     }
 }

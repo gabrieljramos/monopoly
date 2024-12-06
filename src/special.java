@@ -41,11 +41,13 @@ public class special extends squares{
             money.receive(value);
     }
 
-    public void fallSpecial (wallet money, long salary)
+    public int fallSpecial (wallet money, long salary)
     {
         activateHolyday();
         activatePrison();
         finishLine(money, salary);
         //aqui tem que testar para cair na casa de noticia!!!
+        //chama aqui a funcao da carta e a distancia de deslocamento e o retorno!
+        return 0;
     }
 }

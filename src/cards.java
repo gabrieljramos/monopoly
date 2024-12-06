@@ -46,7 +46,7 @@ class Cartas {
         return Integer.parseInt(parts[4]);
 
     }
-    private int moneyCard(String[] parts, int currentPlayer, player[] gamers) {
+    private int moneyCard(String[] parts, player[] gamers, int currentPlayer) {
 
         boolean success = true;
         String origin = parts[2], destination = parts[3];
@@ -75,7 +75,7 @@ class Cartas {
         return 0;
 
     }
-    private void propertyCard(String[] parts, player[] gamers) {
+    private void propertyCard(String[] parts, player[] gamers, int currentPlayer) {
 
         if (parts[4].equals("0"))
             gamers[currentPlayer].playerTrade();

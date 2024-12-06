@@ -8,16 +8,18 @@ import java.lang.Math;
 class Cartas {
 
     int numCards;
-    List<String> allCards = new ArrayList<String>();
+    static List<String> allCards = new ArrayList<String>();
 
     public Cartas() {
 
-        try {
-        this.allCards = Files.readAllLines(Paths.get("cards.txt"));
-        } catch (IOException e) {
-            e.printStackTrace();
+        if (allCards == NULL) {
+            try {
+            this.allCards = Files.readAllLines(Paths.get("cards.txt"));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            this.numCards = allCards.size();
         }
-        this.numCards = allCards.size();
 
     }
     public String getCard(int n) {

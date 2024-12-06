@@ -4,6 +4,16 @@ public class register {
 
     private int owners[] = new int[CAMPS];  //arquivo do banco que guarda quem e dono do que
     private int sets[] = new int[CAMPS];    //arquivo do banco que guarda quais propriedades pertencem a qual set
+    
+    public register()
+    {
+        // falta setar como -1 propriedades proibidas e 0 para propridades do banco
+        for(int i = 0; i < CAMPS; i++){
+            this.owners[i] = -1;
+            this.sets[i] = -1;
+        }
+    }
+
     public int getCamps()
     {
         return CAMPS;

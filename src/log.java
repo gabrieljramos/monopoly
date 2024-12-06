@@ -6,6 +6,14 @@ public class log {
 
     private static final int DURATION = 5;
 
+    public log()
+    {
+        this.mortgaged = false;
+        this.parcelas = 0;
+        this.debt = 0;
+        //Falta vetor mortgage precisa de arquivo
+    }
+
     public boolean mortgage(property land, wallet money)
     {
         if (mortgaged)

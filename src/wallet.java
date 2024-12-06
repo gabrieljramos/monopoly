@@ -1,6 +1,11 @@
 public class wallet {
     private long money;
 
+    public wallet(long money)
+    {
+        this.money = money; 
+    }
+
     public void receive(long value)
     {
         if (value < 0)

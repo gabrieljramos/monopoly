@@ -7,6 +7,19 @@ public class board {
     private int numPlayers;
     private static final int MAX_PLAYERS = 4;
 
+    public board(int playerQnt){
+        this.dado = new dice(playerQnt);
+        this.comp = new bank();
+        this.map = new portfolio();
+        this.gamers = new player[playerQnt];
+        
+        for(int i = 0; i < playerQnt; i++){
+            gamers[i] = new player(i);
+        }   
+
+        setPlayers(playerQnt);
+    }
+
     public void setPlayers(int value)   //numero maximo de players
     {
         if (value < MAX_PLAYERS)

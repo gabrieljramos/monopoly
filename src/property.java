@@ -6,6 +6,13 @@ public class property extends squares{
     private int set;
     private boolean recent;
     private log register;
+
+    public property(int level, int set)
+    {
+        this.state = level;
+        this.set = set;
+        this.recent = true;
+    }
     
     public void payRent(wallet player, boolean monopoly) {
         int value = rent[state];

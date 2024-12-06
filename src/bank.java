@@ -3,8 +3,14 @@ public class bank {
 
     private portfolio holdings;
     private register dataBank;
-
-    private boolean transfer (portfolio gamer, wallet money, int gamerId, squares place, boolean sell) 
+  
+    public bank()
+    {
+        this.dataBank = new register();
+        this.holdings = new portfolio();
+    }
+  
+    private boolean transfer (portfolio gamer, wallet money, int gamerId, squares place, boolean sell)
     {
         property land;
         stocks local;

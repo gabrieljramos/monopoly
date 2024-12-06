@@ -1,10 +1,13 @@
 public class initializer {
 
-    public void startBank (bank comp)
+    // Isso precisa do arquivo para criar listas de propriedades
+    public void startBoard()
     {
+
     }
 
-    public void starPlayer(player gamer)
+    public void startBank (bank comp)
     {
+        
     }
 }

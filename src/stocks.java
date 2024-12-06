@@ -1,7 +1,11 @@
 public class stocks extends squares{
     private int value;
-    
     private static final double MULTIPLIER = 1.5;
+
+    public stocks(int value)
+    {
+        this.value = value;
+    }
 
     public int getValue()
     {

@@ -1,39 +1,70 @@
-public class run {
-    public static void main (String[] args) {
+import javafx.application.Application;
+import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
 
-        int playerAmount, FPS = 60;
+public class run extends Application {
 
-        //Imagino q tem coisa o JavaFX pra inicilizar, ent inicializa aqui
+    private boolean quit = false;
 
-        //Pensei que o menu pd retornar a qntd de player desejada?
-        //Pq imagino q vai precisar dela pra inicilizar as coisas, e se escolher quit no menu playerAmount vai ser 0
-        playerAmount = menu();
-        if (!playerAmount)
-            return;
+    public static void main(String[] args) {
+        launch(args); // Inicializa o JavaFX
+    }
 
-        //Todas as inicializacoes necessarias aqui
-        initializer();
+    @Override
+    public void start(Stage primaryStage) {
+        // Configurar a janela principal do JavaFX
+        VBox layout = new VBox();
+        Button startButton = new Button("Iniciar Jogo");
+        Button quitButton = new Button("Sair");
 
-        double drawInterval = 1000000000/FPS;
+        startButton.setOnAction(e -> {
+            int playerAmount = menu();
+            if (playerAmount == 0) {
+                System.out.println("Jogo encerrado.");
+                return;
+            }
+            initializer();
+            gameLoop(playerAmount);
+        });
+
+        quitButton.setOnAction(e -> {
+            quit = true;
+            primaryStage.close();
+        });
+
+        layout.getChildren().addAll(startButton, quitButton);
+
+        Scene scene = new Scene(layout, 300, 200);
+        primaryStage.setScene(scene);
+        primaryStage.setTitle("Jogo");
+        primaryStage.show();
+    }
+
+    private int menu() {
+        // Implementar lógica do menu (exemplo: retornar número de jogadores)
+        return 2; // Exemplo fixo
+    }
+
+    private void initializer() {
+        // Implementar lógica de inicialização do jogo
+        System.out.println("Inicializando o jogo...");
+    }
+
+    private void gameLoop(int totalPlayers) {
+        // Implementar lógica do loop do jogo
+        double FPS = 60;
+        double drawInterval = 1000000000 / FPS;
         double nextDrawTime = System.nanoTime() + drawInterval;
 
-
         while (!quit) {
-
-            //Desenha o tabuleiro
-
-            for (int currentPlayer = 0; currentPlayer < totalPlayers; currentPlayer++) { //Loop de rodadas
-                //Uma funcao ou algo assim, pra pedir q aperte ENTER pra jogar os dados
-                currentPlayer.move();                         //Joga os dados e move o player
-                currentPlayer.update();                       //Ja faz varias das funcoes possiveis q podem acontecer numa casa  
-                if (currentPlayer.verifyOwnership() == false) //Caso ele nao seja dono da casa
-                    //Alguma funcao perguntando se quer comprar a propriedade, se puder, seja ela do banco ou outro player
-
-                
-
+            for (int currentPlayer = 0; currentPlayer < totalPlayers; currentPlayer++) {
+                System.out.println("Jogador " + (currentPlayer + 1) + " está jogando.");
+                // Implementar a lógica do jogador
             }
 
-            //Uma maneira de fazer timer q eu vi, so n sei se funfa com javaFX
+            // Temporizador para FPS
             try {
                 double remainingTime = nextDrawTime - System.nanoTime();
                 remainingTime /= 1000000;
@@ -41,17 +72,10 @@ public class run {
                     remainingTime = 0;
                 Thread.sleep((long) remainingTime);
                 nextDrawTime += drawInterval;
-            } catch (InterrupedException e)
+            } catch (InterruptedException e) {
                 e.printStackTrace();
-
-
-
-
+            }
         }
-
-
-
-
     }
-
 }
+

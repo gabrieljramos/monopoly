@@ -2,37 +2,148 @@ public class bank {
     private static final long SALARY = 2000;
 
     private portfolio holdings;
-    //como fazer a hipoteca?
-    //vender propriedades entre os jogadores?
-    private void transfer (bank comp, player gamer, property land)
+    private register dataBank;
+
+    private boolean transfer (portfolio gamer, wallet money, int gamerId, squares place, boolean sell) 
     {
-        gamer.addProp(comp.holdings.remProp(land));
-    }
-    public boolean sellProperties(player gamer)
-    {
-        squares land = this.holdings.search(gamer.getPosition());
-        if (!(land instanceof property))
+        property land;
+        stocks local;
+
+        int value;
+
+        if (place instanceof property)  //testa que tipo de square e guarda valor
+        {
+            land = (property) place;
+            value = land.getValue();
+        }
+        else if (place instanceof stocks)
+        {
+            local = (stocks) place;
+            value = local.getValue();
+        }
+        else
             return false;
         
-        if (gamer.pay(((property) land).getValue())) {
-            transfer(this, gamer, (property) land);
-            return true;
+        if (sell && exchange(this, money, value))   //sell para jogador vender!
+        {
+            holdings.addProp(gamer.remProp(place)); //transfere propriedade
+            dataBank.setOwner(place.getPosition(), 0);
         }
+        else if (!sell && exchange(money, this, value))
+        {
+            gamer.addProp(holdings.remProp(place));
+            dataBank.setOwner(place.getPosition(), gamerId);
+        }
+        else
+            return false;
         
-        return false;
+        return true;
     }
 
-    public void payDay (player gamer)   //quando da volta no tabuleiro ou cai em casa especial
+    private boolean thirdPartyTransfer (portfolio receiver, portfolio giver, wallet owner, wallet buyer, int buyerId, squares place, boolean mode)
     {
-        gamer.receive(SALARY);
+        property land;
+        stocks local;
+
+        int value; int position = place.getPosition();
+
+        if (place instanceof property)
+        {
+            land = (property) place;
+            value = land.getValue();
+        }
+        else if (place instanceof stocks)
+        {
+            local = (stocks) place;
+            value = local.getValue();
+        }
+        else
+            return false;
+
+        if (!mode || (mode && exchange(buyer, owner, value)))
+        {
+            receiver.addProp(place);
+            giver.remProp(place);
+            dataBank.setOwner(position, buyerId);
+            return true;
+        }
+        return false;
+    }
+    public boolean sellProperties(portfolio gamer, wallet money, int gamerId, squares place, boolean sell)   //negocio entre banco e player
+    {
+        if (sell && (dataBank.getOwner(place.getPosition()) != gamerId))    //player quer vender mas nao tem propriedade
+            return false;
+        else if (!sell && (dataBank.getOwner(place.getPosition()) != 0))    //player quer comprar mas banco nao tem prop
+            return false;
+        return transfer(gamer, money, gamerId, place, sell);
+    }
+
+    public boolean sellProperties(portfolio receiver, portfolio giver, wallet owner, wallet buyer, int buyerId, squares place, boolean mode)   //negocio entre players
+    {
+        if (giver.search(place.getPosition()) == null)
+            return false;
+        return thirdPartyTransfer(receiver, giver, owner, buyer, buyerId, place, mode);  //1 para vender, 0 para trocar
+    }
+
+    public boolean tradeProperties(portfolio gamer1, portfolio gamer2, wallet player1, wallet player2, int player1Id, int player2Id, squares place1, squares place2)
+    {
+        return (thirdPartyTransfer(gamer1, gamer2, player2, player1, player1Id, place2, false) && thirdPartyTransfer(gamer2, gamer1, player1, player2, player2Id, place1, false));
+    }
+
+    public void seize (portfolio gamer, property land)
+    {
+        this.holdings.addProp(gamer.remProp(land));
+    }
+
+    public void payDay (wallet gamer, long value)   //quando da volta no tabuleiro ou cai em casa especial
+    {
+        gamer.receive(value);
     }
     
-    public void payUp (player gamer, long value)    //quando cai em casa especial
+    public void payUp (wallet gamer, long value)    //quando cai em casa especial
     {
         gamer.pay(value);
     }
+
+    public boolean exchange (wallet giver, wallet receiver, long value)
+    {
+        if (giver.pay(value)) {
+            receiver.receive(value);
+            return true;
+        }
+        return false;
+    }
     
-    public void mortgage ()
-    { 
+    public boolean exchange (wallet giver, bank receiver, long value)   //pagar pro banco!
+    {
+        if (giver.pay(value))
+            return true;
+        return false;
+    }
+
+    public boolean exchange (bank giver, wallet receiver, long value)   //receber do banco!
+    {
+        receiver.receive(value);
+        return true;
+    }
+    
+    public int getOwner(int position)
+    {
+        return dataBank.getOwner(position);
+    }
+
+    public void setOwner(int position, int owner_id)
+    {
+        dataBank.setOwner(position, owner_id);
+    }
+
+    public boolean checkMonopoly(int set, int owner_id)
+    {
+        return dataBank.checkMonopoly(set, owner_id);
+    }
+
+    public long getSalary()
+    {
+        return SALARY;
     }
 }

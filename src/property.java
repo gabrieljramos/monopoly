@@ -1,23 +1,63 @@
 public class property extends squares{
     private int value[] = new int[6];
     private int houses[] = new int[5]; //vetor com os valores de melhoria pra casas
-    private int mortgage[] = new int[6]; //vetor com os valores de hipoteca dependendo das melhorias
     private int rent[] = new int[6]; //aluguel com base nas melhorias
     private int state; //estado das melhorias
-
-    public void pay_rent(wallet player) {
-        player.pay(rent[state]);
+    private int set;
+    private boolean recent;
+    private log register;
+    
+    public void payRent(wallet player, boolean monopoly) {
+        int value = rent[state];
+        if (monopoly)
+            value *= 3;
+        player.pay(value);
     }
 
     public void improve(player character) {
-        if (this.state < 5 && (character.check() >= this.houses[state + 1])) {
-            state++;
-            character.pay(this.houses[state]);
+        if (character.check() >= this.houses[state]) {
+            if (state < 4 || recent)
+            {
+                state++;
+                character.pay(this.houses[state]);
+                recent = false;
+            }
         }
     }
 
     public int getValue ()
     {
         return value[state];
+    }
+
+    public int getState()
+    {
+        return state;
+    }
+
+    public void update()    //atualiza a hipoteca e a possibilidade de comprar hotel
+    {
+        register.update();
+        recent = true;
+    }
+    
+    public void setSet(int value)
+    {
+        set = value;
+    }
+
+    public int getSet()
+    {
+        return set;
+    }
+
+    public boolean updateMortgage(portfolio gamer, wallet money, property land, bank comp)
+    {
+        return register.updateMortgage(gamer, money, land, comp);
+    }
+
+    public boolean getMortgage (wallet money)
+    {
+        return register.mortgage(this, money);
     }
 }

@@ -37,7 +37,7 @@ class Cartas {
 
         int randomCard = (int)(Math.random()*this.numCards);
         String card = getCard(randomCard);
-        manageCard(card,curentPlayer,gamers);
+        manageCard(card,currentPlayer,gamers);
 
     }
 

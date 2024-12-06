@@ -10,7 +10,7 @@ class propInfo {
     int numLines;
     List<String> allLines = new ArrayList<String>();
 
-    public Cartas() {
+    public propInfo() {
 
         try {
         this.allLines = Files.readAllLines(Paths.get("propertyInfo.csv"));
@@ -53,3 +53,4 @@ class propInfo {
         return Integer.parseInt(parts[3]);
 
     }
+}

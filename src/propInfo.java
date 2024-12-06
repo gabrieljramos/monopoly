@@ -29,27 +29,27 @@ class propInfo {
 
         String propInfo = getPropertyInfo(pos);
         String[] parts = propInfo.split("[,]");
-        return (int) parts[0];
+        return Integer.parseInt(parts[0]);
 
     }    
     public int getStartingHouses(int pos) {
 
         String propInfo = getPropertyInfo(pos);
         String[] parts = propInfo.split("[,]");
-        return (int) parts[1];
+        return Integer.parseInt(parts[1]);
 
     }    
     public int getStartingRent(int pos) {
 
         String propInfo = getPropertyInfo(pos);
         String[] parts = propInfo.split("[,]");
-        return (int) parts[2];
+        return Integer.parseInt(parts[2]);
 
     }
     public int getStartingMortgage(int pos) {
 
         String propInfo = getPropertyInfo(pos);
         String[] parts = propInfo.split("[,]");
-        return (int) parts[3];
+        return Integer.parseInt(parts[3]);
 
     }

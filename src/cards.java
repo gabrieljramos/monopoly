@@ -33,7 +33,7 @@ class Cartas {
             randomPlayer = (int)(Math.random()*playerAmount);
         return randomPlayer;
     }
-    public void drawACard(int currentPlayer, player gamers[]) {
+    public void drawACard(int currentPlayer, player[] gamers) {
 
         int randomCard = (int)(Math.random()*this.numCards);
         String card = getCard(randomCard);
@@ -46,7 +46,7 @@ class Cartas {
         return Integer.parseInt(parts[4]);
 
     }
-    private int moneyCard(String[] parts, int currentPlayer, player gamers[]) {
+    private int moneyCard(String[] parts, int currentPlayer, player[] gamers) {
 
         boolean success = true;
         String origin = parts[2], destination = parts[3];
@@ -75,13 +75,13 @@ class Cartas {
         return 0;
 
     }
-    private void propertyCard(String[] parts, player gamers[]) {
+    private void propertyCard(String[] parts, player[] gamers) {
 
         if (parts[4].equals("0"))
             gamers[currentPlayer].playerTrade();
 
     }
-    private int manageCard(String card, int currentPlayer, player gamers[]) {
+    private int manageCard(String card, int currentPlayer, player[] gamers) {
 
         int retValue = 0;
         String[] parts = card.split("[,]");
@@ -89,7 +89,7 @@ class Cartas {
         if (parts[1].equals("0"))         //Handles cards related to the tansfer of money
             retValue = moneyCard(parts,gamers,currentPlayer);
         else if (parts[1].equals("1"))    //Handles cards related to moving around the board
-            retValue = movementCard(parts,gamers,currentPlayer);
+            retValue = movementCard(parts);
         else if (parts[1].equals("2"))       //Handle cards related to property management
             propertyCard(parts,gamers,currentPlayer);
 

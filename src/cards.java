@@ -22,52 +22,79 @@ class Cartas {
         }
 
     }
-    public String getCard(int n) {
+    private String getCard(int n) {
 
         return this.allCards.get(n);
 
     }
-    public void drawACard() {
+    private int getRandomPlayer(int currentPlayer, int playerAmount) {
+        int randomPlayer = currentPlayer;
+        while (randomPlayer == currentPlayer)
+            randomPlayer = (int)(Math.random()*playerAmount);
+        return randomPlayer;
+    }
+    public void drawACard(int currentPlayer, player gamers[]) {
 
-        randomCard = (int)(Math.random()*this.numCards);
+        int randomCard = (int)(Math.random()*this.numCards);
         String card = getCard(randomCard);
-        manageCard(card);
+        manageCard(card,curentPlayer,gamers);
 
     }
-    public void movementCard(String[] parts) {
-        int pos = currentPlayer.getPosition();
+
+    private int movementCard(String[] parts) {
+
+        return Integer.parseInt(parts[4]);
+
+    }
+    private int moneyCard(String[] parts, int currentPlayer, player gamers[]) {
+
+        boolean success = true;
+        String origin = parts[2], destination = parts[3];
+        int amount = Integer.parseInt(parts[4]);
+
+        if (origin.equals("0") || destination.equals("1"))
+            success = gamers[currentPlayer].pay(amount);
+        else if (origin.equals("2"))
+            for (int i = 0; i < gamers.length(); i++)
+                if (i != currentPlayer)
+                    success = gamers[i].pay(amount);
+
+
+        if (destination.equals("0"))
+            gamers[currentPlayer].receive(amount);
+            if (origin.equals("2"))
+                gamers[currentPlayer].receive((amount)*(gamers.length() - 2));
+
+        else if (destination.equals("2")) {
+            int randomPlayer = getRandomPlayer(currentPlayer, gamers.length());
+            gamers[randomPlayer].receive(amount);
+        }
+
+        if (success == false)
+            return -1;
+        return 0;
+
+    }
+    private void propertyCard(String[] parts, player gamers[]) {
+
         if (parts[4].equals("0"))
-            currentPlayer.walkTo(parts[3]);
-        else
-            currentPlayer.teleportTo(parts[3]);
-    }
-    public void moneyCard(String[] parts) {
-        //Origin of the money
-        if (parts[2].equals("0") || parts[3].equals("1"))
-            currentPlayer.pay(parts[4]);
-
-        //Destination of the money
-        if (parts[3].equals("0"))
-            currentPlayer.receive(parts[4]);        
-        else if (parts[3].equals("2"))
-            certainPlayer.receive(parts[4]);        
+            gamers[currentPlayer].playerTrade();
 
     }
-    public void propertyCard(String[] parts) {
-        certainPlayer.resources.remProp();
-        currentPlayer.resources.addProp();
-    }
-    public void manageCard(String card) {
+    private int manageCard(String card, int currentPlayer, player gamers[]) {
 
+        int retValue = 0;
         String[] parts = card.split("[,]");
 
-        if (parts[1].equals("0"))
-            moneyCard();
-        else if (parts[1].equals("1"))
-            movementCard();
-        else (parts[1].equals("2"))
-            propertyCard();
+        if (parts[1].equals("0"))         //Handles cards related to the tansfer of money
+            retValue = moneyCard(parts,gamers,currentPlayer);
+        else if (parts[1].equals("1"))    //Handles cards related to moving around the board
+            retValue = movementCard(parts,gamers,currentPlayer);
+        else if (parts[1].equals("2"))       //Handle cards related to property management
+            propertyCard(parts,gamers,currentPlayer);
+
+        return retValue;
+
+
     }   
-
-
 }

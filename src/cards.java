@@ -12,7 +12,7 @@ class Cartas {
 
     public Cartas() {
 
-        if (allCards == NULL) {
+        if (allCards == null) {
             try {
             this.allCards = Files.readAllLines(Paths.get("cards.txt"));
             } catch (IOException e) {

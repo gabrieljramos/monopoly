@@ -66,7 +66,7 @@ public class run extends Application {
             }
         });
         scene.setOnKeyReleased(event -> {
-            lastKeyPressed = ""; // Reset after processing
+            lastKeyPressed = ""; 
         });
     }
 

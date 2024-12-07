@@ -22,6 +22,11 @@ public class run extends Application {
         Button startButton = new Button("Iniciar Jogo");
         Button quitButton = new Button("Sair");
 
+        Scene scene = new Scene(layout, 300, 200);
+        primaryStage.setScene(scene);
+        primaryStage.setTitle("Jogo");
+        primaryStage.show();
+
         startButton.setOnAction(e -> {
             int playerAmount = menu();
             if (playerAmount == 0) {
@@ -30,7 +35,7 @@ public class run extends Application {
             }
             initializer();
             board tabuleiro = new board(playerAmount);   //TEM QUE INICIALIZAR O TABULEIRO COM TUDO PRONTO AQUI E MANDAR PRO LOOP!!! 
-            gameLoop(playerAmount, tabuleiro);
+            gameLoop(playerAmount, tabuleiro, scene);
         });
 
         quitButton.setOnAction(e -> {
@@ -40,10 +45,6 @@ public class run extends Application {
 
         layout.getChildren().addAll(startButton, quitButton);
 
-        Scene scene = new Scene(layout, 300, 200);
-        primaryStage.setScene(scene);
-        primaryStage.setTitle("Jogo");
-        primaryStage.show();
     }
 
     private int menu() {
@@ -63,6 +64,9 @@ public class run extends Application {
             } else if (event.getCode() == KeyCode.ESCAPE) {
                 lastKeyPressed = "ESC";
             }
+        });
+        scene.setOnKeyReleased(event -> {
+            lastKeyPressed = ""; // Reset after processing
         });
     }
 

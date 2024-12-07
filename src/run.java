@@ -106,6 +106,7 @@ public class run extends Application {
 }
     private void startGameLoop(int totalPlayers, board tabuleiro, Scene scene, Stage primaryStage) {
         int currentPlayer = 0; // Track current player using an array for mutability
+        int currentRound = 0, maxRounds = 30;
         double FPS = 60;
         double drawInterval = 1_000_000_000 / FPS; // Frame interval in nanoseconds
         long[] lastUpdateTime = {System.nanoTime()}; // Store last update time
@@ -138,12 +139,14 @@ public class run extends Application {
                                 // Improve or mortgage property
                             }
                         }
-
-                        if (gamer.checkVictory(tabuleiro.getBank(), tabuleiro.getStocksQuantity()) == 1) {
-                            System.out.println("Jogador " + (currentPlayer[0] + 1) + " venceu o jogo!");
+                        if (currentRound >= maxRounds)
+                            stop();
+                        else if (gamer.checkVictory(tabuleiro.getBank(), tabuleiro.getStocksQuantity()) == 1) {
+                            System.out.println("Jogador " + (currentPlayer + 1) + " venceu o jogo!");
                             stop(); // Stop the game loop
                         } else {
                             currentPlayer++; // Move to next player
+                            if (currentPlayer >= 
                         }
                     } else if ("ESC".equals(lastKeyPressed)) {
                         pauseMenu(this,primaryStage); // Pause logic

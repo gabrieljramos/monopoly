@@ -146,7 +146,11 @@ public class run extends Application {
                             stop(); // Stop the game loop
                         } else {
                             currentPlayer++; // Move to next player
-                            if (currentPlayer >= 
+                            if (currentPlayer >= tabuleiro.getPlayers()) {
+                                currentPlayer = 0;
+                                currentRound++;
+                            }
+                                
                         }
                     } else if ("ESC".equals(lastKeyPressed)) {
                         pauseMenu(this,primaryStage); // Pause logic

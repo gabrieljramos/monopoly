@@ -5,7 +5,7 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.lang.Math;
 
-class Cartas {
+public class Cartas {
 
     int numCards;
     static List<String> allCards = new ArrayList<String>();

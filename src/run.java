@@ -153,42 +153,55 @@ private void startGameLoop(int totalPlayers, monopoly.board tabuleiro, Scene sce
                                 });
                             }
                         } 
-                        else {    //se o player e dono
+                        else { // se o player é dono
+                            // Criação dos botões principais
                             Button improveButton = manageButton("Melhorar Propriedade", true);
                             Button mortgageButton = manageButton("Hipotecar Propriedade", true);
-                            Hbox gameLayout = new HBox(improveButton, mortgageButton);
-
+                            
+                            // Layout para adicionar os botões
+                            HBox gameLayout = new HBox(improveButton, mortgageButton);
+                        
+                            // Configuração do botão "Melhorar Propriedade"
                             improveButton.setOnAction(e -> {
-                                // Oculta os botões anteriores
+                                // Oculta os botões principais
                                 improveButton.setVisible(false);
                                 mortgageButton.setVisible(false);
                         
-                                // Cria as opções "Melhorar" e "Parar"
+                                // Criação das opções "Melhorar" e "Parar"
                                 Button improveOption = new Button("Melhorar");
                                 Button stopOption = new Button("Parar");
                         
-                                // Configura ações para as novas opções
-                                improveOption.setOnAction(ev -> {
-                                    boolean exit = false;
-                                    while (!exit)
-                                    boolean improved = land.improve(gamer.getWallet());
-                                    if (improved)
-                                        System.out.println("Propriedade melhorada!");
-                                    gameLayout.getChildren().removeAll(improveOption, stopOption); // Remove as opções
-                                });
-                        
-                                stopOption.setOnAction(ev -> {
-                                    // Sai sem fazer nada
-                                    System.out.println("Ação cancelada.");
-                                    gameLayout.getChildren().removeAll(improveOption, stopOption); // Remove as opções
-                                });
-                        
-                                // Adiciona as novas opções ao layout
+                                // Adiciona os botões de opções ao layout
                                 gameLayout.getChildren().addAll(improveOption, stopOption);
+                        
+                                // Lógica para o botão "Melhorar"
+                                improveOption.setOnAction(ev -> {
+                                    boolean improved = land.improve(gamer.getWallet()); // Tenta melhorar a propriedade
+                                    if (improved) {
+                                        System.out.println("Propriedade melhorada!");
+                                    } else {
+                                        System.out.println("Não é possível melhorar a propriedade (saldo insuficiente ou limite alcançado).");
+                                    }
+                                });
+                        
+                                // Lógica para o botão "Parar"
+                                stopOption.setOnAction(ev -> {
+                                    System.out.println("Ação cancelada.");
+                                    gameLayout.getChildren().removeAll(improveOption, stopOption); // Remove os botões de opções
+                                    // Reexibe os botões principais
+                                    improveButton.setVisible(true);
+                                    mortgageButton.setVisible(true);
+                                });
                             });
+                        
+                            // Configuração do botão "Hipotecar Propriedade"
                             mortgageButton.setOnAction(e -> {
                                 land.getMortgage(gamer.getWallet());
+                                System.out.println("Propriedade hipotecada!");
                             });
+                        
+                            // Certifique-se de que o layout seja adicionado ao contêiner pai
+                            parentLayout.getChildren().add(gameLayout); //quem seria aqui???
                         }
                     }
                     if (currentRound >= maxRounds)

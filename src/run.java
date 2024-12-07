@@ -76,9 +76,9 @@ public class run extends Application {
         while (!quit) {
             // Desenha o tabuleiro
             System.out.println("Jogador " + (currentPlayer + 1) + " está jogando.");
-            detectEnterOrEsc(scene);    //DE ONDE VEM ESSA SCENE?
+            detectEnterOrEsc(scene); //DE ONDE VEM ESSA SCENE?
+            player gamer = tabuleiro.getGamers()[currentPlayer];    //separa o player jogando
             if (lastKeyPressed.equals("ENTER")) {
-                player gamer = tabuleiro.getGamers()[currentPlayer];    //separa o player jogando
                 if (gamer.move(tabuleiro.getPlace(gamer.getPosition()), tabuleiro.getDie(), tabuleiro.getSquaresQuantity()))    //verifica se ele se moveu
                 {
                     int stocks = tabuleiro.getBank().getOwner(gamer.getPosition()); //separa a id do dono do quadrado em que o player chegou
@@ -88,19 +88,29 @@ public class run extends Application {
                 }
                 if (!gamer.getBankruptcy()) //se ainda não faliu
                 {
-                    if (gamer.verifyOwnership(tabuleiro.getBank()) == false) {
-                        //Chama metodos pedindo se ele quer comprar a propriedade do banco ou outro player
-                    }
-                    else
+                    if (!(tabuleiro.getLocation(gamer.getPosition()) instanceof special)) //se a posicao e compravel
                     {
-                        //opcao de comprar a propriedade forcadamente
+                        if (gamer.verifyOwnership(tabuleiro.getBank()) == false) {
+                            if (tabuleiro.getBank().getOwner(gamer.getPosition()) != 0) //se o dono nao e o banco
+                            {
+                                //opcao de comprar forcadamente
+                            } else {
+                                //opcao de comprar do banco
+                            }
+                        } else {
+                            //opcao de melhorar a propriedade (ou hipotecar?)
+                        }
                     }
                 }
+                //TECLA PRA PASSAR A VEZ?
             }
             else if (lastKeyPressed.equals("ESQ")) {
                 pauseMenu();    //mas o que e isso?
             }
-            board.gamers[currentPlayer].checkVictory();
+            if (gamer.checkVictory(tabuleiro.getBank(), tabuleiro.getStocksQuantity()) == 1)
+            {
+                //ACABA O JOGO!
+            }
             currentPlayer++;
             if (currentPlayer >= totalPlayers)
                 currentPlayer = 0;

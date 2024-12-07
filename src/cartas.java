@@ -28,10 +28,12 @@ public class cartas {
 
     }
     private int getRandomPlayer(int currentPlayer, int playerAmount) {
+        
         int randomPlayer = currentPlayer;
         while (randomPlayer == currentPlayer)
             randomPlayer = (int)(Math.random()*playerAmount);
         return randomPlayer;
+        
     }
     public int drawACard(int currentPlayer, player[] gamers, int playerAmount, int totalSquares, bank comp) {
 

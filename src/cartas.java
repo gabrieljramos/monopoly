@@ -5,12 +5,12 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.lang.Math;
 
-public class Cartas {
+public class cartas {
 
     int numCards;
     static List<String> allCards = new ArrayList<String>();
 
-    public Cartas() {
+    public cartas() {
 
         if (allCards == null) {
             try {
@@ -35,16 +35,11 @@ public class Cartas {
         return randomPlayer;
         
     }
-    private int getRandomProp(int propAmount) {
-
-        return (int)(Math.random()*propAmount);
-
-    }
-    public void drawACard(int currentPlayer, player[] gamers, bank comp) {
+    public int drawACard(int currentPlayer, player[] gamers, int playerAmount, int totalSquares, bank comp) {
 
         int randomCard = (int)(Math.random()*this.numCards);
         String card = getCard(randomCard);
-        manageCard(card,currentPlayer,gamers);
+        return manageCard(card,currentPlayer,gamers, playerAmount, totalSquares, comp);
 
     }
 
@@ -82,31 +77,22 @@ public class Cartas {
         return 0;
 
     }
-    private void propertyCard(String[] parts, player gamers[], bank comp) {
+    private void propertyCard(String[] parts, player[] gamers, int currentPlayer, int playerAmount, int totalSquares, bank comp) {
+        
+        int rivalId = getRandomPlayer(currentPlayer, playerAmount);
+        player rival = gamers[rivalId];
 
-        int randomPlayer = getRandomPlayer(int currentPlayer, gamers.length);
-        int p2PropAmount = size(gamers[randomPlayer].resources.properties);
+        squares place1 = gamers[currentPlayer].getRandomSquares(totalSquares);
+        squares place2 = rival.getRandomSquares(totalSquares);
 
-        if (!p2PropAmount)
+        if ((place1 == null) || (place2 == null))
             return;
 
-        int p2Prop = getRandomProp(p2PropAmount);
-        
-        if (parts[4].equals("0")) {
-            int p1PropAmount = size(gamers[currentPlayer].resources.properties);
-            if (!p1PropAmount)
-                return;
-
-            int p1Prop = getRandomProp(p1PropAmount);
-
-            gamers[currentPlayer].playerTrade(comp,gamers[randomPlayer].resources,gamers[randomPlayer].money,
-                    gamers[randomPlayer].id,gamers[currentPlayer].resources.properties.get(p1Prop),gamers[currentPlayer].resources.properties.get(p2Prop));
-        }
-        else
-            gamers[randomPlayer].bankNegotiation(comp,gamers[currentPlayer].resources.properties.get(p2Prop),true);
+        if (parts[4].equals("0"))
+            gamers[currentPlayer].playerTrade(comp, rival.getPortfolio(), rival.getWallet(), rival.getId(), place1, place2);    //tem que colocar os parametros nessa chamada!  
 
     }
-    private int manageCard(String card, int currentPlayer, player[] gamers, bank comp) {
+    private int manageCard(String card, int currentPlayer, player[] gamers, int playerAmount, int totalSquares, bank comp) {
 
         int retValue = 0;
         String[] parts = card.split("[,]");
@@ -116,7 +102,7 @@ public class Cartas {
         else if (parts[1].equals("1"))    //Handles cards related to moving around the board
             retValue = movementCard(parts);
         else if (parts[1].equals("2"))       //Handle cards related to property management
-            propertyCard(parts,gamers,currentPlayer,comp);
+            propertyCard(parts,gamers,currentPlayer, playerAmount, totalSquares, comp);
 
         return retValue;
 

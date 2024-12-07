@@ -12,13 +12,13 @@ public class stocks extends squares{
         return value;
     }
 
-    public void payDebt (wallet money, int stocksQuantity)  //quando alguem cair no stock tem que pedir pro dono informar quantos tem
+    public boolean payDebt (wallet money, int stocksQuantity)  //quando alguem cair no stock tem que pedir pro dono informar quantos tem
     {
         int increase = stocksQuantity;
         if (increase > 0)
             increase *= MULTIPLIER;
         else
             increase = 1;
-        money.pay(value * increase);
+        return money.pay(value * increase);
     }
 }

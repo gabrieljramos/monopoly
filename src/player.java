@@ -72,27 +72,30 @@ public class player {
         return (id == comp.getOwner(position));
     }
 
-    public void update (squares place, bank comp, int totalSquares, int ownerStocks, player[] gamers)    //esse owner stock vem do board e e a quantidade de stocks do dono do quadrado
+    public boolean update (squares place, bank comp, int totalSquares, int ownerStocks, player[] gamers, int playerAmount)    //esse owner stock vem do board e e a quantidade de stocks do dono do quadrado
     {
         int owner = comp.getOwner(position);
+        boolean value = true;
+
         if (place instanceof property)
         {
             if (owner != id)
-                ((property) place).payRent(money, comp.checkMonopoly(((property)place).getSet(), owner));
-            else
-                ((property)place).updateMortgage(resources, money, ((property)place), comp);
+                value = ((property) place).payRent(money, comp.checkMonopoly(((property)place).getSet(), owner));
         }
         else if (place instanceof stocks)
         {
             if (owner != id)
-                ((stocks) place).payDebt(money, ownerStocks);
+                value = ((stocks) place).payDebt(money, ownerStocks);
         }
         else //considerando que so tem 3 tipos de squares
         {
-            int distance = ((special) place).fallSpecial(money, comp.getSalary(), gamers);
+            int distance = ((special) place).fallSpecial(money, comp.getSalary(), gamers, position, id, playerAmount, totalSquares, comp);
             if (distance > 0)
                 specialMove(place, distance, distance);
+            else if (distance < 0)  //se falhou em pagar a casa especial, faliu
+                value = false;
         }
+        return value && ((property)place).updateMortgage(resources, money, ((property)place), comp);
     }
     public void bankNegotiation(bank comp, squares place, boolean sell)
     {
@@ -124,6 +127,20 @@ public class player {
         return id;
     }
 
+    public wallet getWallet()
+    {
+        return money;
+    }
+
+    public portfolio getPortfolio()
+    {
+        return resources;
+    }
+    public boolean getBankruptcy()
+    {
+        return bankruptcy;
+    }
+
     public boolean mortgage(property land)
     {
         return land.getMortgage(money);
@@ -132,5 +149,22 @@ public class player {
     public int checkStocks ()
     {
         return resources.checkStocks();
+    }
+
+    public squares getRandomSquares(int totalSquares)
+    {
+        return resources.getRandomSquares(totalSquares);
+    }
+
+    public int checkVictory (boolean financialStatus, bank comp, int stocksQuantity)   //retorno da funcao update
+    {
+        if (!financialStatus) // 1 se venceu, -1 se perdeu, 0 se ta na mesma!
+        {
+            bankruptcy = true;
+            return -1;
+        }
+        if (comp.allStocks(resources, stocksQuantity) || comp.checkFullMonopoly(id))
+            return 1;
+        return 0;
     }
 }

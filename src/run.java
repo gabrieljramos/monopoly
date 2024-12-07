@@ -35,7 +35,7 @@ public class run extends Application {
             }
             initializer();
             board tabuleiro = new board(playerAmount);   //TEM QUE INICIALIZAR O TABULEIRO COM TUDO PRONTO AQUI E MANDAR PRO LOOP!!! 
-            gameLoop(playerAmount, tabuleiro, scene);
+            gameLoop(playerAmount, tabuleiro, scene, primaryStage);
         });
 
         quitButton.setOnAction(e -> {
@@ -69,7 +69,42 @@ public class run extends Application {
             lastKeyPressed = ""; 
         });
     }
-    private void startGameLoop(int totalPlayers, board tabuleiro, Scene scene) {
+    private void pauseMenu(AnimationTimer gameTimer, Stage primaryStage) {
+    // Pause the game timer
+    gameTimer.stop();
+
+    // Create a new Stage for the pause menu
+    Stage pauseStage = new Stage();
+    pauseStage.initOwner(primaryStage); // Set the owner of the pause menu
+    pauseStage.setTitle("Pause Menu");
+
+    // Create buttons for "Continue" and "Quit"
+    Button continueButton = new Button("Continue");
+    Button quitButton = new Button("Quit");
+
+    // Layout for the pause menu
+    VBox layout = new VBox(10);
+    layout.setStyle("-fx-padding: 10; -fx-alignment: center;");
+    layout.getChildren().addAll(continueButton, quitButton);
+
+    Scene pauseScene = new Scene(layout, 200, 150);
+    pauseStage.setScene(pauseScene);
+
+    // Set button actions
+    continueButton.setOnAction(e -> {
+        pauseStage.close(); // Close the pause menu
+        gameTimer.start();  // Resume the game
+    });
+
+    quitButton.setOnAction(e -> {
+        pauseStage.close(); // Close the pause menu
+        primaryStage.close(); // Close the main game window
+    });
+
+    // Show the pause menu
+    pauseStage.showAndWait(); // Blocks interaction with the main game window
+}
+    private void startGameLoop(int totalPlayers, board tabuleiro, Scene scene, Stage primaryStage) {
         int currentPlayer = 0; // Track current player using an array for mutability
         double FPS = 60;
         double drawInterval = 1_000_000_000 / FPS; // Frame interval in nanoseconds
@@ -111,7 +146,7 @@ public class run extends Application {
                             currentPlayer++; // Move to next player
                         }
                     } else if ("ESC".equals(lastKeyPressed)) {
-                        pauseMenu(); // Pause logic
+                        pauseMenu(this,primaryStage); // Pause logic
                     }
 
                     // Update time

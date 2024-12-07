@@ -72,7 +72,7 @@ public class player {
         return (id == comp.getOwner(position));
     }
 
-    public boolean update (squares place, bank comp, int totalSquares, int ownerStocks, player[] gamers)    //esse owner stock vem do board e e a quantidade de stocks do dono do quadrado
+    public boolean update (squares place, bank comp, int totalSquares, int ownerStocks, player[] gamers, int playerAmount)    //esse owner stock vem do board e e a quantidade de stocks do dono do quadrado
     {
         int owner = comp.getOwner(position);
         boolean value = true;
@@ -89,7 +89,7 @@ public class player {
         }
         else //considerando que so tem 3 tipos de squares
         {
-            int distance = ((special) place).fallSpecial(money, comp.getSalary(), gamers, position, id);
+            int distance = ((special) place).fallSpecial(money, comp.getSalary(), gamers, position, id, playerAmount, totalSquares, comp);
             if (distance > 0)
                 specialMove(place, distance, distance);
             else if (distance < 0)  //se falhou em pagar a casa especial, faliu
@@ -127,6 +127,15 @@ public class player {
         return id;
     }
 
+    public wallet getWallet()
+    {
+        return money;
+    }
+
+    public portfolio getPortfolio()
+    {
+        return resources;
+    }
     public boolean getBankruptcy()
     {
         return bankruptcy;
@@ -140,6 +149,11 @@ public class player {
     public int checkStocks ()
     {
         return resources.checkStocks();
+    }
+
+    public squares getRandomSquares(int totalSquares)
+    {
+        return resources.getRandomSquares(totalSquares);
     }
 
     public int checkVictory (boolean financialStatus, bank comp, int stocksQuantity)   //retorno da funcao update

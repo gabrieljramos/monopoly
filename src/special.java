@@ -62,7 +62,7 @@ public class special extends squares{
         return 0;
     }
 
-    public int fallSpecial (wallet money, long value, player[] gamers, int position, int gamer_id)
+    public int fallSpecial (wallet money, long value, player[] gamers, int position, int gamer_id, int playerAmount, int totalSquares, bank comp)
     {
         int signal = 0;
         activateHolyday();  //funcao de feriao
@@ -70,7 +70,7 @@ public class special extends squares{
         finishLine(money, value);   //funcao de ganhar dinheiro
         signal = taxes(money, value);   //funcao de perder dinheiro
         if (category == 5)
-            signal = news.drawACard(gamer_id, gamers);  //noticias
+            signal = news.drawACard(gamer_id, gamers, playerAmount, totalSquares, comp);  //noticias
         return signal;
     }
 }

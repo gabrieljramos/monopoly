@@ -69,4 +69,14 @@ public class board {
     {
         return SQUARES_QUANTITY;
     }
+
+    public player[] getGamers ()
+    {
+        return gamers;
+    }
+
+    public squares getLocation(int position)
+    {
+        return map.search(position);
+    }
 }

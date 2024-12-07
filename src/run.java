@@ -3,6 +3,8 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import javafx.animation.AnimationTimer;
+import javafx.scene.input.KeyCode;
 
 public class run extends Application {
 
@@ -27,7 +29,8 @@ public class run extends Application {
                 return;
             }
             initializer();
-            gameLoop(playerAmount);
+            board tabuleiro = new board(playerAmount);   //TEM QUE INICIALIZAR O TABULEIRO COM TUDO PRONTO AQUI E MANDAR PRO LOOP!!! 
+            gameLoop(playerAmount, tabuleiro);
         });
 
         quitButton.setOnAction(e -> {
@@ -63,7 +66,7 @@ public class run extends Application {
         });
     }
 
-    private void gameLoop(int totalPlayers) {
+    private void gameLoop(int totalPlayers, board tabuleiro) {
         // Implementar lógica do loop do jogo
         int currentPlayer = 0;
         double FPS = 60;
@@ -73,19 +76,29 @@ public class run extends Application {
         while (!quit) {
             // Desenha o tabuleiro
             System.out.println("Jogador " + (currentPlayer + 1) + " está jogando.");
-            detectEnterOrEsc(scene);
+            detectEnterOrEsc(scene);    //DE ONDE VEM ESSA SCENE?
             if (lastKeyPressed.equals("ENTER")) {
-                board.gamers[currentPlayer].move(board.map.properties.get(board.gamers[currentPlayer].position),board.dado,board.map.properties.size());
-                board.gamers[currentPlayer].bankruptcy = board.gamers[currentPlayer].update();
-                if (board.gamers[currentPlayer].verifyOwnership == false) {
-                    //Chama metodos pedindo se ele quer comprar a propriedade do banco ou outro player
+                player gamer = tabuleiro.getGamers()[currentPlayer];    //separa o player jogando
+                if (gamer.move(tabuleiro.getPlace(gamer.getPosition()), tabuleiro.getDie(), tabuleiro.getSquaresQuantity()))    //verifica se ele se moveu
+                {
+                    int stocks = tabuleiro.getBank().getOwner(gamer.getPosition()); //separa a id do dono do quadrado em que o player chegou
+                    stocks = tabuleiro.getGamers()[stocks].checkStocks();   //separa a quanitdade de ações do dono do quadrado
+                    gamer.update(tabuleiro.getLocation(gamer.getPosition()), tabuleiro.getBank(),   //atualiza o player por chegar em um quadrado novo
+                            tabuleiro.getSquaresQuantity(), stocks, tabuleiro.getGamers(), tabuleiro.getPlayers());
                 }
-                else {
-                    board.gamers[currentPlayer].improveProperty();
+                if (!gamer.getBankruptcy()) //se ainda não faliu
+                {
+                    if (gamer.verifyOwnership(tabuleiro.getBank()) == false) {
+                        //Chama metodos pedindo se ele quer comprar a propriedade do banco ou outro player
+                    }
+                    else
+                    {
+                        //opcao de comprar a propriedade forcadamente
+                    }
                 }
             }
             else if (lastKeyPressed.equals("ESQ")) {
-                pauseMenu();
+                pauseMenu();    //mas o que e isso?
             }
             board.gamers[currentPlayer].checkVictory();
             currentPlayer++;

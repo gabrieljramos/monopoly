@@ -1,8 +1,10 @@
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import monopoly.board;
 import javafx.animation.AnimationTimer;
 import javafx.scene.input.KeyCode;
 
@@ -104,64 +106,106 @@ public class run extends Application {
     // Show the pause menu
     pauseStage.showAndWait(); // Blocks interaction with the main game window
 }
-    private void startGameLoop(int totalPlayers, board tabuleiro, Scene scene, Stage primaryStage) {
-        int currentPlayer = 0; // Track current player using an array for mutability
-        int currentRound = 0, maxRounds = 30;
-        double FPS = 60;
-        double drawInterval = 1_000_000_000 / FPS; // Frame interval in nanoseconds
-        long[] lastUpdateTime = {System.nanoTime()}; // Store last update time
 
-        AnimationTimer gameTimer = new AnimationTimer() {
-            @Override
-            public void handle(long currentTime) {
-                if (currentTime - lastUpdateTime[0] >= drawInterval) {
-                    // Update game logic
-                    System.out.println("Jogador " + (currentPlayer + 1) + " está jogando.");
-                    player gamer = tabuleiro.getGamers()[currentPlayer];
+private void startGameLoop(int totalPlayers, board tabuleiro, Scene scene, Stage primaryStage) {
+    int currentPlayer = 0; // Track current player using an array for mutability
+    int currentRound = 0, maxRounds = 30;
+    double FPS = 60;
+    double drawInterval = 1_000_000_000 / FPS; // Frame interval in nanoseconds
+    long[] lastUpdateTime = { System.nanoTime() }; // Store last update time
 
-                    if ("ENTER".equals(lastKeyPressed)) {
-                        if (gamer.move(tabuleiro.getPlace(gamer.getPosition()), tabuleiro.getDie(), tabuleiro.getSquaresQuantity())) {
-                            int stocks = tabuleiro.getBank().getOwner(gamer.getPosition());
-                            stocks = tabuleiro.getGamers()[stocks].checkStocks();
-                            gamer.update(tabuleiro.getLocation(gamer.getPosition()), tabuleiro.getBank(),
-                                    tabuleiro.getSquaresQuantity(), stocks, tabuleiro.getGamers(), tabuleiro.getPlayers());
-                        }
+    AnimationTimer gameTimer = new AnimationTimer() {
+        @Override
+        public void handle(long currentTime) {
+            if (currentTime - lastUpdateTime[0] >= drawInterval) {
+                // Update game logic
+                System.out.println("Jogador " + (currentPlayer + 1) + " está jogando.");
+                player gamer = tabuleiro.getGamers()[currentPlayer];
 
-                        // Handle game logic (bankruptcy, victory, etc.)
-                        if (!gamer.getBankruptcy() && !(tabuleiro.getLocation(gamer.getPosition()) instanceof special)) {
-                            if (!gamer.verifyOwnership(tabuleiro.getBank())) {
-                                if (tabuleiro.getBank().getOwner(gamer.getPosition()) != 0) {
-                                    // Forced purchase logic
-                                } else {
-                                    // Purchase from bank logic
-                                }
-                            } else {
-                                // Improve or mortgage property
-                            }
-                        }
-                        if (currentRound >= maxRounds)
-                            stop();
-                        else if (gamer.checkVictory(tabuleiro.getBank(), tabuleiro.getStocksQuantity()) == 1) {
-                            System.out.println("Jogador " + (currentPlayer + 1) + " venceu o jogo!");
-                            stop(); // Stop the game loop
-                        } else {
-                            currentPlayer++; // Move to next player
-                            if (currentPlayer >= tabuleiro.getPlayers()) {
-                                currentPlayer = 0;
-                                currentRound++;
-                            }
-                                
-                        }
-                    } else if ("ESC".equals(lastKeyPressed)) {
-                        pauseMenu(this,primaryStage); // Pause logic
+                if ("ENTER".equals(lastKeyPressed)) {
+                    if (gamer.move(tabuleiro.getPlace(gamer.getPosition()), tabuleiro.getDie(),
+                            tabuleiro.getSquaresQuantity())) {
+                        int stocks = tabuleiro.getBank().getOwner(gamer.getPosition());
+                        stocks = tabuleiro.getGamers()[stocks].checkStocks();
+                        gamer.update(tabuleiro.getLocation(gamer.getPosition()), tabuleiro.getBank(),
+                                tabuleiro.getSquaresQuantity(), stocks, tabuleiro.getGamers(), tabuleiro.getPlayers());
                     }
 
-                    // Update time
-                    lastUpdateTime[0] = currentTime;
-                }
-            }
-        };
+                    // Handle game logic (bankruptcy, victory, etc.)
+                    if (!gamer.getBankruptcy() && !(tabuleiro.getLocation(gamer.getPosition()) instanceof special)) {
+                        squares land = tabuleiro.getLocation(gamer.getPosition());
+                        boolean mode = true;
+                        if (!gamer.verifyOwnership(tabuleiro.getBank())) {
+                            Button buyPropertyButton = manageButton("Comprar Propriedade", true);
+                            if (gamer.Check() < land.getValue())
+                                buttonSwitch(buyPropertyButton, false);
+                            else
+                                buttonSwitch(buyPropertyButton, true);
+                            if (tabuleiro.getBank().getOwner(gamer.getPosition()) != 0) {
+                                player rival = tabuleiro.getPlayer(tabuleiro.getBank().getOwner(gamer.getPosition()));
+                                buyPropertyButton.setOnAction(e -> {
+                                    (tabuleiro.getBank()).sellProperties(gamer.getPortfolio(), rival.getPortfolio(),
+                                            rival.getWallet(),gamer.getWallet(), gamer.getId(), land, true);
+                                });
+                            } 
+                            else {
+                                buyPropertyButton.setOnAction(e ->{
+                                    (tabuleiro.getBank()).sellProperties(gamer.getPortfolio(), gamer.getWallet(),
+                                            gamer.getId(), land, false);
+                                });
+                            }
+                        } else {
+                            // Improve or mortgage property
+                        }
+                    }
+                    if (currentRound >= maxRounds)
+                        stop();
+                    else if (gamer.checkVictory(tabuleiro.getBank(), tabuleiro.getStocksQuantity()) == 1) {
+                        System.out.println("Jogador " + (currentPlayer + 1) + " venceu o jogo!");
+                        stop(); // Stop the game loop
+                    } else {
+                        currentPlayer++; // Move to next player
+                        if (currentPlayer >= tabuleiro.getPlayers()) {
+                            currentPlayer = 0;
+                            currentRound++;
+                        }
 
-        gameTimer.start();
+                    }
+                } else if ("ESC".equals(lastKeyPressed)) {
+                    pauseMenu(this, primaryStage); // Pause logic
+                }
+
+                // Update time
+                lastUpdateTime[0] = currentTime;
+            }
+        }
+    };
+
+    gameTimer.start();
+}
+    
+    private Button manageButton(String[] name, boolean on)
+    {
+        String buttonText = (name != null && name.length > 0) ? String.join(" ", name) : "BOTÃO e BOTÃO";
+        Button specialButton = new Button(buttonText);
+        buttonSwitch(specialButton, on);
+
+        HBox gameLayout = new HBox();
+        gameLayout.getChildren().add(specialButton);
+
+        return specialButton;
+    }
+    private void buttonSwitch(Button specialButton, boolean on)
+    {
+        if (on)
+        {
+            specialButton.setDisable(false);
+            specialButton.setOpacity(1);
+        }
+        else
+        {
+            specialButton.setDisable(true);
+            specialButton.setOpacity(0.5);
+        }
     }
 }

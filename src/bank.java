@@ -12,23 +12,12 @@ public class bank {
   
     private boolean transfer (portfolio gamer, wallet money, int gamerId, squares place, boolean sell)
     {
-        property land;
-        stocks local;
-
         int value;
 
-        if (place instanceof property)  //testa que tipo de square e guarda valor
-        {
-            land = (property) place;
-            value = land.getValue();
-        }
-        else if (place instanceof stocks)
-        {
-            local = (stocks) place;
-            value = local.getValue();
-        }
-        else
+        if (place instanceof special)
             return false;
+
+        value = place.getValue();
         
         if (sell && exchange(this, money, value))   //sell para jogador vender!
         {
@@ -48,23 +37,13 @@ public class bank {
 
     private boolean thirdPartyTransfer (portfolio receiver, portfolio giver, wallet owner, wallet buyer, int buyerId, squares place, boolean mode)
     {
-        property land;
-        stocks local;
 
         int value; int position = place.getPosition();
 
-        if (place instanceof property)
-        {
-            land = (property) place;
-            value = land.getValue();
-        }
-        else if (place instanceof stocks)
-        {
-            local = (stocks) place;
-            value = local.getValue();
-        }
-        else
+        if (place instanceof special)
             return false;
+        
+        value = place.getValue();
 
         if (!mode || (mode && exchange(buyer, owner, value)))
         {

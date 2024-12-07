@@ -25,7 +25,7 @@ public class player {
         return this.money.pay(value);
     }
 
-    public long check()
+    public long Check()
     {
         return this.money.check();
     }

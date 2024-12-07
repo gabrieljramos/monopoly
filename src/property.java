@@ -22,7 +22,7 @@ public class property extends squares{
     }
 
     public void improve(player character) {
-        if (character.check() >= this.houses[state]) {
+        if (character.Check() >= this.houses[state]) {
             if (state < 4 || recent)
             {
                 state++;

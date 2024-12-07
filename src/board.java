@@ -8,6 +8,7 @@ public class board {
 
     private static final int SQUARES_QUANTITY = 40;
     private static final int MAX_PLAYERS = 4;
+    //private static final int STOCKS_QUANTITY = 8;
 
     public board(int playerQnt){
         this.dado = new dice(playerQnt);

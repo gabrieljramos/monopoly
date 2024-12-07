@@ -5,12 +5,12 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.lang.Math;
 
-public class Cartas {
+public class cartas {
 
     int numCards;
     static List<String> allCards = new ArrayList<String>();
 
-    public Cartas() {
+    public cartas() {
 
         if (allCards == null) {
             try {
@@ -33,11 +33,11 @@ public class Cartas {
             randomPlayer = (int)(Math.random()*playerAmount);
         return randomPlayer;
     }
-    public void drawACard(int currentPlayer, player[] gamers) {
+    public int drawACard(int currentPlayer, player[] gamers) {
 
         int randomCard = (int)(Math.random()*this.numCards);
         String card = getCard(randomCard);
-        manageCard(card,currentPlayer,gamers);
+        return manageCard(card,currentPlayer,gamers);
 
     }
 
@@ -78,7 +78,7 @@ public class Cartas {
     private void propertyCard(String[] parts, player[] gamers, int currentPlayer) {
 
         if (parts[4].equals("0"))
-            gamers[currentPlayer].playerTrade();
+            gamers[currentPlayer].playerTrade();    //tem que colocar os parametros nessa chamada!  
 
     }
     private int manageCard(String card, int currentPlayer, player[] gamers) {

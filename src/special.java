@@ -1,7 +1,10 @@
 public class special extends squares{
-    private int category;
-
+    private int category;   //0 para
     private int timeOut;
+
+    private cartas news;
+
+    private static final int JAIL_LOCATION = 10;
 
     public special(int category, int timeOut){
         this.timeOut = timeOut;
@@ -20,16 +23,19 @@ public class special extends squares{
 
     public void activateHolyday ()  //dado tem que pedir permissao da casa para poder andar!
     {
-        if (category == 1)
+        if (category == 1)  //casa feriado
             timeOut++;
     }
     
-    public void activatePrison()
+    public void activatePrison(int position)
     {
-        if (category == 2)
+        if (category == 2)  //casa go to prison
+        {
             timeOut += 3;
+            position = JAIL_LOCATION;
+        }
     }
-    public void updateHolyday ()
+    public void updateHolyday ()    //atualiza se player nao pode se mexer
     {
         if (timeOut > 0)
             timeOut--;
@@ -42,17 +48,29 @@ public class special extends squares{
 
     public void finishLine(wallet money, long value)
     {
-        if (category == 3)
+        if (category == 3) //evento de ganhar dinheiro
             money.receive(value);
     }
-
-    public int fallSpecial (wallet money, long salary, player[] gamers)
+    
+    public int taxes (wallet money, long value)
     {
-        activateHolyday();
-        activatePrison();
-        finishLine(money, salary);
-        //aqui tem que testar para cair na casa de noticia!!!
-        //chama aqui a funcao da carta e a distancia de deslocamento e o retorno!
+        if (category == 4)
+        {
+            if (!money.pay(value))
+                return -1;
+        }
         return 0;
+    }
+
+    public int fallSpecial (wallet money, long value, player[] gamers, int position, int gamer_id)
+    {
+        int signal = 0;
+        activateHolyday();  //funcao de feriao
+        activatePrison(position);   //funcao de ir pra prisao
+        finishLine(money, value);   //funcao de ganhar dinheiro
+        signal = taxes(money, value);   //funcao de perder dinheiro
+        if (category == 5)
+            signal = news.drawACard(gamer_id, gamers);  //noticias
+        return signal;
     }
 }

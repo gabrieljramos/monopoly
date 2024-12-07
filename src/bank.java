@@ -148,6 +148,18 @@ public class bank {
         return dataBank.checkMonopoly(set, owner_id);
     }
 
+    public boolean checkFullMonopoly(int owner_id)
+    {
+        return this.checkFullMonopoly(owner_id);
+    }
+
+    public boolean allStocks (portfolio gamer, int stocksQuantity)
+    {
+        if (gamer.checkStocks() == stocksQuantity)
+            return true;
+        return false;
+    }
+
     public long getSalary()
     {
         return SALARY;

@@ -14,11 +14,11 @@ public class property extends squares{
         this.recent = true;
     }
     
-    public void payRent(wallet player, boolean monopoly) {
+    public boolean payRent(wallet player, boolean monopoly) {
         int value = rent[state];
         if (monopoly)
             value *= 3;
-        player.pay(value);
+        return player.pay(value);
     }
 
     public void improve(player character) {

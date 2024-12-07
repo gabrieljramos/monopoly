@@ -9,9 +9,13 @@ import javafx.scene.paint.*;
 import java.util.*;
 
 public class draw extends Application {
+    private double boardSize;
+    private double stepSize;
+
+    ImageView players[] = new ImageView[board.getPlayers()];
 
     public void start(Stage primaryStage) {
-        GridPane grid = setGridPane(primaryStage);
+        //GridPane grid = setGridPane(primaryStage);
         
         StackPane root = createGameLayout(primaryStage);
         Scene scene = new Scene(root);
@@ -19,7 +23,8 @@ public class draw extends Application {
         // background da tela
         BackgroundFill fill = new BackgroundFill(Color.web("#FFEE8C90"), null, null);
         root.setBackground(new Background(fill));
-        root.getChildren().add(grid);
+        //root.getChildren().add(grid);
+
         // titulos e mostra tela
         primaryStage.setTitle("Monopoly");
         primaryStage.setScene(scene);
@@ -37,9 +42,32 @@ public class draw extends Application {
     private StackPane createGameLayout(Stage primaryStage) {
         imageManager.loadEssentialImages();
         ImageView boardViewer = createBoardViewer(primaryStage);
-        ImageView playerViewer = createPlayerViewer(boardViewer);
+        StackPane root = new StackPane(boardViewer);
+        Pane paneAux = new Pane();
 
-        return new StackPane(boardViewer, playerViewer);
+        this.boardSize = boardViewer.getImage().getWidth();
+        this.stepSize = boardSize / 23;
+        
+        // Pane pra posicionamento de players
+        root.getChildren().add(paneAux);
+
+        paneAux.prefWidthProperty().bind(boardViewer.fitWidthProperty());
+        paneAux.prefHeightProperty().bind(boardViewer.fitHeightProperty());
+
+        double xStartPercent = 0.225; 
+        double yStartPercent = 0.85; 
+        double xSpacingPercent = 0.02; 
+
+        for (int i = 0; i < board.getPlayers(); i++) {
+            players[i] = createPlayerViewer(boardViewer, i);
+
+            players[i].layoutXProperty().bind(paneAux.widthProperty().multiply(xStartPercent + (i * xSpacingPercent)));
+            players[i].layoutYProperty().bind(paneAux.heightProperty().multiply(yStartPercent));
+
+            paneAux.getChildren().add(players[i]);
+        }
+        
+        return root;
     }
 
     private ImageView createBoardViewer(Stage primaryStage) {
@@ -49,8 +77,10 @@ public class draw extends Application {
         return boardViewer;
     }
 
-    private ImageView createPlayerViewer(ImageView boardViewer) {
-        ImageView playerViewer = new ImageView(imageManager.getImage("player1"));
+    private ImageView createPlayerViewer(ImageView boardViewer, int id) {
+        String c = String.valueOf(id+1);
+        System.out.println("player" + c);
+        ImageView playerViewer = new ImageView(imageManager.getImage("player" + c));
         playerViewer.setPreserveRatio(true);
         playerViewer.fitWidthProperty().bind(boardViewer.fitWidthProperty().multiply(0.05));
         playerViewer.fitHeightProperty().bind(boardViewer.fitHeightProperty().multiply(0.05));
@@ -58,8 +88,18 @@ public class draw extends Application {
         return playerViewer;
     }
 
-    public static void main(String[] args) {
+    private void movePlayer(player player){
+        int pos = player.getPosition();
         
-        launch(args); 
+        if(pos < 10)
+            players[player.getId()].setTranslateY(players[player.getId()].getTranslateY()-stepSize);
+        else if(pos < 20)
+            players[player.getId()].setTranslateX(players[player.getId()].getTranslateX()+stepSize);
+        else if(pos < 30)
+            players[player.getId()].setTranslateY(players[player.getId()].getTranslateY()+stepSize);
+        else if(pos < 40)
+            players[player.getId()].setTranslateX(players[player.getId()].getTranslateX()-stepSize);
+
+        return;
     }
 }

@@ -36,6 +36,12 @@ public class board {
         return gamers[id];
     }
 
+    public int getPlayers()
+    {
+        return numPlayers;
+    }
+
+
     public bank getBank()
     {
         return comp;

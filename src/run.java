@@ -69,66 +69,57 @@ public class run extends Application {
             lastKeyPressed = ""; 
         });
     }
-
-    private void gameLoop(int totalPlayers, board tabuleiro) {
-        // Implementar lógica do loop do jogo
-        int currentPlayer = 0;
+    private void startGameLoop(int totalPlayers, board tabuleiro, Scene scene) {
+        int currentPlayer = 0; // Track current player using an array for mutability
         double FPS = 60;
-        double drawInterval = 1000000000 / FPS;
-        double nextDrawTime = System.nanoTime() + drawInterval;
+        double drawInterval = 1_000_000_000 / FPS; // Frame interval in nanoseconds
+        long[] lastUpdateTime = {System.nanoTime()}; // Store last update time
 
-        while (!quit) {
-            // Desenha o tabuleiro
-            System.out.println("Jogador " + (currentPlayer + 1) + " está jogando.");
-            detectEnterOrEsc(scene); //DE ONDE VEM ESSA SCENE?
-            player gamer = tabuleiro.getGamers()[currentPlayer];    //separa o player jogando
-            if (lastKeyPressed.equals("ENTER")) {
-                if (gamer.move(tabuleiro.getPlace(gamer.getPosition()), tabuleiro.getDie(), tabuleiro.getSquaresQuantity()))    //verifica se ele se moveu
-                {
-                    int stocks = tabuleiro.getBank().getOwner(gamer.getPosition()); //separa a id do dono do quadrado em que o player chegou
-                    stocks = tabuleiro.getGamers()[stocks].checkStocks();   //separa a quanitdade de ações do dono do quadrado
-                    gamer.update(tabuleiro.getLocation(gamer.getPosition()), tabuleiro.getBank(),   //atualiza o player por chegar em um quadrado novo
-                            tabuleiro.getSquaresQuantity(), stocks, tabuleiro.getGamers(), tabuleiro.getPlayers());
-                }
-                if (!gamer.getBankruptcy()) //se ainda não faliu
-                {
-                    if (!(tabuleiro.getLocation(gamer.getPosition()) instanceof special)) //se a posicao e compravel
-                    {
-                        if (gamer.verifyOwnership(tabuleiro.getBank()) == false) {
-                            if (tabuleiro.getBank().getOwner(gamer.getPosition()) != 0) //se o dono nao e o banco
-                            {
-                                //opcao de comprar forcadamente
-                            } else {
-                                //opcao de comprar do banco
-                            }
-                        } else {
-                            //opcao de melhorar a propriedade (ou hipotecar?)
+        AnimationTimer gameTimer = new AnimationTimer() {
+            @Override
+            public void handle(long currentTime) {
+                if (currentTime - lastUpdateTime[0] >= drawInterval) {
+                    // Update game logic
+                    System.out.println("Jogador " + (currentPlayer + 1) + " está jogando.");
+                    player gamer = tabuleiro.getGamers()[currentPlayer];
+
+                    if ("ENTER".equals(lastKeyPressed)) {
+                        if (gamer.move(tabuleiro.getPlace(gamer.getPosition()), tabuleiro.getDie(), tabuleiro.getSquaresQuantity())) {
+                            int stocks = tabuleiro.getBank().getOwner(gamer.getPosition());
+                            stocks = tabuleiro.getGamers()[stocks].checkStocks();
+                            gamer.update(tabuleiro.getLocation(gamer.getPosition()), tabuleiro.getBank(),
+                                    tabuleiro.getSquaresQuantity(), stocks, tabuleiro.getGamers(), tabuleiro.getPlayers());
                         }
+
+                        // Handle game logic (bankruptcy, victory, etc.)
+                        if (!gamer.getBankruptcy() && !(tabuleiro.getLocation(gamer.getPosition()) instanceof special)) {
+                            if (!gamer.verifyOwnership(tabuleiro.getBank())) {
+                                if (tabuleiro.getBank().getOwner(gamer.getPosition()) != 0) {
+                                    // Forced purchase logic
+                                } else {
+                                    // Purchase from bank logic
+                                }
+                            } else {
+                                // Improve or mortgage property
+                            }
+                        }
+
+                        if (gamer.checkVictory(tabuleiro.getBank(), tabuleiro.getStocksQuantity()) == 1) {
+                            System.out.println("Jogador " + (currentPlayer[0] + 1) + " venceu o jogo!");
+                            stop(); // Stop the game loop
+                        } else {
+                            currentPlayer++; // Move to next player
+                        }
+                    } else if ("ESC".equals(lastKeyPressed)) {
+                        pauseMenu(); // Pause logic
                     }
+
+                    // Update time
+                    lastUpdateTime[0] = currentTime;
                 }
-                //TECLA PRA PASSAR A VEZ?
             }
-            else if (lastKeyPressed.equals("ESQ")) {
-                pauseMenu();    //mas o que e isso?
-            }
-            if (gamer.checkVictory(tabuleiro.getBank(), tabuleiro.getStocksQuantity()) == 1)
-            {
-                //ACABA O JOGO!
-            }
-            currentPlayer++;
-            if (currentPlayer >= totalPlayers)
-                currentPlayer = 0;
-            // Temporizador para FPS
-            try {
-                double remainingTime = nextDrawTime - System.nanoTime();
-                remainingTime /= 1000000;
-                if (remainingTime < 0)
-                    remainingTime = 0;
-                Thread.sleep((long) remainingTime);
-                nextDrawTime += drawInterval;
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }
+        };
+
+        gameTimer.start();
     }
 }

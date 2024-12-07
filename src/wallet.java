@@ -33,7 +33,7 @@ public class wallet {
         return true;
     }
     
-    public long check()
+    public long Check()
     {
         return this.money;
     }

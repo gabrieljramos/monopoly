@@ -27,7 +27,7 @@ public class player {
 
     public long Check()
     {
-        return this.money.check();
+        return this.money.Check();
     }
 
     public void addProp (squares item)
@@ -66,7 +66,7 @@ public class player {
     public void improveProperty(property land, bank comp)
     {
         if (comp.getOwner(position) == id)
-            land.improve(this);
+            land.improve(money);
     }
 
     public boolean verifyOwnership (bank comp)
@@ -74,7 +74,7 @@ public class player {
         return (id == comp.getOwner(position));
     }
 
-    public boolean update (squares place, bank comp, int totalSquares, int ownerStocks, player[] gamers, int playerAmount)    //esse owner stock vem do board e e a quantidade de stocks do dono do quadrado
+    public boolean update (squares place, bank comp, int totalSquares, int ownerStocks, player[] gamers, int playerAmount, int moverId)    //esse owner stock vem do board e e a quantidade de stocks do dono do quadrado
     {
         int owner = comp.getOwner(position);
         boolean value = true;
@@ -97,7 +97,7 @@ public class player {
             else if (distance < 0)  //se falhou em pagar a casa especial, faliu
                 value = false;
         }
-        return value && ((property)place).updateMortgage(resources, money, ((property)place), comp);
+        return value && gamers[moverId].getPortfolio().updateAll(money, comp);  //atualiza status e hipoteca de todas as casas!
     }
     public boolean bankNegotiation(bank comp, squares place, boolean sell)
     {

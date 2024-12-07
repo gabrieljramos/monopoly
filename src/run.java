@@ -4,7 +4,6 @@ import javafx.scene.control.Button;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-import monopoly.board;
 import javafx.animation.AnimationTimer;
 import javafx.scene.input.KeyCode;
 
@@ -36,8 +35,8 @@ public class run extends Application {
                 return;
             }
             initializer();
-            board tabuleiro = new board(playerAmount);   //TEM QUE INICIALIZAR O TABULEIRO COM TUDO PRONTO AQUI E MANDAR PRO LOOP!!! 
-            gameLoop(playerAmount, tabuleiro, scene, primaryStage);
+            monopoly.board tabuleiro = new monopoly.board(playerAmount);   //TEM QUE INICIALIZAR O TABULEIRO COM TUDO PRONTO AQUI E MANDAR PRO LOOP!!! 
+            startGameLoop(playerAmount, tabuleiro, scene, primaryStage);
         });
 
         quitButton.setOnAction(e -> {
@@ -107,7 +106,7 @@ public class run extends Application {
     pauseStage.showAndWait(); // Blocks interaction with the main game window
 }
 
-private void startGameLoop(int totalPlayers, board tabuleiro, Scene scene, Stage primaryStage) {
+private void startGameLoop(int totalPlayers, monopoly.board tabuleiro, Scene scene, Stage primaryStage) {
     int currentPlayer = 0; // Track current player using an array for mutability
     int currentRound = 0, maxRounds = 30;
     double FPS = 60;
@@ -135,7 +134,7 @@ private void startGameLoop(int totalPlayers, board tabuleiro, Scene scene, Stage
                     if (!gamer.getBankruptcy() && !(tabuleiro.getLocation(gamer.getPosition()) instanceof special)) {
                         squares land = tabuleiro.getLocation(gamer.getPosition());
                         boolean mode = true;
-                        if (!gamer.verifyOwnership(tabuleiro.getBank())) {
+                        if (!gamer.verifyOwnership(tabuleiro.getBank())) { //se o player NAO e dono
                             Button buyPropertyButton = manageButton("Comprar Propriedade", true);
                             if (gamer.Check() < land.getValue())
                                 buttonSwitch(buyPropertyButton, false);
@@ -145,17 +144,51 @@ private void startGameLoop(int totalPlayers, board tabuleiro, Scene scene, Stage
                                 player rival = tabuleiro.getPlayer(tabuleiro.getBank().getOwner(gamer.getPosition()));
                                 buyPropertyButton.setOnAction(e -> {
                                     (tabuleiro.getBank()).sellProperties(gamer.getPortfolio(), rival.getPortfolio(),
-                                            rival.getWallet(),gamer.getWallet(), gamer.getId(), land, true);
+                                            rival.getWallet(), gamer.getWallet(), gamer.getId(), land, true);
                                 });
-                            } 
-                            else {
-                                buyPropertyButton.setOnAction(e ->{
+                            } else {
+                                buyPropertyButton.setOnAction(e -> {
                                     (tabuleiro.getBank()).sellProperties(gamer.getPortfolio(), gamer.getWallet(),
                                             gamer.getId(), land, false);
                                 });
                             }
-                        } else {
-                            // Improve or mortgage property
+                        } 
+                        else {    //se o player e dono
+                            Button improveButton = manageButton("Melhorar Propriedade", true);
+                            Button mortgageButton = manageButton("Hipotecar Propriedade", true);
+                            Hbox gameLayout = new HBox(improveButton, mortgageButton);
+
+                            improveButton.setOnAction(e -> {
+                                // Oculta os botões anteriores
+                                improveButton.setVisible(false);
+                                mortgageButton.setVisible(false);
+                        
+                                // Cria as opções "Melhorar" e "Parar"
+                                Button improveOption = new Button("Melhorar");
+                                Button stopOption = new Button("Parar");
+                        
+                                // Configura ações para as novas opções
+                                improveOption.setOnAction(ev -> {
+                                    boolean exit = false;
+                                    while (!exit)
+                                    boolean improved = land.improve(gamer.getWallet());
+                                    if (improved)
+                                        System.out.println("Propriedade melhorada!");
+                                    gameLayout.getChildren().removeAll(improveOption, stopOption); // Remove as opções
+                                });
+                        
+                                stopOption.setOnAction(ev -> {
+                                    // Sai sem fazer nada
+                                    System.out.println("Ação cancelada.");
+                                    gameLayout.getChildren().removeAll(improveOption, stopOption); // Remove as opções
+                                });
+                        
+                                // Adiciona as novas opções ao layout
+                                gameLayout.getChildren().addAll(improveOption, stopOption);
+                            });
+                            mortgageButton.setOnAction(e -> {
+                                land.getMortgage(gamer.getWallet());
+                            });
                         }
                     }
                     if (currentRound >= maxRounds)
@@ -184,10 +217,9 @@ private void startGameLoop(int totalPlayers, board tabuleiro, Scene scene, Stage
     gameTimer.start();
 }
     
-    private Button manageButton(String[] name, boolean on)
+    private Button manageButton(String name, boolean on)
     {
-        String buttonText = (name != null && name.length > 0) ? String.join(" ", name) : "BOTÃO e BOTÃO";
-        Button specialButton = new Button(buttonText);
+        Button specialButton = new Button(name);
         buttonSwitch(specialButton, on);
 
         HBox gameLayout = new HBox();

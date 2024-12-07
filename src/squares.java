@@ -26,4 +26,21 @@ public class squares {
         else
             return ((stocks) this).getValue();
     }
+
+    public boolean getMortgage(wallet money)
+    {
+        if (this instanceof property) {
+            return ((property) this).getMortgage(money);
+        }
+        return false;
+    }
+    
+    public boolean improve(wallet money)
+    {
+        if (this instanceof property)
+        {
+            return ((property) this).improve(money);
+        }
+        return false;
+    }
 }

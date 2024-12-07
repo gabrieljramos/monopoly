@@ -92,7 +92,7 @@ public class bank {
 
     public boolean exchange (wallet giver, wallet receiver, long value)
     {
-        if (giver.check() >= value)
+        if (giver.Check() >= value)
         {
             giver.pay(value);
             receiver.receive(value);
@@ -103,7 +103,7 @@ public class bank {
     
     public boolean exchange (wallet giver, bank receiver, long value)   //pagar pro banco!
     {
-        if (giver.check() >= value)
+        if (giver.Check() >= value)
         {
             giver.pay(value);
             return true;

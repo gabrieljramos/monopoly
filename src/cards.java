@@ -55,7 +55,7 @@ class Cartas {
         if (origin.equals("0") || destination.equals("1"))
             success = gamers[currentPlayer].pay(amount);
         else if (origin.equals("2"))
-            for (int i = 0; i < gamers.length(); i++)
+            for (int i = 0; i < gamers.length; i++)
                 if (i != currentPlayer)
                     success = gamers[i].pay(amount);
 
@@ -63,10 +63,10 @@ class Cartas {
         if (destination.equals("0"))
             gamers[currentPlayer].receive(amount);
             if (origin.equals("2"))
-                gamers[currentPlayer].receive((amount)*(gamers.length() - 2));
+                gamers[currentPlayer].receive((amount)*(gamers.length - 2));
 
         else if (destination.equals("2")) {
-            int randomPlayer = getRandomPlayer(currentPlayer, gamers.length());
+            int randomPlayer = getRandomPlayer(currentPlayer, gamers.length);
             gamers[randomPlayer].receive(amount);
         }
 

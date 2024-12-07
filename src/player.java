@@ -104,7 +104,7 @@ public class player {
         comp.sellProperties(resources, giver, owner, money, id, place, mode);
     }
 
-    public void playerTrade (bank comp, portfolio gamer2, wallet player2, int player2Id, squares place1, squares place2)
+    public void playerTrade (bank comp, portfolio gamer2, wallet player2, int player2Id, squares place1, squares place2)    //places sao os locais escolhidos pra troca!
     {
         comp.tradeProperties(resources, gamer2, money, player2, id, player2Id, place1, place2);
     }

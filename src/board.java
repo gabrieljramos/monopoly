@@ -5,6 +5,8 @@ public class board {
     private portfolio map;
 
     private int numPlayers;
+
+    private static final int SQUARES_QUANTITY = 40;
     private static final int MAX_PLAYERS = 4;
 
     public board(int playerQnt){
@@ -60,5 +62,10 @@ public class board {
     {
         int id = comp.getOwner(position);
         return getPlayer(id);
+    }
+
+    public int getSquaresQuantity()
+    {
+        return SQUARES_QUANTITY;
     }
 }

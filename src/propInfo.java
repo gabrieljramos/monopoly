@@ -5,7 +5,7 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.lang.Math;
 
-class propInfo {
+public class propInfo {
 
     int numLines;
     List<String> allLines = new ArrayList<String>();

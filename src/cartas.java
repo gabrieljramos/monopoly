@@ -94,7 +94,7 @@ public class cartas {
             gamers[currentPlayer].playerTrade(comp, rival.getPortfolio(), rival.getWallet(), rival.getId(), place1, place2);    //tem que colocar os parametros nessa chamada!
         else if (parts[5].equals("0"))
             rival.bankNegotiation(comp,place2,true);
-        else if (parst[5].equals("1"))
+        else if (parts[5].equals("1"))
             gamers[currentPlayer].bankNegotiation(comp,place1,true);
 
     }

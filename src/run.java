@@ -244,27 +244,4 @@ private void startGameLoop(int totalPlayers, monopoly.board tabuleiro, Scene sce
 
     gameTimer.start();
 }
-private Button manageButton(String name, boolean on)
-{
-    Button specialButton = new Button(name);
-    buttonSwitch(specialButton, on);
-
-    HBox gameLayout = new HBox();
-    gameLayout.getChildren().add(specialButton);
-
-    return specialButton;
-}
-private void buttonSwitch(Button specialButton, boolean on)
-{
-    if (on)
-    {
-        specialButton.setDisable(false);
-        specialButton.setOpacity(1);
-    }
-    else
-    {
-        specialButton.setDisable(true);
-        specialButton.setOpacity(0.5);
-    }
-    }
 }

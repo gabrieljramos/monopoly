@@ -116,7 +116,7 @@ private void startGameLoop(int totalPlayers, monopoly.board tabuleiro, Scene sce
     AnimationTimer gameTimer = new AnimationTimer() {
         @Override
         public void handle(long currentTime) {
-            if (currentTime - lastUpdateTime[0] >= drawInterval) {
+            if ((currentTime - lastUpdateTime[0] >= drawInterval) && (tabuleiro.gamers[currentPlayer].getBankruptcy())) {
                 // Update game logic
                 System.out.println("Jogador " + (currentPlayer + 1) + " está jogando.");
                 player gamer = tabuleiro.getGamers()[currentPlayer];

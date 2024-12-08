@@ -2,10 +2,10 @@ public class monopoly {
     public static class board {
         private dice dado;
         private bank comp;
-        private player gamers[];
+        private static player gamers[];
         public portfolio map;
 
-        private int numPlayers;
+        private static int numPlayers;
 
         private static final int SQUARES_QUANTITY = 40;
         private static final int MAX_PLAYERS = 4;
@@ -31,7 +31,7 @@ public class monopoly {
                 numPlayers = value;
         }
 
-        public int getPlayers() {
+        public static int getPlayers() {
             return numPlayers;
         }
 
@@ -39,7 +39,7 @@ public class monopoly {
             gamers[id] = gamer;
         }
 
-        public player getPlayer(int id) //pegar qualquer player especifico
+        public static player getPlayer(int id) //pegar qualquer player especifico
         {
             return gamers[id];
         }

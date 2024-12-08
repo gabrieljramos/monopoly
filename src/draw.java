@@ -23,7 +23,8 @@ public class draw extends Application {
 
     public void start(Stage primaryStage) {
         int numP = 0;
-        numP = showPlayerSelectionDialog(primaryStage);
+        //numP = showPlayerSelectionDialog(primaryStage);
+        numP = menu();
         if (numP == 0)
             return;
         StackPane root = createGameLayout(primaryStage);
@@ -39,6 +40,11 @@ public class draw extends Application {
         primaryStage.setScene(scene);
         primaryStage.setMaximized(true);
         primaryStage.show();
+        
+        run game = new run();
+        initializer start = new initializer();
+        monopoly.board tabuleiro = start.startBoard(playerAmount,40);
+        game.startGameLoop(playerAmount,tabuleiro,scene,primaryStage);
     }
 
     private int showPlayerSelectionDialog(Stage primaryStage) {

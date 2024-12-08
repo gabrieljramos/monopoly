@@ -53,7 +53,7 @@ public class propInfo {
         return Integer.parseInt(parts[3]);
         
     }
-    public int getMultiplier(int pos, int which) {
+    public float getMultiplier(int pos, int which) {
         
         String propInfo = getPropertyInfo(pos);
         String[] parts = propInfo.split("[,]");

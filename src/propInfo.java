@@ -10,10 +10,10 @@ public class propInfo {
     int numLines;
     List<String> allLines = new ArrayList<String>();
 
-    public propInfo() {
+    public propInfo(String name) {
 
         try {
-        this.allLines = Files.readAllLines(Paths.get("propertyInfo.csv"));
+        this.allLines = Files.readAllLines(Paths.get(name));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -53,11 +53,24 @@ public class propInfo {
         return Integer.parseInt(parts[3]);
         
     }
-    public int getMultiplier(int pos) {
+    public float getMultiplier(int pos, int which) {
         
         String propInfo = getPropertyInfo(pos);
         String[] parts = propInfo.split("[,]");
-        return Integer.parseInt(parts[4]);
+        return Float.parseFloat(parts[4 + which]);      //0 pra prop, 1 casas, 2Rent, 3 mortgage
         
+    }
+    public int getSetType(int pos) {
+            
+        String propInfo = getPropertyInfo(pos);
+        String[] parts = propInfo.split("[,]");
+        return Integer.parseInt(parts[8]);
+        
+    }
+
+    public int getLine (int pos)
+    {
+        String propInfo = getPropertyInfo(pos);
+        return Integer.parseInt(propInfo);
     }
 }

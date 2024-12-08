@@ -2,16 +2,27 @@ public class log {
     private boolean mortgaged;
     private int parcelas;   //contador ou prazo ate pagamento
     private int debt;
-    private int mortgage[] = new int[6]; //vetor com os valores de hipoteca dependendo das melhorias
+    private int mortgage; //vetor com os valores de hipoteca dependendo das melhorias
+    private float multMortgage;
 
     private static final int DURATION = 5;
 
-    public log()
+    public log(int mortgage, float multMortgage)
     {
         this.mortgaged = false;
         this.parcelas = 0;
         this.debt = 0;
+        this.mortgage = mortgage;
+        this.multMortgage = multMortgage;
         //Falta vetor mortgage precisa de arquivo
+    }
+
+    private float estimateMortgage(int state)
+    {
+        float value = state * multMortgage;
+        if (value == 0)
+            value = 1;
+        return value;
     }
 
     public boolean mortgage(property land, wallet money)
@@ -20,7 +31,7 @@ public class log {
             return false;
         mortgaged = true;
         parcelas = DURATION;
-        debt = mortgage[land.getState()];
+        debt = (int)(mortgage * estimateMortgage(land.getState()));
         money.receive(debt);///hipoteca com a prop ou o banco?
 
         return true;

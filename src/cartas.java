@@ -7,14 +7,14 @@ import java.lang.Math;
 
 public class cartas {
 
-    int numCards;
+    static int numCards;
     static List<String> allCards = new ArrayList<String>();
 
     public cartas() {
 
         if (allCards.isEmpty()) {
             try {
-            this.allCards = Files.readAllLines(Paths.get("cards.txt"));
+            this.allCards = Files.readAllLines(Paths.get("cards.csv"));
             } catch (IOException e) {
                 e.printStackTrace();
             }

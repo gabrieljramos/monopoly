@@ -10,7 +10,8 @@ public class monopoly {
         private static final int SQUARES_QUANTITY = 40;
         private static final int MAX_PLAYERS = 4;
         private static final int STOCKS_QUANTITY = 8;
-
+        private static final int CARDS_QUANTITY = 18;
+        
         public board(int playerQnt) {
             this.dado = new dice(playerQnt);
             this.comp = new bank();
@@ -74,6 +75,21 @@ public class monopoly {
 
         public squares getLocation(int position) {
             return map.search(position);
+        }
+
+        public void addLocation (squares location)
+        {
+            map.addProp(location);
+        }
+
+        public int[] bankStatements()
+        {
+            int[] values = new int[numPlayers];
+            for (int i = 0; i < numPlayers; i++)
+            {
+                values[i] = (int) gamers[i].Check();
+            }
+            return values;
         }
     }
 }

@@ -107,8 +107,8 @@ public class run extends Application {
 }
 
 private void startGameLoop(int totalPlayers, monopoly.board tabuleiro, Scene scene, Stage primaryStage) {
-    int currentPlayer = 0; // Track current player using an array for mutability
-    int currentRound = 0, maxRounds = 30;
+    final int currentPlayer = 0; // Track current player using an array for mutability
+    final int currentRound = 0, maxRounds = 30;
     double FPS = 60;
     double drawInterval = 1_000_000_000 / FPS; // Frame interval in nanoseconds
     long[] lastUpdateTime = { System.nanoTime() }; // Store last update time

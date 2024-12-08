@@ -24,7 +24,7 @@ public class draw extends Application {
     public void start(Stage primaryStage) {
         int numP = 0;
         //numP = showPlayerSelectionDialog(primaryStage);
-        numP = menu();
+        numP = menu(primaryStage);
         if (numP == 0)
             return;
         StackPane root = createGameLayout(primaryStage);

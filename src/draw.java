@@ -1,21 +1,17 @@
 import javafx.application.Application;
 import javafx.scene.Scene;
-import javafx.scene.effect.ColorAdjust;
-import javafx.scene.effect.ColorInput;
 import javafx.scene.image.*;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
 import javafx.scene.paint.*;
-import java.util.*;
 
 public class draw extends Application {
     private double boardSize;
     private double stepSize;
 
-    ImageView players[] = new ImageView[board.getPlayers()];
+    ImageView players[] = new ImageView[monopoly.board.getPlayers()];
 
     public void start(Stage primaryStage) {
-        //GridPane grid = setGridPane(primaryStage);
         
         StackPane root = createGameLayout(primaryStage);
         Scene scene = new Scene(root);
@@ -23,7 +19,6 @@ public class draw extends Application {
         // background da tela
         BackgroundFill fill = new BackgroundFill(Color.web("#FFEE8C90"), null, null);
         root.setBackground(new Background(fill));
-        //root.getChildren().add(grid);
 
         // titulos e mostra tela
         primaryStage.setTitle("Monopoly");
@@ -32,13 +27,7 @@ public class draw extends Application {
         primaryStage.show();
     }
 
-    private GridPane setGridPane(Stage primaryStage){
-        GridPane grid = new GridPane();
-        GridPane.setConstraints(grid, 11, 11);
-        grid.setGridLinesVisible(true);
-        return grid; 
-    }
-
+    // Carrega imagens e cria setup da janela do jogo
     private StackPane createGameLayout(Stage primaryStage) {
         imageManager.loadEssentialImages();
         ImageView boardViewer = createBoardViewer(primaryStage);
@@ -58,7 +47,7 @@ public class draw extends Application {
         double yStartPercent = 0.85; 
         double xSpacingPercent = 0.02; 
 
-        for (int i = 0; i < board.getPlayers(); i++) {
+        for (int i = 0; i < monopoly.board.getPlayers(); i++) {
             players[i] = createPlayerViewer(boardViewer, i);
 
             players[i].layoutXProperty().bind(paneAux.widthProperty().multiply(xStartPercent + (i * xSpacingPercent)));
@@ -88,6 +77,7 @@ public class draw extends Application {
         return playerViewer;
     }
 
+    // Move player movement vezes
     public void movePlayer(player player, int movement){
         while(movement > 0){
             int pos = player.getPosition();
@@ -104,5 +94,17 @@ public class draw extends Application {
             movement--;
         }
         return;
+    }
+    
+    // deprecado
+    private GridPane setGridPane(Stage primaryStage){
+        GridPane grid = new GridPane();
+        GridPane.setConstraints(grid, 11, 11);
+        grid.setGridLinesVisible(true);
+        return grid; 
+    }
+
+    public static void main(String[] args) {
+        launch(args);
     }
 }

@@ -5,7 +5,7 @@ public class monopoly {
         private player gamers[];
         private portfolio map;
 
-        private int numPlayers;
+        private static int numPlayers;
 
         private static final int SQUARES_QUANTITY = 40;
         private static final int MAX_PLAYERS = 4;
@@ -30,7 +30,7 @@ public class monopoly {
                 numPlayers = value;
         }
 
-        public int getPlayers() {
+        public static int getPlayers() {
             return numPlayers;
         }
 

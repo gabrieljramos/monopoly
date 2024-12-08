@@ -37,8 +37,12 @@ public class run extends Application {
                 System.out.println("Jogo encerrado.");
                 return;
             }
-            initializer();
-            monopoly.board tabuleiro = new monopoly.board(playerAmount);   //TEM QUE INICIALIZAR O TABULEIRO COM TUDO PRONTO AQUI E MANDAR PRO LOOP!!! 
+            //initializer();
+            monopoly.board tabuleiro = new monopoly.board(playerAmount);   //TEM QUE INICIALIZAR O TABULEIRO COM TUDO PRONTO AQUI E MANDAR PRO LOOP!!!
+            property prop = new property(0,0);
+            prop.value[0] = 1000;
+            prop.houses[0] = 1500;
+            prop.rent[0] = 500;
             startGameLoop(playerAmount, tabuleiro, scene, primaryStage);
         });
 

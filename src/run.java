@@ -2,6 +2,7 @@
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
@@ -35,8 +36,6 @@ public class run extends Application {
     public void start(Stage primaryStage) {
         // Configurar a janela principal do JavaFX
         VBox layout = new VBox();
-        Button startButton = new Button("Iniciar Jogo");
-        Button quitButton = new Button("Sair");
 
         Scene scene = new Scene(layout, 300, 200);
         primaryStage.setScene(scene);
@@ -64,8 +63,21 @@ public class run extends Application {
     }
 
     private int menu() {
-        // Implementar lógica do menu (exemplo: retornar número de jogadores)
-        return 2; // Exemplo fixo
+        Button startButton = new Button("Iniciar Jogo");
+        Button continueButton = new Button ("Continuar");
+        Button quitButton = new Button("Sair");
+
+        quitButton.setOnAction(e -> {
+            return 0;
+        });
+        startButton.setOnAction(e -> {
+            return 1;
+        });
+        continueButton.setOnAction(e -> {
+            return 2; // Exemplo fixo
+        });
+
+        return -1;
     }
 
     private void initializer() {
@@ -249,5 +261,4 @@ private void startGameLoop(int totalPlayers, monopoly.board tabuleiro, Scene sce
     };
 
     gameTimer.start();
-}
 }

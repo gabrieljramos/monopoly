@@ -22,22 +22,47 @@ public class draw extends Application {
     private static ImageView players[] = new ImageView[monopoly.board.getPlayers()];
 
     private int menu(Stage primaryStage) {
+        // Criando os botões
         Button startButton = new Button("Iniciar Jogo");
         Button continueButton = new Button("Continuar");
         Button quitButton = new Button("Sair");
-
-        quitButton.setOnAction(e -> {
-            return 0;
-        });
+    
+        // Variável para armazenar o valor selecionado
+        final int[] value = {0};
+    
+        // Configurando a janela modal
+        Stage menuStage = new Stage();
+        menuStage.initOwner(primaryStage);
+        menuStage.setTitle("Menu");
+        menuStage.setResizable(false);
+    
+        // Layout dos botões
+        VBox layout = new VBox(10, startButton, continueButton, quitButton);
+        layout.setStyle("-fx-padding: 10; -fx-alignment: center;");
+    
+        // Configurando ações dos botões
         startButton.setOnAction(e -> {
-            return 1;
+            value[0] = 1;
+            menuStage.close(); // Fecha o menu
         });
+    
         continueButton.setOnAction(e -> {
-            return 2; // Exemplo fixo
+            value[0] = 2;
+            menuStage.close(); // Fecha o menu
         });
-
-        return 0;
-    }
+    
+        quitButton.setOnAction(e -> {
+            value[0] = 0;
+            menuStage.close(); // Fecha o menu
+        });
+    
+        // Mostrando a janela do menu
+        menuStage.setScene(new Scene(layout, 200, 150));
+        menuStage.showAndWait(); // Pausa a execução até que o menu seja fechado
+    
+        // Retornando o valor selecionado
+        return value[0];
+    }    
     
     public void start(Stage primaryStage) {
         int numP = 0;

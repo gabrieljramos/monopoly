@@ -62,24 +62,6 @@ public class run extends Application {
 
     }
 
-    private int menu() {
-        Button startButton = new Button("Iniciar Jogo");
-        Button continueButton = new Button ("Continuar");
-        Button quitButton = new Button("Sair");
-
-        quitButton.setOnAction(e -> {
-            return 0;
-        });
-        startButton.setOnAction(e -> {
-            return 1;
-        });
-        continueButton.setOnAction(e -> {
-            return 2; // Exemplo fixo
-        });
-
-        return 0;
-    }
-
     private void initializer() {
         // Implementar lógica de inicialização do jogo
         System.out.println("Inicializando o jogo...");

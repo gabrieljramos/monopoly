@@ -3,7 +3,7 @@ public class monopoly {
         private dice dado;
         private bank comp;
         private player gamers[];
-        private portfolio map;
+        public portfolio map;
 
         private int numPlayers;
 

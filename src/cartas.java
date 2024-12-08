@@ -54,7 +54,7 @@ public class cartas {
         String origin = parts[2], destination = parts[3];
         int amount = Integer.parseInt(parts[4]);
 
-        if (origin.equals("0") || destination.equals("1"))
+        if (origin.equals("0"))
             success = gamers[currentPlayer].pay(amount);
         else if (origin.equals("2"))
             for (int i = 0; i < gamers.length; i++)

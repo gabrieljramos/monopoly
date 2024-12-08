@@ -2,7 +2,7 @@ public class monopoly {
     public static class board {
         private dice dado;
         private bank comp;
-        private player gamers[];
+        private static player gamers[];
         public portfolio map;
 
         private static int numPlayers;
@@ -38,7 +38,7 @@ public class monopoly {
             gamers[id] = gamer;
         }
 
-        public player getPlayer(int id) //pegar qualquer player especifico
+        public static player getPlayer(int id) //pegar qualquer player especifico
         {
             return gamers[id];
         }

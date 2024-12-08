@@ -29,6 +29,7 @@ public class imageManager {
             }
             catch (Exception e){
                 System.err.println("Failed to load image: " + key);
+                return null;
             }
         }
         return images.get(key);

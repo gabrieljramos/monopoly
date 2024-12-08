@@ -1,24 +1,35 @@
+import javafx.animation.PauseTransition;
 import javafx.application.Application;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import javafx.scene.image.*;
 import javafx.scene.layout.*;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 import javafx.scene.paint.*;
+import java.util.*;
 
 public class draw extends Application {
     private double boardSize;
     private static double stepSize;
-
+    
     private Label[] moneyLabels = new Label[monopoly.board.getPlayers()];
 
     private static ImageView players[] = new ImageView[monopoly.board.getPlayers()];
 
     public void start(Stage primaryStage) {
-        
+        int numP = 0;
+        numP = showPlayerSelectionDialog(primaryStage);
+        if(numP == 0)
+            return;
         StackPane root = createGameLayout(primaryStage);
         Scene scene = new Scene(root);
-        
+        diceUI(3, 4, root);
+
         // background da tela
         BackgroundFill fill = new BackgroundFill(Color.web("#FFEE8C90"), null, null);
         root.setBackground(new Background(fill));
@@ -30,11 +41,53 @@ public class draw extends Application {
         primaryStage.show();
     }
 
+    private int showPlayerSelectionDialog(Stage primaryStage) {
+        // Modal dialog for player selection
+        Stage dialog = new Stage();
+        dialog.initModality(Modality.APPLICATION_MODAL);
+        dialog.initOwner(primaryStage);
+        dialog.setTitle("Select Players");
+
+        VBox dialogLayout = new VBox(10);
+        dialogLayout.setStyle("-fx-padding: 10; -fx-alignment: center;");
+
+        Label promptLabel = new Label("Enter number of players (1-6):");
+        TextField playerInput = new TextField();
+        Button confirmButton = new Button("Confirm");
+        Label errorLabel = new Label();
+        errorLabel.setStyle("-fx-text-fill: red;");
+
+        confirmButton.setOnAction(e -> {
+            try {
+                int players = Integer.parseInt(playerInput.getText());
+                if (players >= 1 && players <= 6) {
+                    dialog.setUserData(players);
+                    dialog.close();
+                } else {
+                    errorLabel.setText("Please enter a number between 1 and 6.");
+                }
+            } catch (NumberFormatException ex) {
+                errorLabel.setText("Invalid input. Please enter a number.");
+            }
+        });
+
+        dialogLayout.getChildren().addAll(promptLabel, playerInput, confirmButton, errorLabel);
+
+        Scene dialogScene = new Scene(dialogLayout, 250, 150);
+        dialog.setScene(dialogScene);
+        dialog.showAndWait();
+
+        // Return the number of players selected
+        Object userData = dialog.getUserData();
+        return userData != null ? (int) userData : 0;
+    }
+
     // Carrega imagens e cria setup da janela do jogo
     private StackPane createGameLayout(Stage primaryStage) {
         imageManager.loadEssentialImages();
         ImageView boardViewer = createBoardViewer(primaryStage);
         StackPane root = new StackPane(boardViewer);
+        //AnchorPane UI = createUI();
         Pane paneAux = new Pane();
 
         this.boardSize = boardViewer.getImage().getWidth();
@@ -58,7 +111,7 @@ public class draw extends Application {
 
             paneAux.getChildren().add(players[i]);
         }
-        
+        //root.getChildren().addAll(UI);
         return root;
     }
 
@@ -97,6 +150,54 @@ public class draw extends Application {
             movement--;
         }
         return;
+    }
+
+    private AnchorPane createUI(){
+        AnchorPane uiPane = new AnchorPane();
+
+        for (int i = 0; i < 4; i++) {
+            moneyLabels[i] = new Label("Player " + (i + 1) + monopoly.board.getPlayer(i).getWallet());
+            //moneyLabels[i].setStyle("-fx-font-size: 16px; -fx-background-color: #ffffff; -fx-padding: 5px;");
+        }
+
+        AnchorPane.setTopAnchor(moneyLabels[0], 10.0); // Top-left
+        AnchorPane.setLeftAnchor(moneyLabels[0], 10.0);
+
+        AnchorPane.setTopAnchor(moneyLabels[1], 10.0); // Top-right
+        AnchorPane.setRightAnchor(moneyLabels[1], 10.0);
+
+        AnchorPane.setBottomAnchor(moneyLabels[2], 10.0); // Bottom-left
+        AnchorPane.setLeftAnchor(moneyLabels[2], 10.0);
+
+        AnchorPane.setBottomAnchor(moneyLabels[3], 10.0); // Bottom-right
+        AnchorPane.setRightAnchor(moneyLabels[3], 10.0);
+
+        uiPane.getChildren().addAll(moneyLabels);
+
+        return uiPane;
+
+    }
+
+    private void diceUI(int value1, int value2, StackPane root){
+        String base = "dice_";
+        ImageView dice1 = new ImageView(imageManager.getImage(base + String.valueOf(value1)));
+        ImageView dice2 = new ImageView(imageManager.getImage(base + String.valueOf(value2)));
+        dice1.setFitWidth(100); 
+        dice1.setPreserveRatio(true);
+        dice2.setFitWidth(100);
+        dice2.setPreserveRatio(true);
+
+        HBox diceBox = new HBox(10); // Spacing of 10 between dice
+        diceBox.getChildren().addAll(dice1, dice2);
+        diceBox.setAlignment(Pos.CENTER);
+
+        System.out.println("dice");
+        root.getChildren().addAll(diceBox);
+        PauseTransition pause = new PauseTransition(Duration.seconds(2));
+        pause.setOnFinished(event -> root.getChildren().remove(diceBox));
+        pause.play();        
+        return;
+
     }
 
     // deprecado

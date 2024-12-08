@@ -38,8 +38,20 @@ public class initializer {
             if (land instanceof property)
             {
                 int value1 = specifications.getStartingMortgage(i);
-                log register = new log()
-                land = new property(0, i);
+                float value2 = specifications.getMultiplier(i, 3);
+                log register = new log(value1, value2);
+                land = new property(specifications.getSetType(i), specifications.getStartingValue(i),
+                        specifications.getStartingHouses(i), specifications.getStartingRent(i),
+                        specifications.getMultiplier(i, 1), specifications.getMultiplier(i, 2),
+                        specifications.getMultiplier(i, 3), register);
+            }
+            else if (land instanceof stocks)
+            {
+                land = new stocks(5000);
+            }
+            else
+            {
+
             }
         }
     }

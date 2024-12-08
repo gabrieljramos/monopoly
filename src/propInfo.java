@@ -57,7 +57,7 @@ public class propInfo {
         
         String propInfo = getPropertyInfo(pos);
         String[] parts = propInfo.split("[,]");
-        return Float.parseFloat(parts[4 + which]);
+        return Float.parseFloat(parts[4 + which]);      //0 pra prop, 1 casas, 2Rent, 3 mortgage
         
     }
     public int getSetType(int pos) {
@@ -66,5 +66,11 @@ public class propInfo {
         String[] parts = propInfo.split("[,]");
         return Integer.parseInt(parts[8]);
         
+    }
+
+    public int getLine (int pos)
+    {
+        String propInfo = getPropertyInfo(pos);
+        return Integer.parseInt(propInfo);
     }
 }

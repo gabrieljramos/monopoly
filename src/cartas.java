@@ -7,7 +7,7 @@ import java.lang.Math;
 
 public class cartas {
 
-    int numCards;
+    static int numCards;
     static List<String> allCards = new ArrayList<String>();
 
     public cartas() {

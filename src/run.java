@@ -122,7 +122,7 @@ private void startGameLoop(int totalPlayers, monopoly.board tabuleiro, Scene sce
                 player gamer = tabuleiro.getGamers()[currentPlayer];
 
                 if ("ENTER".equals(lastKeyPressed)) {
-                    if (gamer.move(tabuleiro.getPlace(gamer.getPosition()), tabuleiro.getDie(),
+                    if (gamer.move(tabuleiro.getPlace(gamer.getPosition()), tabuleiro.getDie(), 
                             tabuleiro.getSquaresQuantity())) {
                         int stocks = tabuleiro.getBank().getOwner(gamer.getPosition());
                         stocks = tabuleiro.getGamers()[stocks].checkStocks();
@@ -140,7 +140,7 @@ private void startGameLoop(int totalPlayers, monopoly.board tabuleiro, Scene sce
                                 buttonSwitch(buyPropertyButton, false);
                             else
                                 buttonSwitch(buyPropertyButton, true);
-                            if (tabuleiro.getBank().getOwner(gamer.getPosition()) != 0) {
+                            if (tabuleiro.getBank().getOwner(gamer.getPosition()) != 0) {   //Verificar se a propriedade nao e possuida pelo banco
                                 player rival = tabuleiro.getPlayer(tabuleiro.getBank().getOwner(gamer.getPosition()));
                                 buyPropertyButton.setOnAction(e -> {
                                     (tabuleiro.getBank()).sellProperties(gamer.getPortfolio(), rival.getPortfolio(),

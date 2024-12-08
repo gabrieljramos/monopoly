@@ -115,7 +115,7 @@ public class run extends Application {
     pauseStage.showAndWait(); // Blocks interaction with the main game window
 }
 
-private void startGameLoop(int totalPlayers, monopoly.board tabuleiro, Scene scene, Stage primaryStage) {
+public void startGameLoop(int totalPlayers, monopoly.board tabuleiro, Scene scene, Stage primaryStage) {
      // Track current player using an array for mutability
     int maxRounds = 30;
     double FPS = 60;

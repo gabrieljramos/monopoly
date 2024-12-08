@@ -12,6 +12,7 @@ public class initializer {
 
         prepareMap(tabuleiro, data, squaresQuantity);
         setar(tabuleiro, specifications, squaresQuantity);
+        initialBank(tabuleiro.getMap(), specifications, tabuleiro.getBank());
         return tabuleiro;
     }
 
@@ -36,11 +37,11 @@ public class initializer {
     
     public void setar(monopoly.board tabuleiro, propInfo specifications, int squaresQuantity)
     {
-        for (int i = 0; i < squaresQuantity; i++)
-        {
+        for (int i = 0; i < squaresQuantity; i++) {
             squares land = tabuleiro.getLocation(i);
-            if (land instanceof property)
-            {
+            land.setPosition(i);
+            if (land instanceof property) {
+                land.setType(1);
                 int value1 = specifications.getStartingMortgage(i);
                 float value2 = specifications.getMultiplier(i, 3);
                 log register = new log(value1, value2);
@@ -48,10 +49,28 @@ public class initializer {
                         specifications.getStartingHouses(i), specifications.getStartingRent(i),
                         specifications.getMultiplier(i, 1), specifications.getMultiplier(i, 2),
                         specifications.getMultiplier(i, 3), register);
-            }
-            else if (land instanceof stocks)
-            {
+            } else if (land instanceof stocks) {
+                land.setType(2);
                 land = new stocks(5000);
+            }
+            else
+                land.setType(3);
+        }
+    }
+    
+    public void initialBank(portfolio map, propInfo specification, bank comp)
+    {
+        for (int i = 0; i < map.size(); i++)
+        {
+            squares land = map.search(i);
+            if (land instanceof property) {
+                comp.addProp(land);
+                comp.setOwner(i, 0);
+                comp.setSet(i, specification.getSetType(i));
+            } else if (land instanceof stocks) {
+                comp.addProp(land);
+                comp.setOwner(i, 0);
+                comp.setSet(i, -1);
             }
         }
     }

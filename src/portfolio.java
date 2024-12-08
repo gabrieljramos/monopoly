@@ -20,13 +20,17 @@ public class portfolio{
     
     public squares search (int location)
     {
-        for (squares place : properties)
-        {
+        for (squares place : properties) {
             if (place.getPosition() == location)
                 return place;
         }
 
         return null;
+    }
+    
+    public int size ()
+    {
+        return properties.size();
     }
 
     private squares randomSquare(int totalSquares)

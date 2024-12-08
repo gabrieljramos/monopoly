@@ -2,6 +2,11 @@ public class squares {
     private int type;
     private int position;
 
+    public void setPosition(int position)
+    {
+        this.position = position;
+    }
+    
     public void setType (int type)
     {
         this.type = type;

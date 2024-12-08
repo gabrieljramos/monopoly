@@ -56,6 +56,10 @@ public class monopoly {
             return map.search(position);
         }
 
+        public portfolio getMap()
+        {
+            return map;
+        }
         public player getOwner(int position) {
             int id = comp.getOwner(position);
             return getPlayer(id);

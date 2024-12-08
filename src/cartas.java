@@ -14,7 +14,7 @@ public class cartas {
 
         if (allCards.isEmpty()) {
             try {
-            this.allCards = Files.readAllLines(Paths.get("cards.txt"));
+            this.allCards = Files.readAllLines(Paths.get("cards.csv"));
             } catch (IOException e) {
                 e.printStackTrace();
             }

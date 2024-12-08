@@ -11,6 +11,8 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import javafx.scene.paint.*;
+import javafx.scene.shape.Rectangle;
+
 import java.util.*;
 
 public class draw extends Application {
@@ -28,7 +30,6 @@ public class draw extends Application {
             return;
         StackPane root = createGameLayout(primaryStage);
         Scene scene = new Scene(root);
-        diceUI(3, 4, root);
 
         // background da tela
         BackgroundFill fill = new BackgroundFill(Color.web("#FFEE8C90"), null, null);
@@ -155,9 +156,9 @@ public class draw extends Application {
     private AnchorPane createUI(){
         AnchorPane uiPane = new AnchorPane();
 
-        for (int i = 0; i < 4; i++) {
+        for (int i = 0; i < monopoly.board.getPlayers(); i++) {
             moneyLabels[i] = new Label("Player " + (i + 1) + monopoly.board.getPlayer(i).getWallet());
-            //moneyLabels[i].setStyle("-fx-font-size: 16px; -fx-background-color: #ffffff; -fx-padding: 5px;");
+            moneyLabels[i].setStyle("-fx-font-size: 16px; -fx-background-color: #ffffff; -fx-padding: 5px;");
         }
 
         AnchorPane.setTopAnchor(moneyLabels[0], 10.0); // Top-left
@@ -178,23 +179,37 @@ public class draw extends Application {
 
     }
 
-    private void diceUI(int value1, int value2, StackPane root){
+    public void diceUI(int value1, int value2, StackPane root){
         String base = "dice_";
         ImageView dice1 = new ImageView(imageManager.getImage(base + String.valueOf(value1)));
         ImageView dice2 = new ImageView(imageManager.getImage(base + String.valueOf(value2)));
-        dice1.setFitWidth(100); 
         dice1.setPreserveRatio(true);
-        dice2.setFitWidth(100);
         dice2.setPreserveRatio(true);
+        dice1.setFitWidth(75); 
+        dice2.setFitWidth(75);
 
         HBox diceBox = new HBox(10); // Spacing of 10 between dice
         diceBox.getChildren().addAll(dice1, dice2);
         diceBox.setAlignment(Pos.CENTER);
+        
+        //background 
+        VBox containerBox = new VBox(10);
+        containerBox.setAlignment(Pos.CENTER);
+        
+        Rectangle backgroundRect = new Rectangle(250, 100);
+        backgroundRect.setFill(Color.BLACK);
+        backgroundRect.setArcWidth(20);  // Rounded corners
+        backgroundRect.setArcHeight(20);
+        backgroundRect.setStroke(Color.GRAY);
+        backgroundRect.setStrokeWidth(2);
 
-        System.out.println("dice");
-        root.getChildren().addAll(diceBox);
-        PauseTransition pause = new PauseTransition(Duration.seconds(2));
-        pause.setOnFinished(event -> root.getChildren().remove(diceBox));
+        StackPane diceStackPane = new StackPane();
+        diceStackPane.getChildren().addAll(backgroundRect, diceBox);
+
+        root.getChildren().add(diceStackPane);
+
+        PauseTransition pause = new PauseTransition(Duration.seconds(4));
+        pause.setOnFinished(event -> root.getChildren().remove(diceStackPane));
         pause.play();        
         return;
 
@@ -208,6 +223,7 @@ public class draw extends Application {
         return grid; 
     }
 
+    
     public static void main(String[] args) {
         launch(args);
     }

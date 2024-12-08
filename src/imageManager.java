@@ -2,7 +2,7 @@ import java.util.*;
 import javafx.scene.image.*;
 
 public class imageManager {
-    private static final String iconsPath = "./assets/images/icons/";
+    private static final String iconsPath = "../assets/images/icons/";
 
     private static Map<String, Image> images = new HashMap<>(); // Hash map com todas imagens
 

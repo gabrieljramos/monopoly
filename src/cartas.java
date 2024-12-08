@@ -18,7 +18,7 @@ public class cartas {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            this.numCards = allCards.size();
+            numCards = allCards.size();
         }
 
     }

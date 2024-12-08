@@ -21,6 +21,24 @@ public class draw extends Application {
 
     private static ImageView players[] = new ImageView[monopoly.board.getPlayers()];
 
+    private int menu(Stage primaryStage) {
+        Button startButton = new Button("Iniciar Jogo");
+        Button continueButton = new Button("Continuar");
+        Button quitButton = new Button("Sair");
+
+        quitButton.setOnAction(e -> {
+            return 0;
+        });
+        startButton.setOnAction(e -> {
+            return 1;
+        });
+        continueButton.setOnAction(e -> {
+            return 2; // Exemplo fixo
+        });
+
+        return 0;
+    }
+    
     public void start(Stage primaryStage) {
         int numP = 0;
         //numP = showPlayerSelectionDialog(primaryStage);

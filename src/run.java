@@ -77,7 +77,7 @@ public class run extends Application {
             return 2; // Exemplo fixo
         });
 
-        return -1;
+        return 0;
     }
 
     private void initializer() {

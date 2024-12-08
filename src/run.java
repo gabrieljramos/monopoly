@@ -9,6 +9,9 @@ import javafx.scene.input.KeyCode;
 
 public class run extends Application {
 
+    private int currentPlayer = 0;
+    public int currentRound = 0;
+
     private boolean quit = false;
     private String lastKeyPressed = "";
 
@@ -34,8 +37,13 @@ public class run extends Application {
                 System.out.println("Jogo encerrado.");
                 return;
             }
-            initializer();
-            monopoly.board tabuleiro = new monopoly.board(playerAmount);   //TEM QUE INICIALIZAR O TABULEIRO COM TUDO PRONTO AQUI E MANDAR PRO LOOP!!! 
+            //initializer();
+            monopoly.board tabuleiro = new monopoly.board(playerAmount);   //TEM QUE INICIALIZAR O TABULEIRO COM TUDO PRONTO AQUI E MANDAR PRO LOOP!!!
+            property prop = new property(0,0);
+            prop.value[0] = 1000;
+            prop.houses[0] = 1500;
+            prop.rent[0] = 500;
+            tabuleiro.map.addProp(prop);
             startGameLoop(playerAmount, tabuleiro, scene, primaryStage);
         });
 
@@ -107,8 +115,8 @@ public class run extends Application {
 }
 
 private void startGameLoop(int totalPlayers, monopoly.board tabuleiro, Scene scene, Stage primaryStage) {
-    int currentPlayer = 0; // Track current player using an array for mutability
-    int currentRound = 0, maxRounds = 30;
+     // Track current player using an array for mutability
+    int maxRounds = 30;
     double FPS = 60;
     double drawInterval = 1_000_000_000 / FPS; // Frame interval in nanoseconds
     long[] lastUpdateTime = { System.nanoTime() }; // Store last update time
@@ -116,18 +124,18 @@ private void startGameLoop(int totalPlayers, monopoly.board tabuleiro, Scene sce
     AnimationTimer gameTimer = new AnimationTimer() {
         @Override
         public void handle(long currentTime) {
-            if (currentTime - lastUpdateTime[0] >= drawInterval) {
+            if ((currentTime - lastUpdateTime[0] >= drawInterval) && (tabuleiro.getGamers()[currentPlayer].getBankruptcy())) {
                 // Update game logic
                 System.out.println("Jogador " + (currentPlayer + 1) + " está jogando.");
                 player gamer = tabuleiro.getGamers()[currentPlayer];
 
                 if ("ENTER".equals(lastKeyPressed)) {
-                    if (gamer.move(tabuleiro.getPlace(gamer.getPosition()), tabuleiro.getDie(),
+                    if (gamer.move(tabuleiro.getPlace(gamer.getPosition()), tabuleiro.getDie(), 
                             tabuleiro.getSquaresQuantity())) {
                         int stocks = tabuleiro.getBank().getOwner(gamer.getPosition());
                         stocks = tabuleiro.getGamers()[stocks].checkStocks();
                         gamer.update(tabuleiro.getLocation(gamer.getPosition()), tabuleiro.getBank(),
-                                tabuleiro.getSquaresQuantity(), stocks, tabuleiro.getGamers(), tabuleiro.getPlayers());
+                                tabuleiro.getSquaresQuantity(), stocks, tabuleiro.getGamers(), tabuleiro.getPlayers(), gamer.getId());
                     }
 
                     // Handle game logic (bankruptcy, victory, etc.)
@@ -140,7 +148,7 @@ private void startGameLoop(int totalPlayers, monopoly.board tabuleiro, Scene sce
                                 buttonSwitch(buyPropertyButton, false);
                             else
                                 buttonSwitch(buyPropertyButton, true);
-                            if (tabuleiro.getBank().getOwner(gamer.getPosition()) != 0) {
+                            if (tabuleiro.getBank().getOwner(gamer.getPosition()) != 0) {   //Verificar se a propriedade nao e possuida pelo banco
                                 player rival = tabuleiro.getPlayer(tabuleiro.getBank().getOwner(gamer.getPosition()));
                                 buyPropertyButton.setOnAction(e -> {
                                     (tabuleiro.getBank()).sellProperties(gamer.getPortfolio(), rival.getPortfolio(),
@@ -201,7 +209,7 @@ private void startGameLoop(int totalPlayers, monopoly.board tabuleiro, Scene sce
                             });
                         
                             // Certifique-se de que o layout seja adicionado ao contêiner pai
-                            parentLayout.getChildren().add(gameLayout); //quem seria aqui???
+                            //parentLayout.getChildren().add(gameLayout); //quem seria aqui???
                         }
                     }
                     if (currentRound >= maxRounds)
@@ -223,6 +231,13 @@ private void startGameLoop(int totalPlayers, monopoly.board tabuleiro, Scene sce
 
                 // Update time
                 lastUpdateTime[0] = currentTime;
+            }
+            else if (tabuleiro.getGamers()[currentPlayer].getBankruptcy()) {
+                currentPlayer++; // Move to next player
+                if (currentPlayer >= tabuleiro.getPlayers()) {
+                    currentPlayer = 0;
+                    currentRound++;
+                }
             }
         }
     };

@@ -12,7 +12,7 @@ public class cartas {
 
     public cartas() {
 
-        if (allCards == null) {
+        if (allCards.isEmpty()) {
             try {
             this.allCards = Files.readAllLines(Paths.get("cards.txt"));
             } catch (IOException e) {
@@ -43,9 +43,11 @@ public class cartas {
 
     }
 
-    private int movementCard(String[] parts) {
+    private int movementCard(String[] parts, player[] gamers, int currentPlayer) {
 
-        return Integer.parseInt(parts[4]);
+        if (parts[4].equals("0"))
+            return Integer.parseInt(parts[5]);
+        return Integer.parseInt(parts[5]) - gamers[currentPlayer].getPosition() + 40;
 
     }
     private int moneyCard(String[] parts, player[] gamers, int currentPlayer) {
@@ -54,7 +56,7 @@ public class cartas {
         String origin = parts[2], destination = parts[3];
         int amount = Integer.parseInt(parts[4]);
 
-        if (origin.equals("0") || destination.equals("1"))
+        if (origin.equals("0"))
             success = gamers[currentPlayer].pay(amount);
         else if (origin.equals("2"))
             for (int i = 0; i < gamers.length; i++)
@@ -89,7 +91,11 @@ public class cartas {
             return;
 
         if (parts[4].equals("0"))
-            gamers[currentPlayer].playerTrade(comp, rival.getPortfolio(), rival.getWallet(), rival.getId(), place1, place2);    //tem que colocar os parametros nessa chamada!  
+            gamers[currentPlayer].playerTrade(comp, rival.getPortfolio(), rival.getWallet(), rival.getId(), place1, place2);    //tem que colocar os parametros nessa chamada!
+        else if (parts[5].equals("0"))
+            rival.bankNegotiation(comp,place2,true);
+        else if (parts[5].equals("1"))
+            gamers[currentPlayer].bankNegotiation(comp,place1,true);
 
     }
     private int manageCard(String card, int currentPlayer, player[] gamers, int playerAmount, int totalSquares, bank comp) {
@@ -100,7 +106,7 @@ public class cartas {
         if (parts[1].equals("0"))         //Handles cards related to the tansfer of money
             retValue = moneyCard(parts,gamers,currentPlayer);
         else if (parts[1].equals("1"))    //Handles cards related to moving around the board
-            retValue = movementCard(parts);
+            retValue = movementCard(parts,gamers,currentPlayer);
         else if (parts[1].equals("2"))       //Handle cards related to property management
             propertyCard(parts,gamers,currentPlayer, playerAmount, totalSquares, comp);
 

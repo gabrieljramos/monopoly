@@ -1,0 +1,18 @@
+Receive R$200 as a lottery prize.,0,1,0,200,0
+Receive R$50 from each player as your investment yields profits.,0,2,0,50,0
+Pay R$100 for hospital expenses.,0,0,1,100,0
+Pay R$150 for electrical bills.,0,0,1,150,0
+Receive R$300 due to a bank error in your favor.,0,1,0,300,0
+Give a random player R$50.,0,0,2,50,0,0
+Pay R$100 to the bank.,0,0,1,100,0
+Receive R$100 due to a miscalculation by your insurance company.,0,1,0,100,0
+You won a bet against the rest of the players, each player gives you R$20.,0,2,0,20,0
+All players give you R$50.,0,2,0,50,0
+All players, except you, must pay R$50 to the bank.,0,2,1,50,0
+Go back 3 spaces on the board.,0,0,0,0,37
+Go to the starting space ("GO") and collect R$200.,0,0,0,1,0
+Move to a random property on the board.,0,0,0,1,20
+Walk forward one space.,0,0,0,0,1
+Exchange one of your properties with another player's, at random.,0,0,0,0,0
+A random property of a random player was sold.,0,0,0,1,0
+One of you properties was randomly sold.,0,0,0,1,1

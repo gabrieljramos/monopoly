@@ -148,4 +148,14 @@ public class bank {
     {
         return SALARY;
     }
+
+    public void addProp(squares property)
+    {
+        holdings.addProp(property);
+    }
+
+    public void setSet(int pos, int set)
+    {
+        dataBank.setSet(pos, set);
+    }
 }

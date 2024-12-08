@@ -35,7 +35,7 @@ public class dice {
         playerId = (playerId + 1) % totalPlayers;
     }
 
-    public int throwDice()
+    private int throwDice()
     {
         int value = random.nextInt(6); //aleatorio entre 0 e 5
         return value + 1;

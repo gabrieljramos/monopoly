@@ -1,5 +1,5 @@
 public class register {
-    private static final int CAMPS = 30;
+    private static final int CAMPS = 40;
     private static final int SETS = 8;
 
     private int owners[] = new int[CAMPS];  //arquivo do banco que guarda quem e dono do que

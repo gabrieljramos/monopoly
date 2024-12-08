@@ -1,3 +1,4 @@
+
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -17,6 +18,14 @@ public class run extends Application {
 
     public static void main(String[] args) {
         launch(args); // Inicializa o JavaFX
+
+        Button startButton = newButton();
+        startButton.setOnAction(e -> {
+            int playerAmount = menu();
+            if (playerAmount == 0) {
+                System.out.println("Jogo encerrado.");
+                return;
+        }
     }
 
     @Override
@@ -31,12 +40,7 @@ public class run extends Application {
         primaryStage.setTitle("Jogo");
         primaryStage.show();
 
-        startButton.setOnAction(e -> {
-            int playerAmount = menu();
-            if (playerAmount == 0) {
-                System.out.println("Jogo encerrado.");
-                return;
-            }
+        
             //initializer();
             monopoly.board tabuleiro = new monopoly.board(playerAmount);   //TEM QUE INICIALIZAR O TABULEIRO COM TUDO PRONTO AQUI E MANDAR PRO LOOP!!!
             property prop = new property(0,0);
@@ -130,6 +134,13 @@ private void startGameLoop(int totalPlayers, monopoly.board tabuleiro, Scene sce
                 player gamer = tabuleiro.getGamers()[currentPlayer];
 
                 if ("ENTER".equals(lastKeyPressed)) {
+                    if (!gamer.checkIfBroke())
+                    {
+                        Button die = newButton();   //BOTAO DE JOGAR DADO!
+                        die.setOnAction(e -> {
+                        tabuleiro.getDie().throwDie();
+                        });
+                    }
                     if (gamer.move(tabuleiro.getPlace(gamer.getPosition()), tabuleiro.getDie(), 
                             tabuleiro.getSquaresQuantity())) {
                         int stocks = tabuleiro.getBank().getOwner(gamer.getPosition());
@@ -244,28 +255,4 @@ private void startGameLoop(int totalPlayers, monopoly.board tabuleiro, Scene sce
 
     gameTimer.start();
 }
-    
-    private Button manageButton(String name, boolean on)
-    {
-        Button specialButton = new Button(name);
-        buttonSwitch(specialButton, on);
-
-        HBox gameLayout = new HBox();
-        gameLayout.getChildren().add(specialButton);
-
-        return specialButton;
-    }
-    private void buttonSwitch(Button specialButton, boolean on)
-    {
-        if (on)
-        {
-            specialButton.setDisable(false);
-            specialButton.setOpacity(1);
-        }
-        else
-        {
-            specialButton.setDisable(true);
-            specialButton.setOpacity(0.5);
-        }
-    }
 }

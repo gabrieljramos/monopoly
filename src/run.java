@@ -17,19 +17,17 @@ public class run extends Application {
     private String lastKeyPressed = "";
 
     public static void main(String[] args) {
-        Button startButton = newButton();
-        startButton.setOnAction(e -> {
-            Application.launch(Draw.class, args);
-            int playerAmount = menu();
-            if (playerAmount == 0) {
-                System.out.println("Jogo encerrado.");
-                return;
-            }
-            else if (playerAmount > 0) {
-                initializer start = new initializer();
-                monopoly.board tabuleiro = start.startBoard(playerAmount,40);
-                startGameLoop(playerAmount,tabuleiro);
-            }
+
+        Application.launch(Draw.class, args);
+        int playerAmount = menu();
+        if (playerAmount == 0) {
+            System.out.println("Jogo encerrado.");
+            return;
+        }
+        else if (playerAmount > 0) {
+            initializer start = new initializer();
+            monopoly.board tabuleiro = start.startBoard(playerAmount,40);
+            startGameLoop(playerAmount,tabuleiro);
         }
     }
 

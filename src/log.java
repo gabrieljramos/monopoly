@@ -14,24 +14,23 @@ public class log {
         //Falta vetor mortgage precisa de arquivo
     }
 
-    public boolean mortgage(player gamer)
+    public boolean mortgage(property land, wallet money)
     {
         if (mortgaged)
             return false;
-        property land = (property)gamer.currentSquare();
         mortgaged = true;
         parcelas = DURATION;
         debt = mortgage[land.getState()];
-        gamer.receive(debt);///hipoteca com a prop ou o banco?
+        money.receive(debt);///hipoteca com a prop ou o banco?
 
         return true;
     }
 
-    public boolean payMortgage (player gamer, property land, bank comp)
+    public boolean payMortgage (portfolio gamer, wallet money, property land, bank comp)
     {
         if (!mortgaged)
             return true;
-        if (gamer.pay(debt)) {
+        if (money.pay(debt)) {
             mortgaged = false;
             debt = 0;
             return true;
@@ -44,15 +43,15 @@ public class log {
     {
         if (parcelas > 0)
             parcelas -= 1;
-        if (parcelas == 0 && mortgaged)
+        if (parcelas == 0 && mortgaged)     //retorna 1 caso esteja na hora de quitar divida
             return true;
         return false;
     }
 
-    public boolean updateMorgage(player gamer, property land, bank comp)
+    public boolean updateMortgage(portfolio gamer, wallet money, property land, bank comp)
     {
         if (update())
-            return payMortgage(gamer, land, comp);
+            return payMortgage(gamer, money, land, comp);
         return true;
     }
 }

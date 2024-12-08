@@ -14,22 +14,23 @@ public class property extends squares{
         this.recent = true;
     }
     
-    public void payRent(wallet player, boolean monopoly) {
+    public boolean payRent(wallet player, boolean monopoly) {
         int value = rent[state];
         if (monopoly)
             value *= 3;
-        player.pay(value);
+        return player.pay(value);
     }
 
-    public void improve(player character) {
-        if (character.check() >= this.houses[state]) {
-            if (state < 4 || recent)
-            {
+    public boolean improve(wallet character) {
+        if (character.Check() >= this.houses[state]) {
+            if (state < 4 || recent) {
                 state++;
                 character.pay(this.houses[state]);
                 recent = false;
+                return true;
             }
         }
+        return false;
     }
 
     public int getValue ()
@@ -42,10 +43,10 @@ public class property extends squares{
         return state;
     }
 
-    public void update()    //atualiza a hipoteca e a possibilidade de comprar hotel
+    public boolean update(portfolio gamer, wallet money, bank comp)    //atualiza a hipoteca e a possibilidade de comprar hotel
     {
-        register.update();
         recent = true;
+        return updateMortgage(gamer, money, this, comp);
     }
     
     public void setSet(int value)
@@ -58,8 +59,13 @@ public class property extends squares{
         return set;
     }
 
-    public boolean updateMortgage(player gamer, property land, bank comp)
+    public boolean updateMortgage(portfolio gamer, wallet money, property land, bank comp)
     {
-        return register.updateMorgage(gamer, land, comp);
+        return register.updateMortgage(gamer, money, land, comp);
+    }
+
+    public boolean getMortgage (wallet money)
+    {
+        return register.mortgage(this, money);
     }
 }

@@ -30,7 +30,7 @@ public class dice {
         return value1 + value2;
     }
 
-    public void update()
+    public void update()    //atualiza quem está segurando o dado no momento
     {
         playerId = (playerId + 1) % totalPlayers;
     }

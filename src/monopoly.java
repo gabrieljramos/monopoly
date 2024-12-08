@@ -75,5 +75,20 @@ public class monopoly {
         public squares getLocation(int position) {
             return map.search(position);
         }
+
+        public void addLocation (squares location)
+        {
+            map.addProp(location);
+        }
+
+        public int[] bankStatements()
+        {
+            int[] values = new int[numPlayers];
+            for (int i = 0; i < numPlayers; i++)
+            {
+                values[i] = (int) gamers[i].Check();
+            }
+            return values;
+        }
     }
 }

@@ -11,7 +11,7 @@ public class dice {
 
     public dice(int totalPlayers)
     {
-        this.playerId = 1;
+        this.playerId = 0;
         this.totalPlayers = totalPlayers;
     }
 

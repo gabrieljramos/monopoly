@@ -224,6 +224,13 @@ private void startGameLoop(int totalPlayers, monopoly.board tabuleiro, Scene sce
                 // Update time
                 lastUpdateTime[0] = currentTime;
             }
+            else if (tabuleiro.getGamers()[currentPlayer].getBankruptcy()) {
+                currentPlayer++; // Move to next player
+                if (currentPlayer >= tabuleiro.getPlayers()) {
+                    currentPlayer = 0;
+                    currentRound++;
+                }
+            }
         }
     };
 

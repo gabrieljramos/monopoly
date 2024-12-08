@@ -1,3 +1,4 @@
+
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -17,6 +18,14 @@ public class run extends Application {
 
     public static void main(String[] args) {
         launch(args); // Inicializa o JavaFX
+
+        Button startButton = newButton();
+        startButton.setOnAction(e -> {
+            int playerAmount = menu();
+            if (playerAmount == 0) {
+                System.out.println("Jogo encerrado.");
+                return;
+        }
     }
 
     @Override
@@ -31,12 +40,7 @@ public class run extends Application {
         primaryStage.setTitle("Jogo");
         primaryStage.show();
 
-        startButton.setOnAction(e -> {
-            int playerAmount = menu();
-            if (playerAmount == 0) {
-                System.out.println("Jogo encerrado.");
-                return;
-            }
+        
             //initializer();
             monopoly.board tabuleiro = new monopoly.board(playerAmount);   //TEM QUE INICIALIZAR O TABULEIRO COM TUDO PRONTO AQUI E MANDAR PRO LOOP!!!
             property prop = new property(0,0);

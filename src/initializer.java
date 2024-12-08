@@ -11,6 +11,8 @@ public class initializer {
         specifications = new propInfo("propertyInfo.csv");
 
         prepareMap(tabuleiro, data, squaresQuantity);
+        setar(tabuleiro, specifications, squaresQuantity);
+        return tabuleiro;
     }
 
     public void prepareMap(monopoly.board tabuleiro, propInfo data, int squaresQuantity)
@@ -21,10 +23,12 @@ public class initializer {
                 stocks acao = new stocks(0);
                 tabuleiro.addLocation(acao);
             } else if (value == -1) {
-                property land = new property(0, 0);
+                log register = new log(0, 0);
+                property land = new property(0, 0, 0, 0, 0, 0, 0, register);
                 tabuleiro.addLocation(land);
             } else {
-                special space = new special(value, 0);
+                cartas news = new cartas();
+                special space = new special(value, 0, news);
                 tabuleiro.addLocation(space);
             }
         }
@@ -48,10 +52,6 @@ public class initializer {
             else if (land instanceof stocks)
             {
                 land = new stocks(5000);
-            }
-            else
-            {
-
             }
         }
     }

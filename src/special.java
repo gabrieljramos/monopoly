@@ -6,9 +6,11 @@ public class special extends squares{
 
     private static final int JAIL_LOCATION = 10;
 
-    public special(int category, int timeOut){
+    public special(int category, int timeOut, cartas news){
         this.timeOut = timeOut;
         this.category = category;
+        if (category == 5)
+            this.news = news;
     }
 
     public int getCategory ()

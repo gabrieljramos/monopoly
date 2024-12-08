@@ -134,6 +134,13 @@ private void startGameLoop(int totalPlayers, monopoly.board tabuleiro, Scene sce
                 player gamer = tabuleiro.getGamers()[currentPlayer];
 
                 if ("ENTER".equals(lastKeyPressed)) {
+                    if (!gamer.checkIfBroke())
+                    {
+                        Button die = newButton();   //BOTAO DE JOGAR DADO!
+                        die.setOnAction(e -> {
+                        tabuleiro.getDie().throwDie();
+                        });
+                    }
                     if (gamer.move(tabuleiro.getPlace(gamer.getPosition()), tabuleiro.getDie(), 
                             tabuleiro.getSquaresQuantity())) {
                         int stocks = tabuleiro.getBank().getOwner(gamer.getPosition());

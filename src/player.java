@@ -45,7 +45,6 @@ public class player {
     {
         if (money.checkIfBroke())
             return false;
-        dado.throwDie();
         if (place instanceof special) {
             if (((special) place).getTimeOut() > 0) {
                 ((special) place).updateHolyday();
@@ -166,5 +165,10 @@ public class player {
         if (comp.allStocks(resources, stocksQuantity) || comp.checkFullMonopoly(id))
             return 1;
         return 0;
+    }
+
+    public boolean checkIfBroke()
+    {
+        return money.checkIfBroke();
     }
 }

@@ -1,5 +1,6 @@
 import javafx.application.Application;
 import javafx.scene.Scene;
+import javafx.scene.control.Label;
 import javafx.scene.image.*;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
@@ -7,9 +8,11 @@ import javafx.scene.paint.*;
 
 public class draw extends Application {
     private double boardSize;
-    private double stepSize;
+    private static double stepSize;
 
-    ImageView players[] = new ImageView[monopoly.board.getPlayers()];
+    private Label[] moneyLabels = new Label[monopoly.board.getPlayers()];
+
+    private static ImageView players[] = new ImageView[monopoly.board.getPlayers()];
 
     public void start(Stage primaryStage) {
         
@@ -35,7 +38,7 @@ public class draw extends Application {
         Pane paneAux = new Pane();
 
         this.boardSize = boardViewer.getImage().getWidth();
-        this.stepSize = boardSize / 23;
+        stepSize = boardSize / 23;
         
         // Pane pra posicionamento de players
         root.getChildren().add(paneAux);
@@ -78,7 +81,7 @@ public class draw extends Application {
     }
 
     // Move player movement vezes
-    public void movePlayer(player player, int movement){
+    public static void movePlayer(player player, int movement){
         while(movement > 0){
             int pos = player.getPosition();
             
@@ -95,7 +98,7 @@ public class draw extends Application {
         }
         return;
     }
-    
+
     // deprecado
     private GridPane setGridPane(Stage primaryStage){
         GridPane grid = new GridPane();

@@ -150,22 +150,26 @@ private void startGameLoop(int totalPlayers, monopoly.board tabuleiro, Scene sce
                     }
 
                     // Handle game logic (bankruptcy, victory, etc.)
-                    if (!gamer.getBankruptcy() && !(tabuleiro.getLocation(gamer.getPosition()) instanceof special)) {
-                        squares land = tabuleiro.getLocation(gamer.getPosition());
+                    if (!gamer.getBankruptcy() && !(tabuleiro.getLocation(gamer.getPosition()) instanceof special)) //se o gamer nao faliu e a posicao nao e especial
+                    {
+                        squares land = tabuleiro.getLocation(gamer.getPosition());  //separa o terreno e modo capitalista (nao troca)
                         boolean mode = true;
+
                         if (!gamer.verifyOwnership(tabuleiro.getBank())) { //se o player NAO e dono
                             Button buyPropertyButton = manageButton("Comprar Propriedade", true);
                             if (gamer.Check() < land.getValue())
-                                buttonSwitch(buyPropertyButton, false);
+                                buttonSwitch(buyPropertyButton, false); //se nao tem dinheiro, botao translucido
                             else
                                 buttonSwitch(buyPropertyButton, true);
-                            if (tabuleiro.getBank().getOwner(gamer.getPosition()) != 0) {   //Verificar se a propriedade nao e possuida pelo banco
+
+                            if (tabuleiro.getBank().getOwner(gamer.getPosition()) != 0) { //Verificar se a propriedade nao e possuida pelo banco
                                 player rival = tabuleiro.getPlayer(tabuleiro.getBank().getOwner(gamer.getPosition()));
                                 buyPropertyButton.setOnAction(e -> {
                                     (tabuleiro.getBank()).sellProperties(gamer.getPortfolio(), rival.getPortfolio(),
                                             rival.getWallet(), gamer.getWallet(), gamer.getId(), land, true);
                                 });
-                            } else {
+                            } 
+                            else {
                                 buyPropertyButton.setOnAction(e -> {
                                     (tabuleiro.getBank()).sellProperties(gamer.getPortfolio(), gamer.getWallet(),
                                             gamer.getId(), land, false);
@@ -176,22 +180,13 @@ private void startGameLoop(int totalPlayers, monopoly.board tabuleiro, Scene sce
                             // Criação dos botões principais
                             Button improveButton = manageButton("Melhorar Propriedade", true);
                             Button mortgageButton = manageButton("Hipotecar Propriedade", true);
-                            
-                            // Layout para adicionar os botões
-                            HBox gameLayout = new HBox(improveButton, mortgageButton);
                         
                             // Configuração do botão "Melhorar Propriedade"
                             improveButton.setOnAction(e -> {
-                                // Oculta os botões principais
-                                improveButton.setVisible(false);
-                                mortgageButton.setVisible(false);
                         
                                 // Criação das opções "Melhorar" e "Parar"
                                 Button improveOption = new Button("Melhorar");
                                 Button stopOption = new Button("Parar");
-                        
-                                // Adiciona os botões de opções ao layout
-                                gameLayout.getChildren().addAll(improveOption, stopOption);
                         
                                 // Lógica para o botão "Melhorar"
                                 improveOption.setOnAction(ev -> {
@@ -206,10 +201,7 @@ private void startGameLoop(int totalPlayers, monopoly.board tabuleiro, Scene sce
                                 // Lógica para o botão "Parar"
                                 stopOption.setOnAction(ev -> {
                                     System.out.println("Ação cancelada.");
-                                    gameLayout.getChildren().removeAll(improveOption, stopOption); // Remove os botões de opções
                                     // Reexibe os botões principais
-                                    improveButton.setVisible(true);
-                                    mortgageButton.setVisible(true);
                                 });
                             });
                         

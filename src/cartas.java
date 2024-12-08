@@ -91,7 +91,11 @@ public class cartas {
             return;
 
         if (parts[4].equals("0"))
-            gamers[currentPlayer].playerTrade(comp, rival.getPortfolio(), rival.getWallet(), rival.getId(), place1, place2);    //tem que colocar os parametros nessa chamada!  
+            gamers[currentPlayer].playerTrade(comp, rival.getPortfolio(), rival.getWallet(), rival.getId(), place1, place2);    //tem que colocar os parametros nessa chamada!
+        else if (parts[5].equals("0"))
+            rival.bankNegotiation(comp,place2,true);
+        else if (parst[5].equals("1"))
+            gamers[currentPlayer].bankNegotiation(comp,place1,true);
 
     }
     private int manageCard(String card, int currentPlayer, player[] gamers, int playerAmount, int totalSquares, bank comp) {

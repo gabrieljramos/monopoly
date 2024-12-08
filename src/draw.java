@@ -47,7 +47,7 @@ public class draw extends Application {
         else if (op == 1)
             numP = showPlayerSelectionDialog(primaryStage);
         else if (op == 2)
-            game.continue();
+            //Logica p/ continuar um save
         StackPane root = createGameLayout(primaryStage);
         Scene scene = new Scene(root);
         diceUI(3, 4, root);

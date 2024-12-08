@@ -60,4 +60,11 @@ public class propInfo {
         return Integer.parseInt(parts[4]);
         
     }
+    public int getSetType(int pos) {
+            
+        String propInfo = getPropertyInfo(pos);
+        String[] parts = propInfo.split("[,]");
+        return Integer.parseInt(parts[5]);
+        
+    }
 }

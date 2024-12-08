@@ -51,6 +51,13 @@ public class propInfo {
         String propInfo = getPropertyInfo(pos);
         String[] parts = propInfo.split("[,]");
         return Integer.parseInt(parts[3]);
-
+        
+    }
+    public int getMultiplier(int pos) {
+        
+        String propInfo = getPropertyInfo(pos);
+        String[] parts = propInfo.split("[,]");
+        return Integer.parseInt(parts[4]);
+        
     }
 }

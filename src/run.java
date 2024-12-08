@@ -43,6 +43,7 @@ public class run extends Application {
             prop.value[0] = 1000;
             prop.houses[0] = 1500;
             prop.rent[0] = 500;
+            tabuleiro.map[0] = prop;
             startGameLoop(playerAmount, tabuleiro, scene, primaryStage);
         });
 

@@ -1,7 +1,7 @@
 public class property extends squares{
-    private int value[] = new int[6];
-    private int houses[] = new int[5]; //vetor com os valores de melhoria pra casas
-    private int rent[] = new int[6]; //aluguel com base nas melhorias
+    public int value[] = new int[6];
+    public int houses[] = new int[5]; //vetor com os valores de melhoria pra casas
+    public int rent[] = new int[6]; //aluguel com base nas melhorias
     private int state; //estado das melhorias
     private int set;
     private boolean recent;

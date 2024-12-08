@@ -43,9 +43,11 @@ public class cartas {
 
     }
 
-    private int movementCard(String[] parts) {
+    private int movementCard(String[] parts, player[] gamers, int currentPlayer) {
 
-        return Integer.parseInt(parts[4]);
+        if (parts[4].equals("0"))
+            return Integer.parseInt(parts[5]);
+        return Integer.parseInt(parts[5]) - gamers[currentPlayer].getPosition() + 40;
 
     }
     private int moneyCard(String[] parts, player[] gamers, int currentPlayer) {
@@ -100,7 +102,7 @@ public class cartas {
         if (parts[1].equals("0"))         //Handles cards related to the tansfer of money
             retValue = moneyCard(parts,gamers,currentPlayer);
         else if (parts[1].equals("1"))    //Handles cards related to moving around the board
-            retValue = movementCard(parts);
+            retValue = movementCard(parts,gamers,currentPlayer);
         else if (parts[1].equals("2"))       //Handle cards related to property management
             propertyCard(parts,gamers,currentPlayer, playerAmount, totalSquares, comp);
 

@@ -116,7 +116,7 @@ private void startGameLoop(int totalPlayers, monopoly.board tabuleiro, Scene sce
     AnimationTimer gameTimer = new AnimationTimer() {
         @Override
         public void handle(long currentTime) {
-            if ((currentTime - lastUpdateTime[0] >= drawInterval) && (tabuleiro.gamers[currentPlayer].getBankruptcy())) {
+            if ((currentTime - lastUpdateTime[0] >= drawInterval) && (tabuleiro.getGamers()[currentPlayer].getBankruptcy())) {
                 // Update game logic
                 System.out.println("Jogador " + (currentPlayer + 1) + " está jogando.");
                 player gamer = tabuleiro.getGamers()[currentPlayer];
@@ -127,7 +127,7 @@ private void startGameLoop(int totalPlayers, monopoly.board tabuleiro, Scene sce
                         int stocks = tabuleiro.getBank().getOwner(gamer.getPosition());
                         stocks = tabuleiro.getGamers()[stocks].checkStocks();
                         gamer.update(tabuleiro.getLocation(gamer.getPosition()), tabuleiro.getBank(),
-                                tabuleiro.getSquaresQuantity(), stocks, tabuleiro.getGamers(), tabuleiro.getPlayers());
+                                tabuleiro.getSquaresQuantity(), stocks, tabuleiro.getGamers(), tabuleiro.getPlayers(), gamer.getId());
                     }
 
                     // Handle game logic (bankruptcy, victory, etc.)

@@ -88,18 +88,21 @@ public class draw extends Application {
         return playerViewer;
     }
 
-    private void movePlayer(player player){
-        int pos = player.getPosition();
-        
-        if(pos < 10)
-            players[player.getId()].setTranslateY(players[player.getId()].getTranslateY()-stepSize);
-        else if(pos < 20)
-            players[player.getId()].setTranslateX(players[player.getId()].getTranslateX()+stepSize);
-        else if(pos < 30)
-            players[player.getId()].setTranslateY(players[player.getId()].getTranslateY()+stepSize);
-        else if(pos < 40)
-            players[player.getId()].setTranslateX(players[player.getId()].getTranslateX()-stepSize);
-
+    public void movePlayer(player player, int movement){
+        while(movement > 0){
+            int pos = player.getPosition();
+            
+            if(pos < 10)
+                players[player.getId()].setTranslateY(players[player.getId()].getTranslateY()-stepSize);
+            else if(pos < 20)
+                players[player.getId()].setTranslateX(players[player.getId()].getTranslateX()+stepSize);
+            else if(pos < 30)
+                players[player.getId()].setTranslateY(players[player.getId()].getTranslateY()+stepSize);
+            else if(pos < 40)
+                players[player.getId()].setTranslateX(players[player.getId()].getTranslateX()-stepSize);
+            
+            movement--;
+        }
         return;
     }
 }

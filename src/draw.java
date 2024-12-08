@@ -61,8 +61,8 @@ public class draw extends Application {
         
         run game = new run();
         initializer start = new initializer();
-        monopoly.board tabuleiro = start.startBoard(playerAmount,40);
-        game.startGameLoop(playerAmount,tabuleiro,scene,primaryStage);
+        monopoly.board tabuleiro = start.startBoard(numP,40);
+        game.startGameLoop(numP,tabuleiro,scene,primaryStage);
     }
 
     private int showPlayerSelectionDialog(Stage primaryStage) {

@@ -201,7 +201,7 @@ private void startGameLoop(int totalPlayers, monopoly.board tabuleiro, Scene sce
                             });
                         
                             // Certifique-se de que o layout seja adicionado ao contêiner pai
-                            parentLayout.getChildren().add(gameLayout); //quem seria aqui???
+                            //parentLayout.getChildren().add(gameLayout); //quem seria aqui???
                         }
                     }
                     if (currentRound >= maxRounds)

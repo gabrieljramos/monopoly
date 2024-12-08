@@ -9,6 +9,9 @@ import javafx.scene.input.KeyCode;
 
 public class run extends Application {
 
+    private int currentPlayer = 0;
+    public int currentRound = 0;
+
     private boolean quit = false;
     private String lastKeyPressed = "";
 
@@ -107,8 +110,8 @@ public class run extends Application {
 }
 
 private void startGameLoop(int totalPlayers, monopoly.board tabuleiro, Scene scene, Stage primaryStage) {
-    int currentPlayer = 0; // Track current player using an array for mutability
-    int currentRound = 0, maxRounds = 30;
+     // Track current player using an array for mutability
+    int maxRounds = 30;
     double FPS = 60;
     double drawInterval = 1_000_000_000 / FPS; // Frame interval in nanoseconds
     long[] lastUpdateTime = { System.nanoTime() }; // Store last update time

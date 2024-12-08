@@ -65,11 +65,14 @@ public class draw extends Application {
     }    
     
     public void start(Stage primaryStage) {
-        int numP = 0;
-        //numP = showPlayerSelectionDialog(primaryStage);
-        numP = menu(primaryStage);
-        if (numP == 0)
+        int numP = 0, op = 0;
+        op = menu(primaryStage);
+        if (op == 0)
             return;
+        else if (op == 1)
+            numP = showPlayerSelectionDialog(primaryStage);
+        else if (op == 2)
+            //Logica p/ continuar um save
         StackPane root = createGameLayout(primaryStage);
         Scene scene = new Scene(root);
         diceUI(3, 4, root);

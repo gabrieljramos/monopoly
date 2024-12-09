@@ -164,7 +164,6 @@ public class draw extends Application {
         }
         Button roll = new Button();
 
-         // Adjust positioning based on number of players
         if (playerCount >= 1) {
             AnchorPane.setTopAnchor(moneyLabels[0], 10.0); // Top-left
             AnchorPane.setLeftAnchor(moneyLabels[0], 10.0);
@@ -192,7 +191,7 @@ public class draw extends Application {
 
     }
     public void textUI(StackPane root, String message) {
-        // Create a rectangle as the background
+        // Retangulo de bg
         Rectangle backgroundRect = new Rectangle(400, 200);
         backgroundRect.setFill(Color.WHITE);
         backgroundRect.setArcWidth(20);  // Rounded corners
@@ -200,7 +199,6 @@ public class draw extends Application {
         backgroundRect.setStroke(Color.GRAY);
         backgroundRect.setStrokeWidth(2);
     
-        // Create a text label
         Label textLabel = new Label(message);
         textLabel.setStyle("-fx-font-size: 18px;");
         textLabel.setWrapText(true);
@@ -210,18 +208,15 @@ public class draw extends Application {
         Button closeButton = new Button("Close");
         closeButton.setStyle("-fx-font-size: 14px;");
     
-        // Create a VBox to stack text and button vertically
-        VBox contentBox = new VBox(20);  // 20 is the spacing between elements
+        VBox contentBox = new VBox(20);  
         contentBox.setAlignment(Pos.CENTER);
         contentBox.getChildren().addAll(textLabel, closeButton);
     
         StackPane textBoxPane = new StackPane();
         textBoxPane.getChildren().addAll(backgroundRect, contentBox);
     
-        // Add close button functionality
         closeButton.setOnAction(e -> root.getChildren().remove(textBoxPane));
     
-        // Add to root and center it
         root.getChildren().add(textBoxPane);
     }
 
@@ -234,7 +229,7 @@ public class draw extends Application {
         dice1.setFitWidth(75); 
         dice2.setFitWidth(75);
 
-        HBox diceBox = new HBox(10); // Spacing of 10 between dice
+        HBox diceBox = new HBox(10); // 10 de spacing
         diceBox.getChildren().addAll(dice1, dice2);
         diceBox.setAlignment(Pos.CENTER);
 
@@ -248,7 +243,6 @@ public class draw extends Application {
     }
     
     public void propertyUI(StackPane root, property prop, player player) {
-        // Create a rectangle as the background
         ImageView[] icons = new ImageView[5];
         String base = "level_";
         for(int i = 0; i < 5; i++)
@@ -256,7 +250,7 @@ public class draw extends Application {
 
         Rectangle backgroundRect = new Rectangle(500, 300);
         backgroundRect.setFill(Color.BLACK);
-        backgroundRect.setArcWidth(20); // Rounded corners
+        backgroundRect.setArcWidth(20); 
         backgroundRect.setArcHeight(20);
         backgroundRect.setStroke(Color.GRAY);
         backgroundRect.setStrokeWidth(2);
@@ -302,7 +296,6 @@ public class draw extends Application {
             buttonBox.getChildren().add(button);
         }
     
-        // Create a VBox to stack all elements vertically
         VBox contentBox = new VBox(15);
         contentBox.setAlignment(Pos.CENTER);
         contentBox.getChildren().addAll(propertyPriceLabel, buttonBox);

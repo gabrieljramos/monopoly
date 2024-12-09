@@ -52,6 +52,7 @@ public class draw extends Application {
         primaryStage.setTitle("Monopoly");
         primaryStage.setScene(scene);
         primaryStage.setMaximized(true);
+        primaryStage.setResizable(false);
         primaryStage.show();
         
     }
@@ -183,12 +184,7 @@ public class draw extends Application {
     }
     public void textUI(StackPane root, String message) {
         // Retangulo de bg
-        Rectangle backgroundRect = new Rectangle(400, 200);
-        backgroundRect.setFill(Color.WHITE);
-        backgroundRect.setArcWidth(20);  // Rounded corners
-        backgroundRect.setArcHeight(20);
-        backgroundRect.setStroke(Color.GRAY);
-        backgroundRect.setStrokeWidth(2);
+        Rectangle backgroundRect = createRectangle(500, 300);
     
         Label textLabel = new Label(message);
         textLabel.setStyle("-fx-font-size: 18px;");
@@ -246,12 +242,7 @@ public class draw extends Application {
         for(int i = 0; i < 5; i++)
             icons[i] = new ImageView(imageManager.getImage(base + String.valueOf(i)));
 
-        Rectangle backgroundRect = new Rectangle(500, 300);
-        backgroundRect.setFill(Color.BLACK);
-        backgroundRect.setArcWidth(20); 
-        backgroundRect.setArcHeight(20);
-        backgroundRect.setStroke(Color.GRAY);
-        backgroundRect.setStrokeWidth(2);
+        Rectangle backgroundRect = createRectangle(500, 300);
         
         Label propertyPriceLabel = new Label("Property Cost: $" + prop.getValue());
         propertyPriceLabel.setStyle("-fx-font-size: 16px;");
@@ -269,11 +260,11 @@ public class draw extends Application {
             button.setGraphic(icons[i]);
             // Disable button logic based on property state and player's money
             if (i > 0) {
-                int upgradeCost = prop.getValue();
+                int upgradeCost = prop.getUpgradeValue();
                 button.setText(upgradeLevels[i] + " (Cost: R$" + upgradeCost + ")");
                 
                 // Precisa chechar se player pode comprar
-                if (!player.canAfford || !isUpgradeValid(prop, i - 1)) {
+                if (!player.canAfford(upgradeCost) || !isUpgradeValid(prop, i - 1)) {   //PRA QUE ESSA LOGICA DO UPGRADE VALID? O IMPROVE JA VERIFICA SE PODE MELHORAR!
                     button.setDisable(true);
                     button.setStyle("-fx-font-size: 14px; -fx-min-width: 200px; -fx-opacity: 0.5;");
                     icons[i].setOpacity(0.5);
@@ -362,6 +353,17 @@ public class draw extends Application {
         return;
     }
 
+    private Rectangle createRectangle(double X, double Y){
+        Rectangle backgroundRect = new Rectangle(X,Y);
+
+        backgroundRect.setFill(Color.BLACK);
+        backgroundRect.setArcWidth(20); 
+        backgroundRect.setArcHeight(20);
+        backgroundRect.setStroke(Color.GRAY);
+        backgroundRect.setStrokeWidth(2);
+        return backgroundRect;
+    }
+
     private Button manageButton(String name, boolean on) {
         Button specialButton = new Button(name);
         buttonSwitch(specialButton, on);
@@ -372,7 +374,7 @@ public class draw extends Application {
         return specialButton;
     }
 
-    private void buttonSwitch(Button specialButton, boolean on) {
+    public void buttonSwitch(Button specialButton, boolean on) {
         if (on) {
             specialButton.setDisable(false);
             specialButton.setOpacity(1);

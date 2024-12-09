@@ -9,18 +9,19 @@ import javafx.stage.Stage;
 import javafx.animation.AnimationTimer;
 import javafx.scene.input.KeyCode;
 
-public class run extends Application {
+public class run{  //AQUI TA FALANDO QUE RUN TEM QUE USAR START SE FOR HERDAR APLICATION!
 
     private int currentPlayer = 0;
     public int currentRound = 0;
 
     private boolean quit = false;
     private String lastKeyPressed = "";
+    private draw make = new draw(); //faco assim?
 
     public static void main(String[] args) {
 
         Application.launch(Draw.class, args);
-        int playerAmount = menu();
+        int playerAmount = draw.menu();
         if (playerAmount == 0) {
             System.out.println("Jogo encerrado.");
             return;
@@ -31,6 +32,7 @@ public class run extends Application {
         }
     }
 
+    /* 
     @Override
     public void start(Stage primaryStage) {
         // Configurar a janela principal do JavaFX
@@ -50,8 +52,9 @@ public class run extends Application {
         tabuleiro.map.addProp(prop);
         startGameLoop(playerAmount, tabuleiro, scene, primaryStage);
     };
+    */
 
-    private void initializer() {
+    private void initializer() {    //ONDE COLOCA ISSO?
         // Implementar lógica de inicialização do jogo
         System.out.println("Inicializando o jogo...");
     }
@@ -123,7 +126,7 @@ public class run extends Application {
 
                     if ("ENTER".equals(lastKeyPressed)) {
                         if (!gamer.checkIfBroke()) {
-                            Button die = newButton(); //BOTAO DE JOGAR DADO! TEM QUE VER COMO CHAMAR FUNCAO DO DRAW AQUI!
+                            Button die = make.manageButton("Lance os dados", true); //BOTAO DE JOGAR DADO! TEM QUE VER COMO CHAMAR FUNCAO DO DRAW AQUI!
                             die.setOnAction(e -> {
                                 tabuleiro.getDie().throwDie();
                             });
@@ -134,7 +137,7 @@ public class run extends Application {
                             stocks = tabuleiro.getGamers()[stocks].checkStocks();
                             gamer.update(tabuleiro.getLocation(gamer.getPosition()), tabuleiro.getBank(),
                                     tabuleiro.getSquaresQuantity(), stocks, tabuleiro.getGamers(),
-                                    tabuleiro.getPlayers(), gamer.getId());
+                                    monopoly.board.getPlayers(), gamer.getId());
                         }
 
                         // Handle game logic (bankruptcy, victory, etc.)
@@ -144,15 +147,14 @@ public class run extends Application {
                             boolean mode = true;
 
                             if (!gamer.verifyOwnership(tabuleiro.getBank())) { //se o player NAO e dono
-                                Button buyPropertyButton = manageButton("Comprar Propriedade", true);
+                                Button buyPropertyButton = make.manageButton("Comprar Propriedade", true);
                                 if (gamer.Check() < land.getValue())
-                                    buttonSwitch(buyPropertyButton, false); //se nao tem dinheiro, botao translucido
+                                    make.buttonSwitch(buyPropertyButton, false); //se nao tem dinheiro, botao translucido
                                 else
-                                    buttonSwitch(buyPropertyButton, true);
+                                    make.buttonSwitch(buyPropertyButton, true);
 
                                 if (tabuleiro.getBank().getOwner(gamer.getPosition()) != 0) { //Verificar se a propriedade nao e possuida pelo banco
-                                    player rival = tabuleiro
-                                        tabuleiro.getPlayer(tabuleiro.getBank().getOwner(gamer.getPosition()));
+                                    player rival = monopoly.board.getPlayer(tabuleiro.getBank().getOwner(gamer.getPosition()));
                                     buyPropertyButton.setOnAction(e -> {
                                         (tabuleiro.getBank()).sellProperties(gamer.getPortfolio(), rival.getPortfolio(),
                                                 rival.getWallet(), gamer.getWallet(), gamer.getId(), land, true);
@@ -165,8 +167,8 @@ public class run extends Application {
                                 }
                             } else { // se o player é dono
                                      // Criação dos botões principais
-                                Button improveButton = manageButton("Melhorar Propriedade", true);
-                                Button mortgageButton = manageButton("Hipotecar Propriedade", true);
+                                Button improveButton = make.manageButton("Melhorar Propriedade", true);
+                                Button mortgageButton = make.manageButton("Hipotecar Propriedade", true);
 
                                 // Configuração do botão "Melhorar Propriedade"
                                 improveButton.setOnAction(e -> {
@@ -210,7 +212,7 @@ public class run extends Application {
                             stop(); // Stop the game loop
                         } else {
                             currentPlayer++; // Move to next player
-                            if (currentPlayer >= tabuleiro.getPlayers()) {
+                            if (currentPlayer >= monopoly.board.getPlayers()) {
                                 currentPlayer = 0;
                                 currentRound++;
                             }
@@ -224,7 +226,7 @@ public class run extends Application {
                     lastUpdateTime[0] = currentTime;
                 } else if (tabuleiro.getGamers()[currentPlayer].getBankruptcy()) {
                     currentPlayer++; // Move to next player
-                    if (currentPlayer >= tabuleiro.getPlayers()) {
+                    if (currentPlayer >= monopoly.board.getPlayers()) {
                         currentPlayer = 0;
                         currentRound++;
                     }

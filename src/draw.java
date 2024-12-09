@@ -23,12 +23,59 @@ public class draw extends Application {
 
     private static ImageView players[] = new ImageView[monopoly.board.getPlayers()];
 
+    private int menu(Stage primaryStage) {
+        // Criando os botões
+        Button startButton = new Button("Iniciar Jogo");
+        Button continueButton = new Button("Continuar");
+        Button quitButton = new Button("Sair");
+    
+        // Variável para armazenar o valor selecionado
+        final int[] value = {0};
+    
+        // Configurando a janela modal
+        Stage menuStage = new Stage();
+        menuStage.initOwner(primaryStage);
+        menuStage.setTitle("Menu");
+        menuStage.setResizable(false);
+    
+        // Layout dos botões
+        VBox layout = new VBox(10, startButton, continueButton, quitButton);
+        layout.setStyle("-fx-padding: 10; -fx-alignment: center;");
+    
+        // Configurando ações dos botões
+        startButton.setOnAction(e -> {
+            value[0] = 1;
+            menuStage.close(); // Fecha o menu
+        });
+    
+        continueButton.setOnAction(e -> {
+            value[0] = 2;
+            menuStage.close(); // Fecha o menu
+        });
+    
+        quitButton.setOnAction(e -> {
+            value[0] = 0;
+            menuStage.close(); // Fecha o menu
+        });
+    
+        // Mostrando a janela do menu
+        menuStage.setScene(new Scene(layout, 200, 150));
+        menuStage.showAndWait(); // Pausa a execução até que o menu seja fechado
+    
+        // Retornando o valor selecionado
+        return value[0];
+    }    
+    
     public void start(Stage primaryStage) {
-        int numP = 0;
-        numP = showPlayerSelectionDialog(primaryStage);
-        if (numP == 0)
+        int numP = 0, op = 0;
+        op = menu(primaryStage);
+        if (op == 0)
             return;
-        StackPane root = createGameLayout(primaryStage);
+        else if (op == 1)
+            numP = showPlayerSelectionDialog(primaryStage);
+        else if (op == 2)
+            //Logica p/ continuar um save
+        StackPane root = createGameLayout(primaryStage);    //AQUI TA DANDO ERRO!!!
         Scene scene = new Scene(root);
 
         // background da tela
@@ -41,6 +88,11 @@ public class draw extends Application {
         primaryStage.setScene(scene);
         primaryStage.setMaximized(true);
         primaryStage.show();
+        
+        run game = new run();
+        initializer start = new initializer();
+        monopoly.board tabuleiro = start.startBoard(numP,40);
+        game.startGameLoop(numP,tabuleiro,scene,primaryStage);
     }
 
     private int showPlayerSelectionDialog(Stage primaryStage) {

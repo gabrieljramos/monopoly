@@ -71,7 +71,7 @@ public class draw extends Application {
         numP = menu(primaryStage);
         if (numP == 0)
             return;
-        else if (op == -1)
+        else if (numP == -1)
             //Logica p/ continuar um save
             numP++; //SO PRA CONSERTAR O ERRO POR HORA!
         StackPane root = createGameLayout(primaryStage);

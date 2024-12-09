@@ -16,7 +16,7 @@ public class monopoly {
             this.dado = new dice(playerQnt);
             this.comp = new bank();
             this.map = new portfolio();
-            this.gamers = new player[playerQnt];
+            gamers = new player[playerQnt];
 
             for (int i = 0; i < playerQnt; i++) {
                 gamers[i] = new player(i);

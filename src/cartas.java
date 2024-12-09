@@ -1,4 +1,3 @@
-import java.io.*;
 import java.util.*;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -14,7 +13,7 @@ public class cartas {
 
         if (allCards.isEmpty()) {
             try {
-            this.allCards = Files.readAllLines(Paths.get("cards.csv"));
+            allCards = Files.readAllLines(Paths.get("cards.csv"));
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -24,7 +23,7 @@ public class cartas {
     }
     private String getCard(int n) {
 
-        return this.allCards.get(n);
+        return allCards.get(n);
 
     }
     private int getRandomPlayer(int currentPlayer, int playerAmount) {
@@ -37,7 +36,7 @@ public class cartas {
     }
     public int drawACard(int currentPlayer, player[] gamers, int playerAmount, int totalSquares, bank comp) {
 
-        int randomCard = (int)(Math.random()*this.numCards);
+        int randomCard = (int)(Math.random()*numCards);
         String card = getCard(randomCard);
         return manageCard(card,currentPlayer,gamers, playerAmount, totalSquares, comp);
 

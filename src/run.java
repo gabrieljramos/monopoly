@@ -115,12 +115,12 @@ public class run{  //AQUI TA FALANDO QUE RUN TEM QUE USAR START SE FOR HERDAR AP
             @Override
             public void handle(long currentTime) {
                 if ((currentTime - lastUpdateTime[0] >= drawInterval)
-                        && (tabuleiro.getGamers()[currentPlayer].getBankruptcy())) {
+                        && (!tabuleiro.getGamers()[currentPlayer].getBankruptcy())) {
                     // Update game logic
                     System.out.println("Jogador " + (currentPlayer + 1) + " está jogando.");
                     player gamer = tabuleiro.getGamers()[currentPlayer];
 
-                    if ("ENTER".equals(lastKeyPressed)) {
+                    if ("ENTER".equals(lastKeyPressed)) {   //NAO ENTENDI ESSA PARTE!PQ APERTAR ENTER?
                         if (!gamer.checkIfBroke()) {
                             Button die = make.manageButton("Lance os dados", true); //BOTAO DE JOGAR DADO! TEM QUE VER COMO CHAMAR FUNCAO DO DRAW AQUI!
                             die.setOnAction(e -> {
@@ -140,7 +140,6 @@ public class run{  //AQUI TA FALANDO QUE RUN TEM QUE USAR START SE FOR HERDAR AP
                         if (!gamer.getBankruptcy() && !(tabuleiro.getLocation(gamer.getPosition()) instanceof special)) //se o gamer nao faliu e a posicao nao e especial
                         {
                             squares land = tabuleiro.getLocation(gamer.getPosition()); //separa o terreno e modo capitalista (nao troca)
-                            boolean mode = true;
 
                             if (!gamer.verifyOwnership(tabuleiro.getBank())) { //se o player NAO e dono
                                 Button buyPropertyButton = make.manageButton("Comprar Propriedade", true);

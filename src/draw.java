@@ -326,7 +326,7 @@ public class draw extends Application {
                 button.setText(upgradeLevels[i] + " (Cost: R$" + upgradeCost + ")");
                 
                 // Precisa chechar se player pode comprar
-                if (!player.canAfford(upgradeCost) || !isUpgradeValid(prop, i - 1)) {   //PRA QUE ESSA LOGICA DO UPGRADE VALID? O IMPROVE JA VERIFICA SE PODE MELHORAR!
+                if (!player.canAfford(upgradeCost) || !prop.isUpgradeValid()) {   //PRA QUE ESSA LOGICA DO UPGRADE VALID? O IMPROVE JA VERIFICA SE PODE MELHORAR!
                     button.setDisable(true);
                     button.setStyle("-fx-font-size: 14px; -fx-min-width: 200px; -fx-opacity: 0.5;");
                     icons[i].setOpacity(0.5);

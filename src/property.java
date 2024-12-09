@@ -63,7 +63,12 @@ public class property extends squares{
 
     public int getValue ()
     {
-        return (int)(value * estimateValue(1));
+        return (int) (value * estimateValue(1));
+    }
+    
+    public int getUpgradeValue()
+    {
+        return (int) (houses * estimateValue(2));
     }
 
     public int getState()

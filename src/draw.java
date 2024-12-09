@@ -75,7 +75,8 @@ public class draw extends Application {
             numP = showPlayerSelectionDialog(primaryStage);
         else if (op == 2)
             //Logica p/ continuar um save
-        StackPane root = createGameLayout(primaryStage);    //AQUI TA DANDO ERRO!!!
+            numP++; //SO PRA CONSERTAR O ERRO POR HORA!
+        StackPane root = createGameLayout(primaryStage);
         Scene scene = new Scene(root);
 
         // background da tela
@@ -323,11 +324,11 @@ public class draw extends Application {
             button.setGraphic(icons[i]);
             // Disable button logic based on property state and player's money
             if (i > 0) {
-                int upgradeCost = prop.getValue();
+                int upgradeCost = prop.getUpgradeValue();
                 button.setText(upgradeLevels[i] + " (Cost: R$" + upgradeCost + ")");
                 
                 // Precisa chechar se player pode comprar
-                if (!player.canAfford || !isUpgradeValid(prop, i - 1)) {
+                if (!player.canAfford(upgradeCost) || !isUpgradeValid(prop, i - 1)) {   //PRA QUE ESSA LOGICA DO UPGRADE VALID? O IMPROVE JA VERIFICA SE PODE MELHORAR!
                     button.setDisable(true);
                     button.setStyle("-fx-font-size: 14px; -fx-min-width: 200px; -fx-opacity: 0.5;");
                     icons[i].setOpacity(0.5);

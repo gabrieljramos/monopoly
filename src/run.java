@@ -31,6 +31,7 @@ public class run extends Application {
         }
     }
 
+    /* 
     @Override
     public void start(Stage primaryStage) {
         // Configurar a janela principal do JavaFX
@@ -50,6 +51,7 @@ public class run extends Application {
         tabuleiro.map.addProp(prop);
         startGameLoop(playerAmount, tabuleiro, scene, primaryStage);
     };
+    */
 
     private void initializer() {
         // Implementar lógica de inicialização do jogo

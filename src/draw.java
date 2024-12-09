@@ -367,7 +367,7 @@ public class draw extends Application {
         return grid;
     }
 
-    private Button manageButton(String name, boolean on) {
+    public Button manageButton(String name, boolean on) {
         Button specialButton = new Button(name);
         buttonSwitch(specialButton, on);
 
@@ -377,7 +377,7 @@ public class draw extends Application {
         return specialButton;
     }
 
-    private void buttonSwitch(Button specialButton, boolean on) {
+    public void buttonSwitch(Button specialButton, boolean on) {
         if (on) {
             specialButton.setDisable(false);
             specialButton.setOpacity(1);

@@ -1,9 +1,7 @@
-import java.io.*;
 import java.util.*;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.lang.Math;
 
 public class propInfo {
 

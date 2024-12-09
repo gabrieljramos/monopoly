@@ -19,9 +19,42 @@ public class draw extends Application {
     private double boardSize;
     private static double stepSize;
 
-    private Label[] moneyLabels = new Label[monopoly.board.getPlayers()];
+    private Label[] moneyLabels;
 
-    private static ImageView players[] = new ImageView[monopoly.board.getPlayers()];
+    private static ImageView players[];
+
+    public void start(Stage primaryStage) {
+        int numP = 0, op = 0;
+        op = menu(primaryStage);
+        if (op == 0)
+            return;
+        else if (op == 1)
+            numP = showPlayerSelectionDialog(primaryStage);
+        //else if (op == 2)
+            //Logica p/ continuar um save
+        
+        run game = new run();
+        initializer start = new initializer();
+        monopoly.board tabuleiro = start.startBoard(numP,40);
+        moneyLabels = new Label[tabuleiro.getPlayers()];
+        players = new ImageView[tabuleiro.getPlayers()];
+
+        StackPane root = createGameLayout(primaryStage, tabuleiro); 
+        Scene scene = new Scene(root);
+        
+        game.startGameLoop(numP,tabuleiro,scene,primaryStage);   //AQUI TA DANDO ERRO!!!
+
+        // background da tela
+        BackgroundFill fill = new BackgroundFill(Color.web("#FFEE8C90"), null, null);
+        root.setBackground(new Background(fill));
+
+        // titulos e mostra tela
+        primaryStage.setTitle("Monopoly");
+        primaryStage.setScene(scene);
+        primaryStage.setMaximized(true);
+        primaryStage.show();
+        
+    }
 
     private int menu(Stage primaryStage) {
         // Criando os botões
@@ -64,84 +97,14 @@ public class draw extends Application {
     
         // Retornando o valor selecionado
         return value[0];
-    }    
-    
-    public void start(Stage primaryStage) {
-        int numP = 0, op = 0;
-        op = menu(primaryStage);
-        if (op == 0)
-            return;
-        else if (op == 1)
-            numP = showPlayerSelectionDialog(primaryStage);
-        else if (op == 2)
-            //Logica p/ continuar um save
-        StackPane root = createGameLayout(primaryStage);    //AQUI TA DANDO ERRO!!!
-        Scene scene = new Scene(root);
-
-        // background da tela
-        BackgroundFill fill = new BackgroundFill(Color.web("#FFEE8C90"), null, null);
-        root.setBackground(new Background(fill));
-        
-
-        // titulos e mostra tela
-        primaryStage.setTitle("Monopoly");
-        primaryStage.setScene(scene);
-        primaryStage.setMaximized(true);
-        primaryStage.show();
-        
-        run game = new run();
-        initializer start = new initializer();
-        monopoly.board tabuleiro = start.startBoard(numP,40);
-        game.startGameLoop(numP,tabuleiro,scene,primaryStage);
-    }
-
-    private int showPlayerSelectionDialog(Stage primaryStage) {
-        // Modal dialog for player selection
-        Stage dialog = new Stage();
-        dialog.initModality(Modality.APPLICATION_MODAL);
-        dialog.initOwner(primaryStage);
-        dialog.setTitle("Select Players");
-
-        VBox dialogLayout = new VBox(10);
-        dialogLayout.setStyle("-fx-padding: 10; -fx-alignment: center;");
-
-        Label promptLabel = new Label("Enter number of players (1-6):");
-        TextField playerInput = new TextField();
-        Button confirmButton = new Button("Confirm");
-        Label errorLabel = new Label();
-        errorLabel.setStyle("-fx-text-fill: red;");
-
-        confirmButton.setOnAction(e -> {
-            try {
-                int players = Integer.parseInt(playerInput.getText());
-                if (players >= 1 && players <= 6) {
-                    dialog.setUserData(players);
-                    dialog.close();
-                } else {
-                    errorLabel.setText("Please enter a number between 1 and 6.");
-                }
-            } catch (NumberFormatException ex) {
-                errorLabel.setText("Invalid input. Please enter a number.");
-            }
-        });
-
-        dialogLayout.getChildren().addAll(promptLabel, playerInput, confirmButton, errorLabel);
-
-        Scene dialogScene = new Scene(dialogLayout, 250, 150);
-        dialog.setScene(dialogScene);
-        dialog.showAndWait();
-
-        // Return the number of players selected
-        Object userData = dialog.getUserData();
-        return userData != null ? (int) userData : 0;
     }
 
     // Carrega imagens e cria setup da janela do jogo
-    private StackPane createGameLayout(Stage primaryStage) {
+    private StackPane createGameLayout(Stage primaryStage, monopoly.board brd) {
         imageManager.loadEssentialImages();
         ImageView boardViewer = createBoardViewer(primaryStage);
         StackPane root = new StackPane(boardViewer);
-        AnchorPane UI = createUI();
+        AnchorPane UI = createUI(brd);
         Pane paneAux = new Pane();
 
         this.boardSize = boardViewer.getImage().getWidth();
@@ -157,7 +120,7 @@ public class draw extends Application {
         double yStartPercent = 0.85;
         double xSpacingPercent = 0.02;
 
-        for (int i = 0; i < monopoly.board.getPlayers(); i++) {
+        for (int i = 0; i < brd.getPlayers(); i++) {
             players[i] = createPlayerViewer(boardViewer, i);
 
             players[i].layoutXProperty().bind(paneAux.widthProperty().multiply(xStartPercent + (i * xSpacingPercent)));
@@ -187,34 +150,14 @@ public class draw extends Application {
         return playerViewer;
     }
 
-    // Move player movement vezes
-    public static void movePlayer(player player, int movement) {
-        while (movement > 0) {
-            int pos = player.getPosition();
-
-            if (pos < 10)
-                players[player.getId()].setTranslateY(players[player.getId()].getTranslateY() - stepSize);
-            else if (pos < 20)
-                players[player.getId()].setTranslateX(players[player.getId()].getTranslateX() + stepSize);
-            else if (pos < 30)
-                players[player.getId()].setTranslateY(players[player.getId()].getTranslateY() + stepSize);
-            else if (pos < 40)
-                players[player.getId()].setTranslateX(players[player.getId()].getTranslateX() - stepSize);
-
-            movement--;
-        }
-        return;
-    }
-
-    private AnchorPane createUI() {
+    private AnchorPane createUI(monopoly.board brd) {
         AnchorPane uiPane = new AnchorPane();
-        int playerCount = monopoly.board.getPlayers();
+        int playerCount = brd.getPlayers();
 
         for (int i = 0; i < playerCount; i++) {
-            moneyLabels[i] = new Label("Player " + (i + 1) + "R$" + monopoly.board.getPlayer(i).getWallet());
+            moneyLabels[i] = new Label("Player " + (i + 1) + "R$" + brd.getPlayer(i).getWallet());
             moneyLabels[i].setStyle("-fx-font-size: 16px; -fx-background-color: #ffffff; -fx-padding: 5px;");
         }
-        Button roll = new Button();
 
         if (playerCount >= 1) {
             AnchorPane.setTopAnchor(moneyLabels[0], 10.0); // Top-left
@@ -232,10 +175,6 @@ public class draw extends Application {
             AnchorPane.setBottomAnchor(moneyLabels[3], 10.0); // Bottom-right
             AnchorPane.setRightAnchor(moneyLabels[3], 10.0);
         }
-
-        //Butao de roll dice falta configurar acao
-        roll.setOnAction(null);
-        AnchorPane.setRightAnchor(roll, 10.0);
 
         uiPane.getChildren().addAll(moneyLabels);
 
@@ -272,26 +211,33 @@ public class draw extends Application {
         root.getChildren().add(textBoxPane);
     }
 
-    public void diceUI(StackPane root, int value1, int value2){
-        String base = "dice_";
-        ImageView dice1 = new ImageView(imageManager.getImage(base + String.valueOf(value1)));
-        ImageView dice2 = new ImageView(imageManager.getImage(base + String.valueOf(value2)));
-        dice1.setPreserveRatio(true);
-        dice2.setPreserveRatio(true);
-        dice1.setFitWidth(75); 
-        dice2.setFitWidth(75);
-
-        HBox diceBox = new HBox(10); // 10 de spacing
-        diceBox.getChildren().addAll(dice1, dice2);
-        diceBox.setAlignment(Pos.CENTER);
-
-        System.out.println("dice");
-        root.getChildren().addAll(diceBox);
-        PauseTransition pause = new PauseTransition(Duration.seconds(2));
-        pause.setOnFinished(event -> root.getChildren().remove(diceBox));
-        pause.play();        
-        return;
-
+    public void diceUI(StackPane root, dice die){
+        Button rollButton = new Button("Roll dice");
+        VBox button = new VBox();
+        
+        button.getChildren().add(rollButton);
+        root.getChildren().addAll(button);
+        rollButton.setOnAction(e -> {
+            die.throwDie();
+            root.getChildren().remove(button);
+            
+            String base = "dice_";
+            ImageView dice1 = new ImageView(imageManager.getImage(base + String.valueOf(die.checkValue1())));
+            ImageView dice2 = new ImageView(imageManager.getImage(base + String.valueOf(die.checkValue2())));
+            dice1.setPreserveRatio(true);
+            dice2.setPreserveRatio(true);
+            dice1.setFitWidth(75); 
+            dice2.setFitWidth(75);
+    
+            HBox diceBox = new HBox(10); // 10 de spacing
+            diceBox.getChildren().addAll(dice1, dice2);
+            diceBox.setAlignment(Pos.CENTER);
+    
+            root.getChildren().addAll(diceBox);
+            PauseTransition pause = new PauseTransition(Duration.seconds(2));
+            pause.setOnFinished(event -> root.getChildren().remove(diceBox));
+            pause.play();        
+        });
     }
     
     public void propertyUI(StackPane root, property prop, player player) {
@@ -357,13 +303,63 @@ public class draw extends Application {
     
         root.getChildren().add(textBoxPane);
     }
-    
-    // deprecado
-    private GridPane setGridPane(Stage primaryStage) {
-        GridPane grid = new GridPane();
-        GridPane.setConstraints(grid, 11, 11);
-        grid.setGridLinesVisible(true);
-        return grid;
+
+    private int showPlayerSelectionDialog(Stage primaryStage) {
+        Stage dialog = new Stage();
+        dialog.initModality(Modality.APPLICATION_MODAL);
+        dialog.initOwner(primaryStage);
+        dialog.setTitle("Select Players");
+
+        VBox dialogLayout = new VBox(10);
+        dialogLayout.setStyle("-fx-padding: 10; -fx-alignment: center;");
+
+        Label promptLabel = new Label("Enter number of players (1-6):");
+        TextField playerInput = new TextField();
+        Button confirmButton = new Button("Confirm");
+        Label errorLabel = new Label();
+        errorLabel.setStyle("-fx-text-fill: red;");
+
+        confirmButton.setOnAction(e -> {
+            try {
+                int players = Integer.parseInt(playerInput.getText());
+                if (players >= 1 && players <= 6) {
+                    dialog.setUserData(players);
+                    dialog.close();
+                } else {
+                    errorLabel.setText("Please enter a number between 1 and 6.");
+                }
+            } catch (NumberFormatException ex) {
+                errorLabel.setText("Invalid input. Please enter a number.");
+            }
+        });
+
+        dialogLayout.getChildren().addAll(promptLabel, playerInput, confirmButton, errorLabel);
+
+        Scene dialogScene = new Scene(dialogLayout, 250, 150);
+        dialog.setScene(dialogScene);
+        dialog.showAndWait();
+
+        Object userData = dialog.getUserData();
+        return userData != null ? (int) userData : 0;
+    }
+
+    // Move player movement vezes
+    public static void movePlayer(player player, int movement) {
+        while (movement > 0) {
+            int pos = player.getPosition();
+
+            if (pos < 10)
+                players[player.getId()].setTranslateY(players[player.getId()].getTranslateY() - stepSize);
+            else if (pos < 20)
+                players[player.getId()].setTranslateX(players[player.getId()].getTranslateX() + stepSize);
+            else if (pos < 30)
+                players[player.getId()].setTranslateY(players[player.getId()].getTranslateY() + stepSize);
+            else if (pos < 40)
+                players[player.getId()].setTranslateX(players[player.getId()].getTranslateX() - stepSize);
+
+            movement--;
+        }
+        return;
     }
 
     private Button manageButton(String name, boolean on) {

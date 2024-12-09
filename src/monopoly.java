@@ -5,7 +5,7 @@ public class monopoly {
         private static player gamers[];
         public portfolio map;
 
-        private static int numPlayers;
+        private int numPlayers;
 
         private static final int SQUARES_QUANTITY = 40;
         private static final int MAX_PLAYERS = 4;
@@ -16,7 +16,7 @@ public class monopoly {
             this.dado = new dice(playerQnt);
             this.comp = new bank();
             this.map = new portfolio();
-            this.gamers = new player[playerQnt];
+            gamers = new player[playerQnt];
 
             for (int i = 0; i < playerQnt; i++) {
                 gamers[i] = new player(i);
@@ -31,7 +31,7 @@ public class monopoly {
                 numPlayers = value;
         }
 
-        public static int getPlayers() {
+        public int getPlayers() {
             return numPlayers;
         }
 
@@ -39,7 +39,7 @@ public class monopoly {
             gamers[id] = gamer;
         }
 
-        public static player getPlayer(int id) //pegar qualquer player especifico
+        public player getPlayer(int id) //pegar qualquer player especifico
         {
             return gamers[id];
         }

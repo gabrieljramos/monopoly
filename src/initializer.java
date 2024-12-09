@@ -5,7 +5,7 @@ public class initializer {
 
     public monopoly.board startBoard(int playerAmount, int squaresQuantity)
     {
-        monopoly jogo = new monopoly();
+        //monopoly jogo = new monopoly();
         monopoly.board tabuleiro = new monopoly.board(playerAmount);
         data = new propInfo("initializer.txt");
         specifications = new propInfo("propertyInfo.csv");

@@ -155,7 +155,7 @@ public class draw extends Application {
         int playerCount = monopoly.board.getPlayers();
 
         for (int i = 0; i < playerCount; i++) {
-            moneyLabels[i] = new Label("Player " + (i + 1) + "R$" + brd.getPlayer(i).getWallet());
+            moneyLabels[i] = new Label("Player " + (i + 1) + "R$" + monopoly.board.getPlayer(i).getWallet());
             moneyLabels[i].setStyle("-fx-font-size: 16px; -fx-background-color: #ffffff; -fx-padding: 5px;");
         }
 

@@ -364,7 +364,7 @@ public class draw extends Application {
         return backgroundRect;
     }
 
-    private Button manageButton(String name, boolean on) {
+    public Button manageButton(String name, boolean on) {
         Button specialButton = new Button(name);
         buttonSwitch(specialButton, on);
 

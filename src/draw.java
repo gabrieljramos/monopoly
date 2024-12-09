@@ -35,8 +35,8 @@ public class draw extends Application {
         run game = new run();
         initializer start = new initializer();
         monopoly.board tabuleiro = start.startBoard(numP,40);
-        moneyLabels = new Label[tabuleiro.getPlayers()];
-        players = new ImageView[tabuleiro.getPlayers()];
+        moneyLabels = new Label[monopoly.board.getPlayers()];
+        players = new ImageView[monopoly.board.getPlayers()];
 
         StackPane root = createGameLayout(primaryStage, tabuleiro); 
         Scene scene = new Scene(root);
@@ -120,7 +120,7 @@ public class draw extends Application {
         double yStartPercent = 0.85;
         double xSpacingPercent = 0.02;
 
-        for (int i = 0; i < brd.getPlayers(); i++) {
+        for (int i = 0; i < monopoly.board.getPlayers(); i++) {
             players[i] = createPlayerViewer(boardViewer, i);
 
             players[i].layoutXProperty().bind(paneAux.widthProperty().multiply(xStartPercent + (i * xSpacingPercent)));
@@ -152,7 +152,7 @@ public class draw extends Application {
 
     private AnchorPane createUI(monopoly.board brd) {
         AnchorPane uiPane = new AnchorPane();
-        int playerCount = brd.getPlayers();
+        int playerCount = monopoly.board.getPlayers();
 
         for (int i = 0; i < playerCount; i++) {
             moneyLabels[i] = new Label("Player " + (i + 1) + "R$" + brd.getPlayer(i).getWallet());
@@ -185,18 +185,6 @@ public class draw extends Application {
         // Retangulo de bg
         Rectangle backgroundRect = createRectangle(500, 300);
     
-<<<<<<< HEAD
-    public void start(Stage primaryStage) {
-        int numP = 0;
-        numP = menu(primaryStage);
-        if (numP == 0)
-            return;
-        else if (numP == -1)
-            //Logica p/ continuar um save
-            numP++; //SO PRA CONSERTAR O ERRO POR HORA!
-        StackPane root = createGameLayout(primaryStage);
-        Scene scene = new Scene(root);
-=======
         Label textLabel = new Label(message);
         textLabel.setStyle("-fx-font-size: 18px;");
         textLabel.setWrapText(true);
@@ -217,7 +205,6 @@ public class draw extends Application {
     
         root.getChildren().add(textBoxPane);
     }
->>>>>>> dioni
 
     public void diceUI(StackPane root, dice die){
         Button rollButton = new Button("Roll dice");

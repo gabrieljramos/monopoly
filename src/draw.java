@@ -73,7 +73,7 @@ public class draw extends Application {
             numP = showPlayerSelectionDialog(primaryStage);
         else if (op == 2)
             //Logica p/ continuar um save
-        StackPane root = createGameLayout(primaryStage);    //aqui ta dando erro!!!
+        StackPane root = createGameLayout(primaryStage);    //AQUI TA DANDO ERRO!!!
         Scene scene = new Scene(root);
         diceUI(3, 4, root);
 

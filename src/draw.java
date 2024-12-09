@@ -11,6 +11,8 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import javafx.scene.paint.*;
+import javafx.scene.shape.Rectangle;
+
 import java.util.*;
 
 public class draw extends Application {
@@ -75,11 +77,11 @@ public class draw extends Application {
             //Logica p/ continuar um save
         StackPane root = createGameLayout(primaryStage);    //AQUI TA DANDO ERRO!!!
         Scene scene = new Scene(root);
-        diceUI(3, 4, root);
 
         // background da tela
         BackgroundFill fill = new BackgroundFill(Color.web("#FFEE8C90"), null, null);
         root.setBackground(new Background(fill));
+        
 
         // titulos e mostra tela
         primaryStage.setTitle("Monopoly");
@@ -139,7 +141,7 @@ public class draw extends Application {
         imageManager.loadEssentialImages();
         ImageView boardViewer = createBoardViewer(primaryStage);
         StackPane root = new StackPane(boardViewer);
-        //AnchorPane UI = createUI();
+        AnchorPane UI = createUI();
         Pane paneAux = new Pane();
 
         this.boardSize = boardViewer.getImage().getWidth();
@@ -163,7 +165,7 @@ public class draw extends Application {
 
             paneAux.getChildren().add(players[i]);
         }
-        //root.getChildren().addAll(UI);
+        root.getChildren().addAll(UI);
         return root;
     }
 
@@ -206,40 +208,80 @@ public class draw extends Application {
 
     private AnchorPane createUI() {
         AnchorPane uiPane = new AnchorPane();
+        int playerCount = monopoly.board.getPlayers();
 
-        for (int i = 0; i < 4; i++) {
-            moneyLabels[i] = new Label("Player " + (i + 1) + monopoly.board.getPlayer(i).getWallet());
-            //moneyLabels[i].setStyle("-fx-font-size: 16px; -fx-background-color: #ffffff; -fx-padding: 5px;");
+        for (int i = 0; i < playerCount; i++) {
+            moneyLabels[i] = new Label("Player " + (i + 1) + "R$" + monopoly.board.getPlayer(i).getWallet());
+            moneyLabels[i].setStyle("-fx-font-size: 16px; -fx-background-color: #ffffff; -fx-padding: 5px;");
+        }
+        Button roll = new Button();
+
+        if (playerCount >= 1) {
+            AnchorPane.setTopAnchor(moneyLabels[0], 10.0); // Top-left
+            AnchorPane.setLeftAnchor(moneyLabels[0], 10.0);
+        }
+        if (playerCount >= 2) {
+            AnchorPane.setTopAnchor(moneyLabels[1], 10.0); // Top-right
+            AnchorPane.setRightAnchor(moneyLabels[1], 10.0);
+        }
+        if (playerCount >= 3) {
+            AnchorPane.setBottomAnchor(moneyLabels[2], 10.0); // Bottom-left
+            AnchorPane.setLeftAnchor(moneyLabels[2], 10.0);
+        }
+        if (playerCount >= 4) {
+            AnchorPane.setBottomAnchor(moneyLabels[3], 10.0); // Bottom-right
+            AnchorPane.setRightAnchor(moneyLabels[3], 10.0);
         }
 
-        AnchorPane.setTopAnchor(moneyLabels[0], 10.0); // Top-left
-        AnchorPane.setLeftAnchor(moneyLabels[0], 10.0);
-
-        AnchorPane.setTopAnchor(moneyLabels[1], 10.0); // Top-right
-        AnchorPane.setRightAnchor(moneyLabels[1], 10.0);
-
-        AnchorPane.setBottomAnchor(moneyLabels[2], 10.0); // Bottom-left
-        AnchorPane.setLeftAnchor(moneyLabels[2], 10.0);
-
-        AnchorPane.setBottomAnchor(moneyLabels[3], 10.0); // Bottom-right
-        AnchorPane.setRightAnchor(moneyLabels[3], 10.0);
+        //Butao de roll dice falta configurar acao
+        roll.setOnAction(null);
+        AnchorPane.setRightAnchor(roll, 10.0);
 
         uiPane.getChildren().addAll(moneyLabels);
 
         return uiPane;
 
     }
+    public void textUI(StackPane root, String message) {
+        // Retangulo de bg
+        Rectangle backgroundRect = new Rectangle(400, 200);
+        backgroundRect.setFill(Color.WHITE);
+        backgroundRect.setArcWidth(20);  // Rounded corners
+        backgroundRect.setArcHeight(20);
+        backgroundRect.setStroke(Color.GRAY);
+        backgroundRect.setStrokeWidth(2);
+    
+        Label textLabel = new Label(message);
+        textLabel.setStyle("-fx-font-size: 18px;");
+        textLabel.setWrapText(true);
+        textLabel.setMaxWidth(350);
+        textLabel.setAlignment(Pos.CENTER);
+    
+        Button closeButton = new Button("Close");
+        closeButton.setStyle("-fx-font-size: 14px;");
+    
+        VBox contentBox = new VBox(20);  
+        contentBox.setAlignment(Pos.CENTER);
+        contentBox.getChildren().addAll(textLabel, closeButton);
+    
+        StackPane textBoxPane = new StackPane();
+        textBoxPane.getChildren().addAll(backgroundRect, contentBox);
+    
+        closeButton.setOnAction(e -> root.getChildren().remove(textBoxPane));
+    
+        root.getChildren().add(textBoxPane);
+    }
 
-    private void diceUI(int value1, int value2, StackPane root) {
+    public void diceUI(StackPane root, int value1, int value2){
         String base = "dice_";
         ImageView dice1 = new ImageView(imageManager.getImage(base + String.valueOf(value1)));
         ImageView dice2 = new ImageView(imageManager.getImage(base + String.valueOf(value2)));
-        dice1.setFitWidth(100);
         dice1.setPreserveRatio(true);
-        dice2.setFitWidth(100);
         dice2.setPreserveRatio(true);
+        dice1.setFitWidth(75); 
+        dice2.setFitWidth(75);
 
-        HBox diceBox = new HBox(10); // Spacing of 10 between dice
+        HBox diceBox = new HBox(10); // 10 de spacing
         diceBox.getChildren().addAll(dice1, dice2);
         diceBox.setAlignment(Pos.CENTER);
 
@@ -247,21 +289,81 @@ public class draw extends Application {
         root.getChildren().addAll(diceBox);
         PauseTransition pause = new PauseTransition(Duration.seconds(2));
         pause.setOnFinished(event -> root.getChildren().remove(diceBox));
-        pause.play();
+        pause.play();        
         return;
 
     }
+    
+    public void propertyUI(StackPane root, property prop, player player) {
+        ImageView[] icons = new ImageView[5];
+        String base = "level_";
+        for(int i = 0; i < 5; i++)
+            icons[i] = new ImageView(imageManager.getImage(base + String.valueOf(i)));
 
+        Rectangle backgroundRect = new Rectangle(500, 300);
+        backgroundRect.setFill(Color.BLACK);
+        backgroundRect.setArcWidth(20); 
+        backgroundRect.setArcHeight(20);
+        backgroundRect.setStroke(Color.GRAY);
+        backgroundRect.setStrokeWidth(2);
+        
+        Label propertyPriceLabel = new Label("Property Cost: $" + prop.getValue());
+        propertyPriceLabel.setStyle("-fx-font-size: 16px;");
+    
+        // Upgrade buttons
+        Button[] upgradeButtons = new Button[5];
+        String[] upgradeLevels = {"Don't Buy", "Level 1", "Level 2", "Level 3", "Level 4"};
+        
+        VBox buttonBox = new VBox(10);
+        buttonBox.setAlignment(Pos.CENTER);
+    
+        for (int i = 0; i < upgradeLevels.length; i++) {
+            Button button = new Button(upgradeLevels[i]);
+            button.setStyle("-fx-font-size: 14px; -fx-min-width: 200px;");
+            button.setGraphic(icons[i]);
+            // Disable button logic based on property state and player's money
+            if (i > 0) {
+                int upgradeCost = prop.getValue();
+                button.setText(upgradeLevels[i] + " (Cost: R$" + upgradeCost + ")");
+                
+                // Precisa chechar se player pode comprar
+                if (!player.canAfford || !isUpgradeValid(prop, i - 1)) {
+                    button.setDisable(true);
+                    button.setStyle("-fx-font-size: 14px; -fx-min-width: 200px; -fx-opacity: 0.5;");
+                    icons[i].setOpacity(0.5);
+                }
+            }
+    
+            int finalI = i;
+            button.setOnAction(e -> {
+                if (finalI == 0) {
+                    root.getChildren().remove(buttonBox);
+                } else {
+                    prop.improve(null);
+                    root.getChildren().remove(buttonBox);
+                }
+            });
+    
+            upgradeButtons[i] = button;
+            buttonBox.getChildren().add(button);
+        }
+    
+        VBox contentBox = new VBox(15);
+        contentBox.setAlignment(Pos.CENTER);
+        contentBox.getChildren().addAll(propertyPriceLabel, buttonBox);
+    
+        StackPane textBoxPane = new StackPane();
+        textBoxPane.getChildren().addAll(backgroundRect, contentBox);
+    
+        root.getChildren().add(textBoxPane);
+    }
+    
     // deprecado
     private GridPane setGridPane(Stage primaryStage) {
         GridPane grid = new GridPane();
         GridPane.setConstraints(grid, 11, 11);
         grid.setGridLinesVisible(true);
         return grid;
-    }
-
-    public static void main(String[] args) {
-        launch(args);
     }
 
     private Button manageButton(String name, boolean on) {
@@ -282,5 +384,8 @@ public class draw extends Application {
             specialButton.setDisable(true);
             specialButton.setOpacity(0.5);
         }
+    }
+    public static void main(String[] args) {
+        launch(args);
     }
 }

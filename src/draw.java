@@ -44,12 +44,12 @@ public class draw extends Application {
     
         // Configurando ações dos botões
         startButton.setOnAction(e -> {
-            value[0] = 1;
+            value[0] = showPlayerSelectionDialog(primaryStage);;
             menuStage.close(); // Fecha o menu
         });
     
         continueButton.setOnAction(e -> {
-            value[0] = 2;
+            value[0] = -1;
             menuStage.close(); // Fecha o menu
         });
     
@@ -67,13 +67,11 @@ public class draw extends Application {
     }    
     
     public void start(Stage primaryStage) {
-        int numP = 0, op = 0;
-        op = menu(primaryStage);
-        if (op == 0)
+        int numP = 0;
+        numP = menu(primaryStage);
+        if (numP == 0)
             return;
-        else if (op == 1)
-            numP = showPlayerSelectionDialog(primaryStage);
-        else if (op == 2)
+        else if (op == -1)
             //Logica p/ continuar um save
             numP++; //SO PRA CONSERTAR O ERRO POR HORA!
         StackPane root = createGameLayout(primaryStage);

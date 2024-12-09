@@ -13,7 +13,6 @@ import javafx.util.Duration;
 import javafx.scene.paint.*;
 import javafx.scene.shape.Rectangle;
 
-import java.util.*;
 
 public class draw extends Application {
     private double boardSize;
@@ -78,12 +77,12 @@ public class draw extends Application {
     
         // Configurando ações dos botões
         startButton.setOnAction(e -> {
-            value[0] = 1;
+            value[0] = showPlayerSelectionDialog(primaryStage);;
             menuStage.close(); // Fecha o menu
         });
     
         continueButton.setOnAction(e -> {
-            value[0] = 2;
+            value[0] = -1;
             menuStage.close(); // Fecha o menu
         });
     
@@ -98,7 +97,7 @@ public class draw extends Application {
     
         // Retornando o valor selecionado
         return value[0];
-    }
+    }    
 
     // Carrega imagens e cria setup da janela do jogo
     private StackPane createGameLayout(Stage primaryStage, monopoly.board brd) {
@@ -211,6 +210,7 @@ public class draw extends Application {
         Button rollButton = new Button("Roll dice");
         VBox button = new VBox();
         
+        button.setAlignment(Pos.CENTER);
         button.getChildren().add(rollButton);
         root.getChildren().addAll(button);
         rollButton.setOnAction(e -> {
@@ -264,7 +264,7 @@ public class draw extends Application {
                 button.setText(upgradeLevels[i] + " (Cost: R$" + upgradeCost + ")");
                 
                 // Precisa chechar se player pode comprar
-                if (!player.canAfford(upgradeCost) || !isUpgradeValid(prop, i - 1)) {   //PRA QUE ESSA LOGICA DO UPGRADE VALID? O IMPROVE JA VERIFICA SE PODE MELHORAR!
+                if (!player.canAfford(upgradeCost) || !prop.isUpgradeValid()) {   //PRA QUE ESSA LOGICA DO UPGRADE VALID? O IMPROVE JA VERIFICA SE PODE MELHORAR!
                     button.setDisable(true);
                     button.setStyle("-fx-font-size: 14px; -fx-min-width: 200px; -fx-opacity: 0.5;");
                     icons[i].setOpacity(0.5);

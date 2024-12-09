@@ -49,9 +49,9 @@ public class property extends squares{
     }
 
     public boolean improve(wallet character) {
-        if (character.Check() >= (int)(this.houses * estimateValue(2))) 
+        if (character.canAfford((long)(houses * estimateValue(2)))) 
         {
-            if (state < 4 || recent) {
+            if (isUpgradeValid()) {
                 state++;
                 character.pay((long)(this.houses * estimateValue(2)));
                 recent = false;
@@ -100,5 +100,16 @@ public class property extends squares{
     public boolean getMortgage (wallet money)
     {
         return register.mortgage(this, money);
+    }
+
+    public boolean isUpgradeValid()
+    {
+        if (state > 3)
+            return false;
+        else if (state < 3 || recent)
+        {
+            return true;
+        }
+        return false;
     }
 }

@@ -174,8 +174,6 @@ public class player {
 
     public boolean canAfford(long value)
     {
-        if (this.Check() >= value)
-            return true;
-        return false;
+        return money.canAfford(value);
     }
 }

@@ -42,4 +42,11 @@ public class wallet {
     {
         return bankruptcy;
     }
+
+    public boolean canAfford(long value)
+    {
+        if (this.Check() >= value)
+            return true;
+        return false;
+    }
 }

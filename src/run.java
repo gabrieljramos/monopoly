@@ -1,15 +1,11 @@
-
-import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.animation.AnimationTimer;
 import javafx.scene.input.KeyCode;
 
-public class run extends Application {  //AQUI TA FALANDO QUE RUN TEM QUE USAR START SE FOR HERDAR APLICATION!
+public class run{  //AQUI TA FALANDO QUE RUN TEM QUE USAR START SE FOR HERDAR APLICATION!
 
     private int currentPlayer = 0;
     public int currentRound = 0;
@@ -18,6 +14,7 @@ public class run extends Application {  //AQUI TA FALANDO QUE RUN TEM QUE USAR S
     private String lastKeyPressed = "";
     private draw make = new draw(); //faco assim?
 
+    /* 
     public static void main(String[] args) {
 
         Application.launch(Draw.class, args);
@@ -32,7 +29,6 @@ public class run extends Application {  //AQUI TA FALANDO QUE RUN TEM QUE USAR S
         }
     }
 
-    /* 
     @Override
     public void start(Stage primaryStage) {
         // Configurar a janela principal do JavaFX

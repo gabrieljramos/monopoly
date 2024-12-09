@@ -285,7 +285,7 @@ public class draw extends Application {
                 if (finalI == 0) {
                     root.getChildren().remove(buttonBox);
                 } else {
-                    prop.improve(null);
+                    prop.improve(player.getWallet());
                     root.getChildren().remove(buttonBox);
                 }
             });

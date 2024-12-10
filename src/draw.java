@@ -311,7 +311,6 @@ public class draw extends Application {
 
     public void stocksUI(StackPane root, stocks stcks, bank comp, player player, portfolio receiver, portfolio giver,
     wallet owner, wallet buyer, squares place){
-        // Retangulo de bg
     
         Label textLabel = new Label("Buy stocks?");
         textLabel.setStyle("-fx-font-size: 18px;");
@@ -327,9 +326,9 @@ public class draw extends Application {
         VBox contentBox = new VBox(20);  
         contentBox.setAlignment(Pos.CENTER);
         contentBox.getChildren().addAll(textLabel, buyButton, closeButton);
+        root.getChildren().add(contentBox);
     
         closeButton.setOnAction(e -> root.getChildren().remove(contentBox));
-        root.getChildren().add(contentBox);
        
         buyButton.setOnAction(e -> {
             if (comp.getOwner(place.getPosition()) != 0)

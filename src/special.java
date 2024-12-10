@@ -71,8 +71,10 @@ public class special extends squares{
         activatePrison(position);   //funcao de ir pra prisao
         finishLine(money, value);   //funcao de ganhar dinheiro
         signal = taxes(money, value);   //funcao de perder dinheiro
-        if (category == 5)
-            signal = news.drawACard(gamer_id, gamers, playerAmount, totalSquares, comp);  //noticias
+        if (category == 5) {
+            int rand = news.randomCard();
+            signal = news.drawACard(gamer_id, gamers, playerAmount, totalSquares, comp,rand);  //noticias
+        }
         return signal;
     }
 }

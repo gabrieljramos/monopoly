@@ -188,8 +188,6 @@ public class run { //AQUI TA FALANDO QUE RUN TEM QUE USAR START SE FOR HERDAR AP
                 }
             }
         };
-
         gameTimer.start();
-    };
-}
+    }
 }

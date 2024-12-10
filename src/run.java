@@ -146,12 +146,12 @@ public class run{  //AQUI TA FALANDO QUE RUN TEM QUE USAR START SE FOR HERDAR AP
 
                             if (land instanceof property)
                             {
-                                make.propertyUI(make.getRoot(), land, gamer, tabuleiro.getBank(), gamer.getPortfolio(), 
+                                make.propertyUI(make.getRoot(), (property)land, gamer, tabuleiro.getBank(), gamer.getPortfolio(), 
                                             rival.getPortfolio(), rival.getWallet(), gamer.getWallet(), gamer.getId(), land);
                             }
                             else if (land instanceof stocks)
                             {
-                                make.stocksUI(make.getRoot(), land, comp, gamer, gamer.getPortfolio(), 
+                                make.stocksUI(make.getRoot(), (stocks)land, tabuleiro.getBank(), gamer, gamer.getPortfolio(), 
                                         rival.getPortfolio(), rival.getWallet(), gamer.getWallet(), land);
                             }
                             else

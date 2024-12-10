@@ -63,6 +63,21 @@ public class log {
     {
         return parcelas;
     }
+    
+    public void setDebt(int value)
+    {
+        this.debt = value;
+    }
+
+    public void setDuration(int value)
+    {
+        this.parcelas = value;
+    }
+
+    public void setMortgage(boolean value)
+    {
+        this.mortgaged = value;
+    }
 
     public boolean update ()
     {

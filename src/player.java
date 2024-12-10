@@ -117,7 +117,10 @@ public class player {
     {
         return position;
     }
-
+    public void setPosition(int num)
+    {
+        this.position = num;
+    }
     public squares currentSquare()
     {
         return this.resources.search(position);
@@ -127,12 +130,19 @@ public class player {
     {
         return id;
     }
+    public void setId(int num)
+    {
+        this.id = num;
+    }
 
     public wallet getWallet()
     {
         return money;
     }
-
+    public void setMoney(int num)
+    {
+        this.money.receive(num);
+    }
     public portfolio getPortfolio()
     {
         return resources;

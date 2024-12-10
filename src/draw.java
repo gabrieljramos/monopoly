@@ -23,13 +23,11 @@ public class draw extends Application {
     private static ImageView players[];
 
     public void start(Stage primaryStage) {
-        int numP = 0, op = 0;
-        op = menu(primaryStage);
-        if (op == 0)
+        int numP = 0;
+        numP = menu(primaryStage);
+        if (numP == 0)
             return;
-        else if (op == 1)
-            numP = showPlayerSelectionDialog(primaryStage);
-        //else if (op == 2)
+        //else if (numP == -1)
             //Logica p/ continuar um save
         
         run game = new run();

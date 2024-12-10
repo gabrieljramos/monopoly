@@ -120,12 +120,10 @@ public class run{  //AQUI TA FALANDO QUE RUN TEM QUE USAR START SE FOR HERDAR AP
                     System.out.println("Jogador " + (currentPlayer + 1) + " está jogando.");
                     player gamer = tabuleiro.getGamers()[currentPlayer];
 
-                    if ("ENTER".equals(lastKeyPressed)) {   //NAO ENTENDI ESSA PARTE!PQ APERTAR ENTER?
-                        if (!gamer.checkIfBroke()) {
-                            Button die = make.manageButton("Lance os dados", true); //BOTAO DE JOGAR DADO! TEM QUE VER COMO CHAMAR FUNCAO DO DRAW AQUI!
-                            die.setOnAction(e -> {
-                                tabuleiro.getDie().throwDie();
-                            });
+                    if ("ENTER".equals(lastKeyPressed)) { //NAO ENTENDI ESSA PARTE!PQ APERTAR ENTER?
+                        if (!gamer.checkIfBroke())
+                        {
+                            make.diceUI(root, tabuleiro.getDie());
                         }
                         if (gamer.move(tabuleiro.getPlace(gamer.getPosition()), tabuleiro.getDie(),
                                 tabuleiro.getSquaresQuantity())) {

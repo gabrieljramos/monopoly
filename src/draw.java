@@ -242,7 +242,9 @@ public class draw extends Application {
         });
     }
     
-    public void propertyUI(StackPane root, property prop, player player) {
+    public void propertyUI(StackPane root, property prop, player player, bank comp, portfolio receiver, portfolio giver,
+            wallet owner, wallet buyer, int buyerId, squares place) 
+        {
         ImageView[] icons = new ImageView[5];
         String base = "level_";
         for(int i = 0; i < 5; i++)
@@ -254,43 +256,84 @@ public class draw extends Application {
         propertyPriceLabel.setStyle("-fx-font-size: 16px;");
     
         // Upgrade buttons
-        Button[] upgradeButtons = new Button[5];
-        String[] upgradeLevels = {"Don't Buy", "Level 1", "Level 2", "Level 3", "Level 4"};
+        Button[] buyButtons = new Button[4];
+        String[] optionStrings = {"Pass", "Buy", "Improve", "Mortgage"};
         
         VBox buttonBox = new VBox(10);
         buttonBox.setAlignment(Pos.CENTER);
-    
-        for (int i = 0; i < upgradeLevels.length; i++) {
-            Button button = new Button(upgradeLevels[i]);
-            button.setStyle("-fx-font-size: 14px; -fx-min-width: 200px;");
-            button.setGraphic(icons[i]);
+        boolean quit = false;
+
+        int state = prop.getState();
+
+        int upgradeCost = prop.getUpgradeValue();
+        int valueCost = prop.getValue();
+        int mortgageCost = prop.getMortgageValue();
+
+        buyButtons[0].setText("Pass turn!");
+        buyButtons[1].setText("Buy land for: " + valueCost + "R$");
+        buyButtons[2].setText("Improve property to " + state + " for : " + upgradeCost + "R$");
+        buyButtons[3].setText(
+                "Mortgage this property now and receive: " + mortgageCost + "R$ and just pay after 5 rounds!");
+
+        while (!quit)
+        {
+           //button.setStyle("-fx-font-size: 14px; -fx-min-width: 200px;");
+            //button.setGraphic(icons[i]);
             // Disable button logic based on property state and player's money
-            if (i > 0) {
-                int upgradeCost = prop.getUpgradeValue();
-                button.setText(upgradeLevels[i] + " (Cost: R$" + upgradeCost + ")");
-                
-                // Precisa chechar se player pode comprar
-                if (!player.canAfford(upgradeCost) || !prop.isUpgradeValid()) {   //PRA QUE ESSA LOGICA DO UPGRADE VALID? O IMPROVE JA VERIFICA SE PODE MELHORAR!
-                    button.setDisable(true);
-                    button.setStyle("-fx-font-size: 14px; -fx-min-width: 200px; -fx-opacity: 0.5;");
-                    icons[i].setOpacity(0.5);
+
+            if (comp.getOwner(prop.getPosition()) == player.getId())    //player e dono
+            {
+                buyButtons[1].setDisable(true);
+                buyButtons[1].setOpacity(1); //e pra ficar TRANSPARENTE, nao sei se funfou :(
+                if (!prop.isMortgaged()) {
+                    buyButtons[3].setDisable(true);
+                    buyButtons[3].setOpacity(1);
+                }
+                if (!player.canAfford(upgradeCost) || !prop.isUpgradeValid()) { //PRA QUE ESSA LOGICA DO UPGRADE VALID? O IMPROVE JA VERIFICA SE PODE MELHORAR!
+                    buyButtons[2].setDisable(true);
+                    buyButtons[2].setStyle("-fx-font-size: 14px; -fx-min-width: 200px; -fx-opacity: 0.5;");
+                    //icons[i].setOpacity(0.5);
                 }
             }
-    
-            int finalI = i;
-            button.setOnAction(e -> {
-                if (finalI == 0) {
-                    root.getChildren().remove(buttonBox);
-                } else {
-                    prop.improve(player.getWallet());
-                    root.getChildren().remove(buttonBox);
+            else
+            {
+                buyButtons[2].setDisable(true);
+                buyButtons[2].setOpacity(1);
+                buyButtons[3].setDisable(true);
+                buyButtons[3].setOpacity(1);
+
+                if (player.Check() < prop.getValue()) {
+                    buyButtons[1].setDisable(true);
                 }
+            }
+            
+            buyButtons[1].setOnAction(e -> {
+                if (comp.getOwner(prop.getPosition()) == 0)
+                {
+                    comp.sellProperties(receiver, buyer, player.getId(), place, true);
+                }
+                else
+                    comp.sellProperties(receiver, giver, owner, buyer, buyerId, place, true);
             });
-    
-            upgradeButtons[i] = button;
-            buttonBox.getChildren().add(button);
+            buyButtons[2].setOnAction(e -> {
+                prop.improve(buyer);
+            });
+            buyButtons[3].setOnAction(e -> {
+                prop.getMortgage(buyer);
+            });
+            buyButtons[0].setOnAction(e -> {
+                quit = true;
+            });
         }
     
+        /*int finalI = i;
+                button.setOnAction(e -> {
+                    if (finalI == 0) {
+                        root.getChildren().remove(buttonBox);
+                    } else {
+                        prop.improve(player.getWallet());
+                        root.getChildren().remove(buttonBox);
+                    } */
         VBox contentBox = new VBox(15);
         contentBox.setAlignment(Pos.CENTER);
         contentBox.getChildren().addAll(propertyPriceLabel, buttonBox);

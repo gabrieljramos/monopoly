@@ -117,4 +117,9 @@ public class property extends squares{
     {
         return register.getDebt();
     }
+
+    public int getDuration()
+    {
+        return getDuration();
+    }
 }

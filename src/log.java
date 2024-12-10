@@ -54,6 +54,11 @@ public class log {
     {
         return debt;
     }
+
+    public int getDuration()
+    {
+        return parcelas;
+    }
     
     public boolean update ()
     {

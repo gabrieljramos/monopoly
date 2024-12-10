@@ -158,7 +158,7 @@ public class player {
     {
         return money;
     }
-    public void setMoney(int num)
+    public void setMoney(long num)
     {
         this.money.receive(num);
     }

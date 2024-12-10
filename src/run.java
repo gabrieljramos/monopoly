@@ -158,66 +158,8 @@ public class run { //AQUI TA FALANDO QUE RUN TEM QUE USAR START SE FOR HERDAR AP
                             {
                                 //EU NAO SEI OQ FAZER MAIS!!!
                             }
-                            /* 
-                            if (!gamer.verifyOwnership(tabuleiro.getBank())) { //se o player NAO e dono
-                                Button buyPropertyButton = make.manageButton("Comprar Propriedade", true);
-                                if (gamer.Check() < land.getValue())
-                                    make.buttonSwitch(buyPropertyButton, false); //se nao tem dinheiro, botao translucido
-                                else
-                                    make.buttonSwitch(buyPropertyButton, true);
-
-                                 { //Verificar se a propriedade nao e possuida pelo banco
-                                    
-                                    buyPropertyButton.setOnAction(e -> {
-                                        (tabuleiro.getBank()).sellProperties(gamer.getPortfolio(), rival.getPortfolio(),
-                                                rival.getWallet(), gamer.getWallet(), gamer.getId(), land, true);
-                                    });
-                                } else {
-                                    buyPropertyButton.setOnAction(e -> {
-                                        (tabuleiro.getBank()).sellProperties(gamer.getPortfolio(), gamer.getWallet(),
-                                                gamer.getId(), land, false);
-                                    });
-                                }
-                            } else { // se o player é dono
-                                     // Criação dos botões principais
-                                Button improveButton = make.manageButton("Melhorar Propriedade", true);
-                                Button mortgageButton = make.manageButton("Hipotecar Propriedade", true);
-
-                                // Configuração do botão "Melhorar Propriedade"
-                                improveButton.setOnAction(e -> {
-
-                                    // Criação das opções "Melhorar" e "Parar"
-                                    Button improveOption = new Button("Melhorar");
-                                    Button stopOption = new Button("Parar");
-
-                                    // Lógica para o botão "Melhorar"
-                                    improveOption.setOnAction(ev -> {
-                                        boolean improved = land.improve(gamer.getWallet()); // Tenta melhorar a propriedade
-                                        if (improved) {
-                                            System.out.println("Propriedade melhorada!");
-                                        } else {
-                                            System.out.println(
-                                                    "Não é possível melhorar a propriedade (saldo insuficiente ou limite alcançado).");
-                                        }
-                                    });
-
-                                    // Lógica para o botão "Parar"
-                                    stopOption.setOnAction(ev -> {
-                                        System.out.println("Ação cancelada.");
-                                        // Reexibe os botões principais
-                                    });
-                                });
-
-                                // Configuração do botão "Hipotecar Propriedade"
-                                mortgageButton.setOnAction(e -> {
-                                    land.getMortgage(gamer.getWallet());
-                                    System.out.println("Propriedade hipotecada!");
-                                });
-
-                                // Certifique-se de que o layout seja adicionado ao contêiner pai
-                                //parentLayout.getChildren().add(gameLayout); //quem seria aqui???
-                            }
-                        }*/
+                            /**/
+                        }
                         if (currentRound >= maxRounds)
                             stop();
                         else if (gamer.checkVictory(tabuleiro.getBank(), tabuleiro.getStocksQuantity()) == 1) {

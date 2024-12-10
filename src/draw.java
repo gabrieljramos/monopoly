@@ -40,7 +40,7 @@ public class draw extends Application {
                 numP = loadGame.getPlayers();
                 initializer start = new initializer();
                 monopoly.board tabuleiro = start.startBoard(numP,40);
-                loadGame.getSave(tabuleiro.gamers,tabuleiro);
+                loadGame.getSave(tabuleiro.getGamers(),tabuleiro);
             }
         }
             

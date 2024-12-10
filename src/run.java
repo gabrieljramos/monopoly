@@ -5,7 +5,7 @@ import javafx.stage.Stage;
 import javafx.animation.AnimationTimer;
 import javafx.scene.input.KeyCode;
 
-public class run{  //AQUI TA FALANDO QUE RUN TEM QUE USAR START SE FOR HERDAR APLICATION!
+public class run { //AQUI TA FALANDO QUE RUN TEM QUE USAR START SE FOR HERDAR APLICATION!
 
     private int currentPlayer = 0;
     public int currentRound = 0;
@@ -16,7 +16,7 @@ public class run{  //AQUI TA FALANDO QUE RUN TEM QUE USAR START SE FOR HERDAR AP
 
     /* 
     public static void main(String[] args) {
-
+    
         Application.launch(Draw.class, args);
         int playerAmount = draw.menu();
         if (playerAmount == 0) {
@@ -28,17 +28,17 @@ public class run{  //AQUI TA FALANDO QUE RUN TEM QUE USAR START SE FOR HERDAR AP
             startGameLoop(playerAmount, tabuleiro);
         }
     }
-
+    
     @Override
     public void start(Stage primaryStage) {
         // Configurar a janela principal do JavaFX
         VBox layout = new VBox();
-
+    
         Scene scene = new Scene(layout, 300, 200);
         primaryStage.setScene(scene);
         primaryStage.setTitle("Jogo");
         primaryStage.show();
-
+    
         //initializer();
         monopoly.board tabuleiro = new monopoly.board(playerAmount); //TEM QUE INICIALIZAR O TABULEIRO COM TUDO PRONTO AQUI E MANDAR PRO LOOP!!!
         property prop = new property(0, 0);
@@ -50,7 +50,7 @@ public class run{  //AQUI TA FALANDO QUE RUN TEM QUE USAR START SE FOR HERDAR AP
     };
     */
 
-    private void initializer() {    //ONDE COLOCA ISSO?
+    private void initializer() { //ONDE COLOCA ISSO?
         // Implementar lógica de inicialização do jogo
         System.out.println("Inicializando o jogo...");
     }
@@ -248,5 +248,6 @@ public class run{  //AQUI TA FALANDO QUE RUN TEM QUE USAR START SE FOR HERDAR AP
         };
 
         gameTimer.start();
-    }
+    };
+}
 }

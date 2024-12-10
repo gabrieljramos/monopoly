@@ -50,7 +50,7 @@ public class draw extends Application {
         // background da tela
         BackgroundFill fill = new BackgroundFill(Color.web("#FFEE8C90"), null, null);
         root.setBackground(new Background(fill));
-
+        diceUI(root, tabuleiro.getDie());
         // titulos e mostra tela
         primaryStage.setTitle("Monopoly");
         primaryStage.setScene(scene);
@@ -216,6 +216,7 @@ public class draw extends Application {
         
         button.setAlignment(Pos.CENTER);
         button.getChildren().add(rollButton);
+        button.setPrefSize(200, 150);
         root.getChildren().addAll(button);
         rollButton.setOnAction(e -> {
             die.throwDie();
@@ -243,11 +244,6 @@ public class draw extends Application {
     public void propertyUI(StackPane root, property prop, player player, bank comp, portfolio receiver, portfolio giver,
             wallet owner, wallet buyer, int buyerId, squares place) 
         {
-        ImageView[] icons = new ImageView[5];
-        String base = "level_";
-        for(int i = 0; i < 5; i++)
-            icons[i] = new ImageView(imageManager.getImage(base + String.valueOf(i)));
-
         Rectangle backgroundRect = createRectangle(500, 300);
         
         Label propertyPriceLabel = new Label("Property Cost: $" + prop.getValue());
@@ -257,7 +253,7 @@ public class draw extends Application {
         Button[] buyButtons = new Button[4];
         String[] optionStrings = {"Pass", "Buy", "Improve", "Mortgage"};
         
-        VBox buttonBox = new VBox(10);
+        HBox buttonBox = new HBox(10);
         buttonBox.setAlignment(Pos.CENTER);
         
         int state = prop.getState();
@@ -272,7 +268,8 @@ public class draw extends Application {
         buyButtons[3].setText(
                 "Mortgage this property now and receive: " + mortgageCost + "R$ and just pay after 5 rounds!");
         
-        boolean[] quit = {false}; // Use an array to modify the state inside lambdas
+        buttonBox.getChildren().addAll(buyButtons);
+        root.getChildren().add(buttonBox);
 
         // Update button states based on property ownership
         if (comp.getOwner(prop.getPosition()) == player.getId()) { // Player owns the property
@@ -310,24 +307,8 @@ public class draw extends Application {
                         
         buyButtons[3].setOnAction(e -> prop.getMortgage(buyer));
                         
-        buyButtons[0].setOnAction(e -> quit[0] = true); // Update quit state when "Pass turn" is clicked
-    
-        /*int finalI = i;
-                button.setOnAction(e -> {
-                    if (finalI == 0) {
-                        root.getChildren().remove(buttonBox);
-                    } else {
-                        prop.improve(player.getWallet());
-                        root.getChildren().remove(buttonBox);
-                    } */
-        VBox contentBox = new VBox(15);
-        contentBox.setAlignment(Pos.CENTER);
-        contentBox.getChildren().addAll(propertyPriceLabel, buttonBox);
-    
-        StackPane textBoxPane = new StackPane();
-        textBoxPane.getChildren().addAll(backgroundRect, contentBox);
-    
-        root.getChildren().add(textBoxPane);
+        buyButtons[0].setOnAction(e -> root.getChildren().remove(buttonBox)); // Update quit state when "Pass turn" is clicked
+            
     }
 
     public void stocksUI(StackPane root, stocks stcks){
@@ -349,13 +330,13 @@ public class draw extends Application {
         contentBox.setAlignment(Pos.CENTER);
         contentBox.getChildren().addAll(textLabel, buyButton, closeButton);
     
-        StackPane textBoxPane = new StackPane();
-        textBoxPane.getChildren().addAll(backgroundRect, contentBox);
+        StackPane stockPane = new StackPane();
+        stockPane.getChildren().addAll(backgroundRect, contentBox);
     
-        closeButton.setOnAction(e -> root.getChildren().remove(textBoxPane));
+        closeButton.setOnAction(e -> root.getChildren().remove(stockPane));
         //buyButton.setOnAction(e -> stcks.);
     
-        root.getChildren().add(textBoxPane);
+        root.getChildren().add(stockPane);
     }
 
     private int showPlayerSelectionDialog(Stage primaryStage) {

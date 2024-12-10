@@ -141,7 +141,7 @@ public class player {
     }
     public void setMoney(int num)
     {
-        this. = num;
+        this.money.receive(num);
     }
     public portfolio getPortfolio()
     {

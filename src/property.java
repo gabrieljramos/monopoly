@@ -75,7 +75,20 @@ public class property extends squares{
     {
         return state;
     }
-    
+    public void setDebt(int value)
+    {
+         register.setDebt(value);
+    }
+
+    public void setDuration(int value)
+    {
+         register.setDuration(value);
+    }
+
+    public void setMortgage(boolean value)
+    {
+        register.setMortgage(value);
+    }
     public void setState(int value)
     {
         this.state = value;

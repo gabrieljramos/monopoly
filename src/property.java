@@ -75,7 +75,12 @@ public class property extends squares{
     {
         return state;
     }
-
+    
+    public int setState(int value)
+    {
+        this.state = value;
+    }
+    
     public boolean update(portfolio gamer, wallet money, bank comp)    //atualiza a hipoteca e a possibilidade de comprar hotel
     {
         recent = true;

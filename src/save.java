@@ -26,16 +26,16 @@ public class save {
             squares casa;
 
             for (int j = 0; j < 40; j++) {
-                casa = p.currentSquare(j);
+                casa = p.getPortfolio().search(j);
                 if (casa != null) {
-                    if (this instanceof stocks) {
+                    if (casa instanceof stocks) {
                         text = text + String.valueOf(j) + ",";
                         text = text + "-1" + ",";
                         text = text + "-1" + ",";
                         text = text + "-1" + ",";
 
                     }
-                    else if (this instanceof property) {
+                    else if (casa instanceof property) {
                         property prop = (property) casa;
                         text = text + String.valueOf(j) + ",";
                         text = text + String.valueOf(prop.getState()) + ",";
@@ -107,8 +107,8 @@ public class save {
             for (int j = 2; j < parts.length - 1; j++) {
                 casa = tabuleiro.getMap().search(Integer.parseInt(parts[j]));
                 wallet carteira = new wallet(20000000);
-                tabuleiro.getBank().sellProperties(p.getPortifolio(),carteira,i,casa,false);
-                if (this instanceof property) {
+                tabuleiro.getBank().sellProperties(p.getPortfolio(),carteira,i,casa,false);
+                if (casa instanceof property) {
                     property prop = (property) casa;
                     prop.setState(Integer.parseInt(parts[j+1]));
                     prop.setDebt(Integer.parseInt(parts[j+2]));

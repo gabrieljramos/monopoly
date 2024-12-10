@@ -32,10 +32,18 @@ public class draw extends Application {
     public void start(Stage primaryStage) {
         int numP = 0;
         numP = menu(primaryStage);
+        save loadGame = new save();
         if (numP == 0)
             return;
-        //else if (numP == -1)
-            //Logica p/ continuar um save
+        else if (numP == -1) {
+            if (loadGame.fileExists()) {
+                numP = loadGame.getPlayers();
+                initializer start = new initializer();
+                monopoly.board tabuleiro = start.startBoard(numP,40);
+                loadGame.getSave(tabuleiro.gamers,tabuleiro);
+            }
+        }
+            
         
         run game = new run();
         initializer start = new initializer();

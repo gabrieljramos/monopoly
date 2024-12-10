@@ -34,10 +34,17 @@ public class cartas {
         return randomPlayer;
         
     }
-    public int drawACard(int currentPlayer, player[] gamers, int playerAmount, int totalSquares, bank comp) {
+    public int randomCard() {
+        return (int)(Math.random()*numCards);
+    }
+    public String getCardEffect(int n) {
+        String card = getCard(n);
+        String[] parts = card.split("[,]");
+        return parts[0];
+    }
+    public int drawACard(int currentPlayer, player[] gamers, int playerAmount, int totalSquares, bank comp, int rand) {
 
-        int randomCard = (int)(Math.random()*numCards);
-        String card = getCard(randomCard);
+        String card = getCard(rand);
         return manageCard(card,currentPlayer,gamers, playerAmount, totalSquares, comp);
 
     }

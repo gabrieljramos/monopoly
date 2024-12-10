@@ -7,7 +7,7 @@ public class dice {
     private int playerId;
     private int totalPlayers;   //COLOCAR ISSO QUANDO MONTAR OS DADOS!
 
-    private Random random;
+    private Random random = new Random();
 
     public dice(int totalPlayers)
     {

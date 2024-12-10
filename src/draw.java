@@ -1,3 +1,5 @@
+import java.util.Stack;
+
 import javafx.animation.PauseTransition;
 import javafx.application.Application;
 import javafx.geometry.Pos;
@@ -21,7 +23,12 @@ public class draw extends Application {
     private Label[] moneyLabels;
 
     private static ImageView players[];
+    private StackPane root;
 
+    public StackPane getRoot(){
+        return root;
+    }
+    
     public void start(Stage primaryStage) {
         int numP = 0;
         numP = menu(primaryStage);
@@ -30,17 +37,18 @@ public class draw extends Application {
         //else if (numP == -1)
             //Logica p/ continuar um save
         
-        run game = new run();
+        //run game = new run();
         initializer start = new initializer();
         monopoly.board tabuleiro = start.startBoard(numP,40);
         moneyLabels = new Label[monopoly.board.getPlayers()];
         players = new ImageView[monopoly.board.getPlayers()];
 
-        StackPane root = createGameLayout(primaryStage, tabuleiro); 
+        root = createGameLayout(primaryStage, tabuleiro); 
         Scene scene = new Scene(root);
         
-        game.startGameLoop(numP,tabuleiro,scene,primaryStage);   //AQUI TA DANDO ERRO!!!
-
+        //game.startGameLoop(numP,tabuleiro,scene,primaryStage);   //AQUI TA DANDO ERRO!!!
+        diceUI(root, tabuleiro.getDie());
+        textUI(root, "ai papai");
         // background da tela
         BackgroundFill fill = new BackgroundFill(Color.web("#FFEE8C90"), null, null);
         root.setBackground(new Background(fill));
@@ -49,7 +57,6 @@ public class draw extends Application {
         primaryStage.setTitle("Monopoly");
         primaryStage.setScene(scene);
         primaryStage.setMaximized(true);
-        primaryStage.setResizable(false);
         primaryStage.show();
         
     }
@@ -104,6 +111,7 @@ public class draw extends Application {
         StackPane root = new StackPane(boardViewer);
         AnchorPane UI = createUI(brd);
         Pane paneAux = new Pane();
+        players = new ImageView[monopoly.board.getPlayers()];
 
         this.boardSize = boardViewer.getImage().getWidth();
         stepSize = boardSize / 23;
@@ -153,7 +161,7 @@ public class draw extends Application {
         int playerCount = monopoly.board.getPlayers();
 
         for (int i = 0; i < playerCount; i++) {
-            moneyLabels[i] = new Label("Player " + (i + 1) + "R$" + monopoly.board.getPlayer(i).getWallet());
+            moneyLabels[i] = new Label("Player " + (i + 1) + " R$" + monopoly.board.getPlayer(i).getWallet().Check());
             moneyLabels[i].setStyle("-fx-font-size: 16px; -fx-background-color: #ffffff; -fx-padding: 5px;");
         }
 
@@ -228,7 +236,7 @@ public class draw extends Application {
             diceBox.setAlignment(Pos.CENTER);
     
             root.getChildren().addAll(diceBox);
-            PauseTransition pause = new PauseTransition(Duration.seconds(2));
+            PauseTransition pause = new PauseTransition(Duration.seconds(4));
             pause.setOnFinished(event -> root.getChildren().remove(diceBox));
             pause.play();        
         });

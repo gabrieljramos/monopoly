@@ -13,7 +13,7 @@ public class cartas {
 
         if (allCards.isEmpty()) {
             try {
-            allCards = Files.readAllLines(Paths.get("cards.csv"));
+            allCards = Files.readAllLines(Paths.get("../assets/cards.csv"));
             } catch (IOException e) {
                 e.printStackTrace();
             }

@@ -76,7 +76,7 @@ public class property extends squares{
         return state;
     }
     
-    public int setState(int value)
+    public void setState(int value)
     {
         this.state = value;
     }

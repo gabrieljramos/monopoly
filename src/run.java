@@ -142,6 +142,23 @@ public class run{  //AQUI TA FALANDO QUE RUN TEM QUE USAR START SE FOR HERDAR AP
                         {
                             squares land = tabuleiro.getLocation(gamer.getPosition()); //separa o terreno e modo capitalista (nao troca)
 
+                            player rival = monopoly.board.getPlayer(tabuleiro.getBank().getOwner(gamer.getPosition()));
+
+                            if (land instanceof property)
+                            {
+                                make.propertyUI(make.getRoot(), land, gamer, tabuleiro.getBank(), gamer.getPortfolio(), 
+                                            rival.getPortfolio(), rival.getWallet(), gamer.getWallet(), gamer.getId(), land);
+                            }
+                            else if (land instanceof stocks)
+                            {
+                                make.stocksUI(make.getRoot(), land, comp, gamer, gamer.getPortfolio(), 
+                                        rival.getPortfolio(), rival.getWallet(), gamer.getWallet(), land);
+                            }
+                            else
+                            {
+                                //EU NAO SEI OQ FAZER MAIS!!!
+                            }
+                            /* 
                             if (!gamer.verifyOwnership(tabuleiro.getBank())) { //se o player NAO e dono
                                 Button buyPropertyButton = make.manageButton("Comprar Propriedade", true);
                                 if (gamer.Check() < land.getValue())
@@ -149,8 +166,8 @@ public class run{  //AQUI TA FALANDO QUE RUN TEM QUE USAR START SE FOR HERDAR AP
                                 else
                                     make.buttonSwitch(buyPropertyButton, true);
 
-                                if (tabuleiro.getBank().getOwner(gamer.getPosition()) != 0) { //Verificar se a propriedade nao e possuida pelo banco
-                                    player rival = monopoly.board.getPlayer(tabuleiro.getBank().getOwner(gamer.getPosition()));
+                                 { //Verificar se a propriedade nao e possuida pelo banco
+                                    
                                     buyPropertyButton.setOnAction(e -> {
                                         (tabuleiro.getBank()).sellProperties(gamer.getPortfolio(), rival.getPortfolio(),
                                                 rival.getWallet(), gamer.getWallet(), gamer.getId(), land, true);
@@ -200,7 +217,7 @@ public class run{  //AQUI TA FALANDO QUE RUN TEM QUE USAR START SE FOR HERDAR AP
                                 // Certifique-se de que o layout seja adicionado ao contêiner pai
                                 //parentLayout.getChildren().add(gameLayout); //quem seria aqui???
                             }
-                        }
+                        }*/
                         if (currentRound >= maxRounds)
                             stop();
                         else if (gamer.checkVictory(tabuleiro.getBank(), tabuleiro.getStocksQuantity()) == 1) {

@@ -307,11 +307,28 @@ public class draw extends Application {
                         
         buyButtons[3].setOnAction(e -> prop.getMortgage(buyer));
                         
-        buyButtons[0].setOnAction(e -> root.getChildren().remove(buttonBox)); // Update quit state when "Pass turn" is clicked
-            
+        buyButtons[0].setOnAction(e -> quit[0] = true); // Update quit state when "Pass turn" is clicked
+    
+        /*int finalI = i;
+                button.setOnAction(e -> {
+                    if (finalI == 0) {
+                        root.getChildren().remove(buttonBox);
+                    } else {
+                        prop.improve(player.getWallet());
+                        root.getChildren().remove(buttonBox);
+                    } */
+        VBox contentBox = new VBox(15);
+        contentBox.setAlignment(Pos.CENTER);
+        contentBox.getChildren().addAll(propertyPriceLabel, buttonBox);
+    
+        StackPane textBoxPane = new StackPane();
+        textBoxPane.getChildren().addAll(backgroundRect, contentBox);
+    
+        root.getChildren().add(textBoxPane);
     }
 
-    public void stocksUI(StackPane root, stocks stcks){
+    public void stocksUI(StackPane root, stocks stcks, bank comp, player player, portfolio receiver, portfolio giver,
+    wallet owner, wallet buyer, squares place){
         // Retangulo de bg
         Rectangle backgroundRect = createRectangle(500, 300);
     
@@ -333,10 +350,15 @@ public class draw extends Application {
         StackPane stockPane = new StackPane();
         stockPane.getChildren().addAll(backgroundRect, contentBox);
     
-        closeButton.setOnAction(e -> root.getChildren().remove(stockPane));
-        //buyButton.setOnAction(e -> stcks.);
-    
-        root.getChildren().add(stockPane);
+        closeButton.setOnAction(e -> root.getChildren().remove(textBoxPane));
+       
+        buyButton.setOnAction(e -> {
+            if (comp.getOwner(place.getPosition()) != 0)
+                comp.sellProperties(receiver, giver, owner, buyer, player.getId(), place, true);
+            else
+                comp.sellProperties(receiver, buyer, player.getId(), place, true);
+        });
+        root.getChildren().add(textBoxPane);
     }
 
     private int showPlayerSelectionDialog(Stage primaryStage) {

@@ -123,15 +123,18 @@ public class run{  //AQUI TA FALANDO QUE RUN TEM QUE USAR START SE FOR HERDAR AP
                     if ("ENTER".equals(lastKeyPressed)) { //NAO ENTENDI ESSA PARTE!PQ APERTAR ENTER?
                         if (!gamer.checkIfBroke())
                         {
-                            make.diceUI(root, tabuleiro.getDie());
+                            make.diceUI(make.getRoot(), tabuleiro.getDie());
                         }
                         if (gamer.move(tabuleiro.getPlace(gamer.getPosition()), tabuleiro.getDie(),
                                 tabuleiro.getSquaresQuantity())) {
+                            draw.movePlayer(gamer, tabuleiro.getDie().checkTotalValue());
                             int stocks = tabuleiro.getBank().getOwner(gamer.getPosition());
                             stocks = tabuleiro.getGamers()[stocks].checkStocks();
                             gamer.update(tabuleiro.getLocation(gamer.getPosition()), tabuleiro.getBank(),
                                     tabuleiro.getSquaresQuantity(), stocks, tabuleiro.getGamers(),
                                     monopoly.board.getPlayers(), gamer.getId());
+                            draw.movePlayer(gamer, gamer.getSpecialDistance());
+                            gamer.zeraSpecialDistance();
                         }
 
                         // Handle game logic (bankruptcy, victory, etc.)

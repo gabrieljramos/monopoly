@@ -27,7 +27,7 @@ public class monopoly {
 
         public void setPlayers(int value) //numero maximo de players
         {
-            if (value < MAX_PLAYERS)
+            if (value <= MAX_PLAYERS)
                 numPlayers = value;
         }
 

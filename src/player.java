@@ -4,6 +4,7 @@ public class player {
     private wallet money;
     private int position;
     private portfolio resources;
+    private int specialDistance;
 
     public static final long FIRST_MONEY = 2000;    //passar isso pra initializer!
     
@@ -13,6 +14,21 @@ public class player {
         this.money = new wallet(FIRST_MONEY);
         this.position = 0;
         this.resources = new portfolio();
+    }
+
+    private void setSpecialDistance(int value)
+    {
+        specialDistance = value;
+    }
+
+    public int getSpecialDistance()
+    {
+        return specialDistance;
+    }
+
+    public void zeraSpecialDistance()
+    {
+        specialDistance = 0;
     }
 
     public void receive (long value)
@@ -92,7 +108,10 @@ public class player {
         {
             int distance = ((special) place).fallSpecial(money, comp.getSalary(), gamers, position, id, playerAmount, totalSquares, comp);
             if (distance > 0)
+            {
                 specialMove(place, distance, distance);
+                setSpecialDistance(distance);
+            }
             else if (distance < 0)  //se falhou em pagar a casa especial, faliu
                 value = false;
         }

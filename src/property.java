@@ -92,6 +92,11 @@ public class property extends squares{
         return set;
     }
 
+    public int getMortgageValue()
+    {
+        return register.getMortgageValue(state);
+    }
+
     public boolean updateMortgage(portfolio gamer, wallet money, property land, bank comp)
     {
         return register.updateMortgage(gamer, money, land, comp);
@@ -121,5 +126,10 @@ public class property extends squares{
     public int getDuration()
     {
         return getDuration();
+    }
+
+    public boolean isMortgaged()
+    {
+        return register.isMortgaged();
     }
 }

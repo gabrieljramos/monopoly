@@ -26,7 +26,6 @@ public class cartas {
         return allCards.get(n);
 
     }
-    public String 
     private int getRandomPlayer(int currentPlayer, int playerAmount) {
         
         int randomPlayer = currentPlayer;

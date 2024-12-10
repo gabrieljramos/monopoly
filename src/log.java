@@ -50,6 +50,11 @@ public class log {
         return false;
     }
     
+    public int getDebt()
+    {
+        return debt;
+    }
+    
     public boolean update ()
     {
         if (parcelas > 0)

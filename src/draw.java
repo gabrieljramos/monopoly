@@ -37,10 +37,12 @@ public class draw extends Application {
             return;
         else if (numP == -1) {
             if (loadGame.fileExists()) {
+                numP = loadGame.getPlayers();
                 initializer start = new initializer();
                 monopoly.board tabuleiro = start.startBoard(numP,40);
                 loadGame.getSave(gamers,tabuleiro);
             }
+        }
             
         
         //run game = new run();

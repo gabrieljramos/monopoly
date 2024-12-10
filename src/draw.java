@@ -330,7 +330,8 @@ public class draw extends Application {
         root.getChildren().add(textBoxPane);
     }
 
-    public void stocksUI(StackPane root, stocks stcks){
+    public void stocksUI(StackPane root, stocks stcks, bank comp, player player, portfolio receiver, portfolio giver,
+    wallet owner, wallet buyer, squares place){
         // Retangulo de bg
         Rectangle backgroundRect = createRectangle(500, 300);
     
@@ -353,8 +354,13 @@ public class draw extends Application {
         textBoxPane.getChildren().addAll(backgroundRect, contentBox);
     
         closeButton.setOnAction(e -> root.getChildren().remove(textBoxPane));
-        //buyButton.setOnAction(e -> stcks.);
-    
+       
+        buyButton.setOnAction(e -> {
+            if (comp.getOwner(place.getPosition()) != 0)
+                comp.sellProperties(receiver, giver, owner, buyer, player.getId(), place, true);
+            else
+                comp.sellProperties(receiver, buyer, player.getId(), place, true);
+        });
         root.getChildren().add(textBoxPane);
     }
 

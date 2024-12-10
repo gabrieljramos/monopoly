@@ -47,8 +47,6 @@ public class draw extends Application {
         Scene scene = new Scene(root);
         
         //game.startGameLoop(numP,tabuleiro,scene,primaryStage);   //AQUI TA DANDO ERRO!!!
-        diceUI(root, tabuleiro.getDie());
-        textUI(root, "ai papai");
         // background da tela
         BackgroundFill fill = new BackgroundFill(Color.web("#FFEE8C90"), null, null);
         root.setBackground(new Background(fill));
@@ -63,9 +61,9 @@ public class draw extends Application {
 
     private int menu(Stage primaryStage) {
         // Criando os botões
-        Button startButton = new Button("Iniciar Jogo");
-        Button continueButton = new Button("Continuar");
-        Button quitButton = new Button("Sair");
+        Button startButton = new Button("Start Game");
+        Button continueButton = new Button("Continue");
+        Button quitButton = new Button("Quit");
     
         // Variável para armazenar o valor selecionado
         final int[] value = {0};
@@ -211,7 +209,7 @@ public class draw extends Application {
     
         root.getChildren().add(textBoxPane);
     }
-
+    
     public void diceUI(StackPane root, dice die){
         Button rollButton = new Button("Roll dice");
         VBox button = new VBox();
@@ -328,6 +326,34 @@ public class draw extends Application {
     
         StackPane textBoxPane = new StackPane();
         textBoxPane.getChildren().addAll(backgroundRect, contentBox);
+    
+        root.getChildren().add(textBoxPane);
+    }
+
+    public void stocksUI(StackPane root, stocks stcks){
+        // Retangulo de bg
+        Rectangle backgroundRect = createRectangle(500, 300);
+    
+        Label textLabel = new Label("Buy stocks?");
+        textLabel.setStyle("-fx-font-size: 18px;");
+        textLabel.setWrapText(true);
+        textLabel.setMaxWidth(350);
+        textLabel.setAlignment(Pos.CENTER);
+    
+        Button closeButton = new Button("Close");
+        closeButton.setStyle("-fx-font-size: 14px;");
+        Button buyButton = new Button("Buy");
+        closeButton.setStyle("-fx-font-size: 14px;");
+    
+        VBox contentBox = new VBox(20);  
+        contentBox.setAlignment(Pos.CENTER);
+        contentBox.getChildren().addAll(textLabel, buyButton, closeButton);
+    
+        StackPane textBoxPane = new StackPane();
+        textBoxPane.getChildren().addAll(backgroundRect, contentBox);
+    
+        closeButton.setOnAction(e -> root.getChildren().remove(textBoxPane));
+        //buyButton.setOnAction(e -> stcks.);
     
         root.getChildren().add(textBoxPane);
     }

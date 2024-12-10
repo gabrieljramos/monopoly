@@ -37,7 +37,7 @@ public class draw extends Application {
         //else if (numP == -1)
             //Logica p/ continuar um save
         
-        //run game = new run();
+        run game = new run();
         initializer start = new initializer();
         monopoly.board tabuleiro = start.startBoard(numP,40);
         moneyLabels = new Label[monopoly.board.getPlayers()];
@@ -45,12 +45,12 @@ public class draw extends Application {
 
         root = createGameLayout(primaryStage, tabuleiro); 
         Scene scene = new Scene(root);
-        
-        //game.startGameLoop(numP,tabuleiro,scene,primaryStage);   //AQUI TA DANDO ERRO!!!
+                
+        game.startGameLoop(numP,tabuleiro,scene,primaryStage);   //AQUI TA DANDO ERRO!!!
         // background da tela
         BackgroundFill fill = new BackgroundFill(Color.web("#FFEE8C90"), null, null);
         root.setBackground(new Background(fill));
-        diceUI(root, tabuleiro.getDie());
+
         // titulos e mostra tela
         primaryStage.setTitle("Monopoly");
         primaryStage.setScene(scene);
@@ -244,14 +244,12 @@ public class draw extends Application {
     public void propertyUI(StackPane root, property prop, player player, bank comp, portfolio receiver, portfolio giver,
             wallet owner, wallet buyer, int buyerId, squares place) 
         {
-        Rectangle backgroundRect = createRectangle(500, 300);
         
         Label propertyPriceLabel = new Label("Property Cost: $" + prop.getValue());
         propertyPriceLabel.setStyle("-fx-font-size: 16px;");
     
         // Upgrade buttons
         Button[] buyButtons = new Button[4];
-        String[] optionStrings = {"Pass", "Buy", "Improve", "Mortgage"};
         
         HBox buttonBox = new HBox(10);
         buttonBox.setAlignment(Pos.CENTER);
@@ -307,30 +305,13 @@ public class draw extends Application {
                         
         buyButtons[3].setOnAction(e -> prop.getMortgage(buyer));
                         
-        buyButtons[0].setOnAction(e -> quit[0] = true); // Update quit state when "Pass turn" is clicked
+        buyButtons[0].setOnAction(e -> root.getChildren().remove(buttonBox)); // Update quit state when "Pass turn" is clicked
     
-        /*int finalI = i;
-                button.setOnAction(e -> {
-                    if (finalI == 0) {
-                        root.getChildren().remove(buttonBox);
-                    } else {
-                        prop.improve(player.getWallet());
-                        root.getChildren().remove(buttonBox);
-                    } */
-        VBox contentBox = new VBox(15);
-        contentBox.setAlignment(Pos.CENTER);
-        contentBox.getChildren().addAll(propertyPriceLabel, buttonBox);
-    
-        StackPane textBoxPane = new StackPane();
-        textBoxPane.getChildren().addAll(backgroundRect, contentBox);
-    
-        root.getChildren().add(textBoxPane);
     }
 
     public void stocksUI(StackPane root, stocks stcks, bank comp, player player, portfolio receiver, portfolio giver,
     wallet owner, wallet buyer, squares place){
         // Retangulo de bg
-        Rectangle backgroundRect = createRectangle(500, 300);
     
         Label textLabel = new Label("Buy stocks?");
         textLabel.setStyle("-fx-font-size: 18px;");
@@ -347,10 +328,8 @@ public class draw extends Application {
         contentBox.setAlignment(Pos.CENTER);
         contentBox.getChildren().addAll(textLabel, buyButton, closeButton);
     
-        StackPane stockPane = new StackPane();
-        stockPane.getChildren().addAll(backgroundRect, contentBox);
-    
-        closeButton.setOnAction(e -> root.getChildren().remove(textBoxPane));
+        closeButton.setOnAction(e -> root.getChildren().remove(contentBox));
+        root.getChildren().add(contentBox);
        
         buyButton.setOnAction(e -> {
             if (comp.getOwner(place.getPosition()) != 0)
@@ -358,7 +337,6 @@ public class draw extends Application {
             else
                 comp.sellProperties(receiver, buyer, player.getId(), place, true);
         });
-        root.getChildren().add(textBoxPane);
     }
 
     private int showPlayerSelectionDialog(Stage primaryStage) {

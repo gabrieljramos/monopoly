@@ -34,7 +34,7 @@ public class cartas {
         return randomPlayer;
         
     }
-    private int randomCard() {
+    public int randomCard() {
         return (int)(Math.random()*numCards);
     }
     public String getCardEffect(int n) {

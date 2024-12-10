@@ -28,7 +28,7 @@ public class draw extends Application {
     public StackPane getRoot(){
         return root;
     }
-    
+
     public void start(Stage primaryStage) {
         int numP = 0;
         numP = menu(primaryStage);
@@ -261,70 +261,58 @@ public class draw extends Application {
         
         VBox buttonBox = new VBox(10);
         buttonBox.setAlignment(Pos.CENTER);
-        boolean quit = false;
-
+        
         int state = prop.getState();
-
+        
         int upgradeCost = prop.getUpgradeValue();
         int valueCost = prop.getValue();
         int mortgageCost = prop.getMortgageValue();
-
+        
         buyButtons[0].setText("Pass turn!");
         buyButtons[1].setText("Buy land for: " + valueCost + "R$");
         buyButtons[2].setText("Improve property to " + state + " for : " + upgradeCost + "R$");
         buyButtons[3].setText(
                 "Mortgage this property now and receive: " + mortgageCost + "R$ and just pay after 5 rounds!");
+        
+        boolean[] quit = {false}; // Use an array to modify the state inside lambdas
 
-        while (!quit)
-        {
-           //button.setStyle("-fx-font-size: 14px; -fx-min-width: 200px;");
-            //button.setGraphic(icons[i]);
-            // Disable button logic based on property state and player's money
-
-            if (comp.getOwner(prop.getPosition()) == player.getId())    //player e dono
-            {
-                buyButtons[1].setDisable(true);
-                buyButtons[1].setOpacity(1); //e pra ficar TRANSPARENTE, nao sei se funfou :(
-                if (!prop.isMortgaged()) {
-                    buyButtons[3].setDisable(true);
-                    buyButtons[3].setOpacity(1);
-                }
-                if (!player.canAfford(upgradeCost) || !prop.isUpgradeValid()) { //PRA QUE ESSA LOGICA DO UPGRADE VALID? O IMPROVE JA VERIFICA SE PODE MELHORAR!
-                    buyButtons[2].setDisable(true);
-                    buyButtons[2].setStyle("-fx-font-size: 14px; -fx-min-width: 200px; -fx-opacity: 0.5;");
-                    //icons[i].setOpacity(0.5);
-                }
+        // Update button states based on property ownership
+        if (comp.getOwner(prop.getPosition()) == player.getId()) { // Player owns the property
+            buyButtons[1].setDisable(true); // Disable "Buy land"
+            buyButtons[1].setOpacity(0.5);
+            if (!prop.isMortgaged()) {
+                buyButtons[3].setDisable(true); // Disable "Mortgage"
+                buyButtons[3].setOpacity(0.5);
             }
-            else
-            {
-                buyButtons[2].setDisable(true);
-                buyButtons[2].setOpacity(1);
-                buyButtons[3].setDisable(true);
-                buyButtons[3].setOpacity(1);
-
-                if (player.Check() < prop.getValue()) {
-                    buyButtons[1].setDisable(true);
-                }
+            if (!player.canAfford(upgradeCost) || !prop.isUpgradeValid()) { // Check if upgrade is valid
+                buyButtons[2].setDisable(true); // Disable "Improve property"
+                buyButtons[2].setOpacity(0.5);
             }
-            
-            buyButtons[1].setOnAction(e -> {
-                if (comp.getOwner(prop.getPosition()) == 0)
-                {
-                    comp.sellProperties(receiver, buyer, player.getId(), place, true);
-                }
-                else
-                    comp.sellProperties(receiver, giver, owner, buyer, buyerId, place, true);
-            });
-            buyButtons[2].setOnAction(e -> {
-                prop.improve(buyer);
-            });
-            buyButtons[3].setOnAction(e -> {
-                prop.getMortgage(buyer);
-            });
-            buyButtons[0].setOnAction(e -> {
-                quit = true;
-            });
+        }else { // Player does not own the property
+            buyButtons[2].setDisable(true); // Disable "Improve property"
+            buyButtons[2].setOpacity(0.5);
+            buyButtons[3].setDisable(true); // Disable "Mortgage"
+            buyButtons[3].setOpacity(0.5);
+                        
+            if (player.Check() < prop.getValue()) { // Check if player can afford the property
+                buyButtons[1].setDisable(true); // Disable "Buy land"
+            }
         }
+                        
+        // Event Handlers
+        buyButtons[1].setOnAction(e -> {
+            if (comp.getOwner(prop.getPosition()) == 0) {
+                comp.sellProperties(receiver, buyer, player.getId(), place, true);
+            } else {
+                comp.sellProperties(receiver, giver, owner, buyer, buyerId, place, true);
+            }
+        });
+                        
+        buyButtons[2].setOnAction(e -> prop.improve(buyer));
+                        
+        buyButtons[3].setOnAction(e -> prop.getMortgage(buyer));
+                        
+        buyButtons[0].setOnAction(e -> quit[0] = true); // Update quit state when "Pass turn" is clicked
     
         /*int finalI = i;
                 button.setOnAction(e -> {
@@ -353,7 +341,7 @@ public class draw extends Application {
         VBox dialogLayout = new VBox(10);
         dialogLayout.setStyle("-fx-padding: 10; -fx-alignment: center;");
 
-        Label promptLabel = new Label("Enter number of players (1-6):");
+        Label promptLabel = new Label("Enter number of players (1-4):");
         TextField playerInput = new TextField();
         Button confirmButton = new Button("Confirm");
         Label errorLabel = new Label();
@@ -362,11 +350,11 @@ public class draw extends Application {
         confirmButton.setOnAction(e -> {
             try {
                 int players = Integer.parseInt(playerInput.getText());
-                if (players >= 1 && players <= 6) {
+                if (players >= 1 && players <= 4) {
                     dialog.setUserData(players);
                     dialog.close();
                 } else {
-                    errorLabel.setText("Please enter a number between 1 and 6.");
+                    errorLabel.setText("Please enter a number between 1 and 4.");
                 }
             } catch (NumberFormatException ex) {
                 errorLabel.setText("Invalid input. Please enter a number.");
@@ -405,7 +393,7 @@ public class draw extends Application {
     private Rectangle createRectangle(double X, double Y){
         Rectangle backgroundRect = new Rectangle(X,Y);
 
-        backgroundRect.setFill(Color.BLACK);
+        backgroundRect.setFill(Color.WHITE);
         backgroundRect.setArcWidth(20); 
         backgroundRect.setArcHeight(20);
         backgroundRect.setStroke(Color.GRAY);

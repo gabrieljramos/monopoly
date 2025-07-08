@@ -9,20 +9,20 @@ The game simulates the core mechanics of Monopoly. It includes a game board, pla
 ### Core Components
 
 * **`draw.java`**: The main entry point of the application, responsible for rendering the game board, player tokens, and all UI elements using JavaFX. It handles the main game window, menus, and visual updates.
-* **`run.java` (inferred)**: Contains the main game loop, orchestrating the flow of the game, managing player turns, and processing game events.
-* **`board.java` (inferred)**: Represents the game board itself, holding a collection of all the squares.
-* **`player.java` (inferred)**: Represents a player in the game, managing their position, wallet, and portfolio of owned properties.
+* **`run.java`**: Contains the main game loop, orchestrating the flow of the game, managing player turns, and processing game events.
+* **`board.java`**: Represents the game board itself, holding a collection of all the squares.
+* **`player.java`**: Represents a player in the game, managing their position, wallet, and portfolio of owned properties.
 * **`dice.java`**: Simulates the rolling of two six-sided dice to determine player movement.
 * **`bank.java`**: Manages all financial transactions, including property sales, rent payments, salary collection, and trades between players.
 * **`wallet.java`**: A simple class to manage a player's money, including paying and receiving funds and checking for bankruptcy.
-* **`portfolio.java` (inferred)**: Manages the collection of properties and stocks owned by a player.
+* **`portfolio.java`**: Manages the collection of properties and stocks owned by a player.
 
 ### Board Squares
 
 The game board is composed of different types of squares, implemented using an inheritance structure:
 
 * **`squares.java`**: An abstract base class for all types of squares on the board.
-* **`property.java` (inferred)**: Represents a deed that can be bought, improved with houses/hotels, and mortgaged.
+* **`property.java`**: Represents a deed that can be bought, improved with houses/hotels, and mortgaged.
 * **`stocks.java`**: Represents company stocks that can be purchased by players. Rent is paid based on the number of related stocks the owner has.
 * **`special.java`**: Represents non-property squares with special actions, such as:
   * **Go to Jail**: Sends the player to the Jail square.
